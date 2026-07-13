@@ -1,0 +1,19 @@
+name = "CiroPVHC"
+uuid = "d8362db7-6735-4af4-ae52-7f85ad7c7347"
+authors = ["CiroPVHC.jl contributors"]
+version = "0.1.0"
+
+[deps]
+Clarabel = "61c947e1-3e6d-4ee4-985a-eec8c727bd6e"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+
+[compat]
+Clarabel = "0.11"
+JuMP = "1"
+julia = "1.9"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
