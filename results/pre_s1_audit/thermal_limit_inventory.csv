@@ -1,0 +1,26 @@
+item_type,term,file,line_or_range,value,branch_scope,origin,active_context,audit_conclusion
+data_field,Branch.smax_kva,src/data/types.jl,8-15,kVA,any Branch object,project schema,all network models,Shared field for branch rating; zero is permitted
+raw_ieee33_rating,rateA mapped to Branch.smax_kva,src/data/ieee33.jl,77-80,0 kVA,branches 1-32,original case33bw missing-rate convention,default IEEE33 data,No actual thermal or ampacity data are present
+per_unit_conversion,smax_pu,src/models/socp_network.jl,88-100,smax_kva divided by 10000 kVA,all branches,generic model implementation,all SOCP network builds,Zero remains zero and does not create a limit
+apparent_power_constraint,SOC norm(Pij Qij) <= smax_pu,src/models/socp_network.jl,169-177,conditional on smax_pu > 0,each positive-rated branch,generic model implementation,default S1 and paper-policy S1,Skipped for raw branches and active for synthetic branches
+current_constraint,ell <= smax_pu^2,src/models/socp_network.jl,169-177,conditional on smax_pu > 0,each positive-rated branch,synthetic nominal-voltage interpretation,default S1 and paper-policy S1,Not based on conductor ampacity
+default_s1_input,build_case33_data,src/data/resources.jl,90-108,raw smax_kva = 0,branches 1-32,raw IEEE33 data,solve_s1_pv_only default,No branch thermal or current constraint is active
+default_s1_builder,_build_s1_pv_only_model,src/solve/solve_s1_pv_only.jl,1-28,inherits supplied CaseData,all branches,generic S1 implementation,default and custom S1,Active only if caller supplies positive ratings
+default_s1_runner,run_s1_pv_only,scripts/run_s1_pv_only.jl,7-8,raw smax_kva = 0,branches 1-32,raw IEEE33 data,default S1 run,No branch thermal or current constraint is active
+paper_s1_rating,synthetic_smax_kva,src/solve/solve_s1_pv_only.jl,112-137,4000 kVA default,branches 1-32,project paper-study assumption,build_s1_pv_only_paper_case,Assigns the same synthetic rating to every branch
+paper_s1_script,PAPER_SYNTHETIC_SMAX_KVA,scripts/run_s1_pv_only_paper.jl,8 and 133-160,4000 kVA,branches 1-32,project paper-study assumption,paper-policy full-day S1,Active apparent-power and ell limits
+paper_s1_script,PAPER_SYNTHETIC_SMAX_KVA,scripts/run_s1_pv_only_paper_snapshot.jl,8 and 20-175,4000 kVA,branches 1-32,project paper-study assumption,paper-policy snapshot S1,Active apparent-power and ell limits
+paper_s1_script,PAPER_SYNTHETIC_SMAX_KVA,scripts/run_s1_pv_only_paper_snapshot_final.jl,9 and 25-365,4000 kVA,branches 1-32,project paper-study assumption,paper-policy final snapshot S1,Active apparent-power and ell limits
+paper_s1_script,PAPER_SYNTHETIC_SMAX_KVA,scripts/run_s1_pv_only_paper_snapshot_lexi.jl,8 and 25-230,4000 kVA,branches 1-32,project paper-study assumption,paper-policy lexicographic snapshot S1,Active apparent-power and ell limits
+raw_s1_diagnostic,missing_line_ratings,scripts/run_s1_pv_only_stress.jl,56-101,raw smax_kva = 0,branches 1-32,raw IEEE33 data,S1 stress diagnostic,Explicitly reports no specified ratings
+raw_s1_diagnostic,branch rating assertion,scripts/run_minimal_s1_snapshot.jl,47 and 503,raw smax_kva = 0,branches 1-32,raw IEEE33 data,minimal S1 snapshot,Flow and ell are metrics only
+s2_default_rating,synthetic_smax_kva,src/CiroPVHC.jl,36-83,4000 kVA default,branches 1-32,project assumption,S2 paper-derived case,Not an IEEE33 datum
+s2_rating_use,synthetic_smax_kva,src/solve/solve_s2_unmanaged_ev.jl,1-8 and 435 and 667,4000 kVA by default,branches 1-32,project assumption,S2 builds,Reuses the S1 paper-case synthetic branches
+current_metric,maximum current conversion,src/validation/s0_baseline.jl,1687-1689,reported amperes only,branches 1-32,derived metric,S0 reporting,Explicitly not a real ampacity rating
+planning_multiplier,kappa_I and kappa_tr,src/validation/s0_baseline.jl,1689,none selected,no branches,no implemented parameter,S0 report only,No thermal scaling factor exists in the model
+der_apparent_rating,PVUnit.smax_kva,src/data/types.jl and src/models/pv_model.jl,17-22 and 20,inverter kVA,PV units,DER equipment data,S1 PV injection,Not a branch thermal rating
+der_apparent_rating,BESS.smax_kva,src/data/types.jl,84-95,BESS converter kVA,BESS units,DER equipment data,later scenarios,Not a branch thermal rating
+test_fixture,positive Branch smax values,test/test_s1_pv_only.jl,113 and 157 and 248,2000 200000 and 10000 kVA,one-branch test feeders,test-only values,unit tests,Not project network data
+test_fixture,Branch smax value,test/test_data.jl,32,4000 kVA,invalid-endpoint test branch,test-only value,data validation test,Not a thermal assumption
+test_fixture,synthetic_smax_kva,test/test_s2_unmanaged_ev.jl,255,1 kVA,all synthetic test-case branches,test-only stress value,input validation test,Not project network data
+absence,conductor ampacity or cable rating,repository-wide search,n/a,not found,branches 1-32,missing source data,all production paths,No conductor type cross-section installation condition or measured ampacity exists
