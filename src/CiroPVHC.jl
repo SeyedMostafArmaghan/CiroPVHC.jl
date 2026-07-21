@@ -8,6 +8,7 @@ include("data/profiles.jl")
 include("data/resources.jl")
 include("data/scenarios.jl")
 include("data/s0_types.jl")
+include("validation/s0_unconstrained.jl")
 
 const _CIROPVHC_SRC_DIR = @__DIR__
 const _SOCP_NETWORK_LOADED = Ref(false)
@@ -313,6 +314,8 @@ export Bus,
     ScenarioConfig,
     S0BaselineConfig,
     S0LoadProfile,
+    S0UnconstrainedBranchResult,
+    S0UnconstrainedResult,
     S0_INTERVAL_METRIC_COLUMNS,
     S0_SUMMARY_COLUMNS,
     S0_BRANCH_PEAK_COLUMNS,
@@ -341,6 +344,7 @@ export Bus,
     build_s0_baseline_model,
     solve_s0_load_state,
     run_s0_full_period_baseline,
+    solve_s0_unconstrained_snapshot,
     S1PVOnlyResult,
     S2UnmanagedEVConfig,
     S1ComparisonBaseline,
