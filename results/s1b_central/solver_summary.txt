@@ -1,0 +1,11 @@
+termination_status=OPTIMAL
+primal_status=FEASIBLE_POINT
+dual_status=FEASIBLE_POINT
+objective_bound=240084.22889737104
+has_primal=true
+initial_optimization_intervals=1536
+final_optimization_intervals=1536
+constraint_generation_iterations=1
+feasibility_diagnostic_status=not_required
+feasibility_diagnostic_has_primal=not_required
+blocker=AC voltage violations remain at interval(s) already present in the SOCP. This is an SOCP-relaxation/AC consistency blocker; no hidden voltage margin was applied.

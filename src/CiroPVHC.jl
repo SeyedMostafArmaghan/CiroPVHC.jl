@@ -14,6 +14,7 @@ const _CIROPVHC_SRC_DIR = @__DIR__
 const _SOCP_NETWORK_LOADED = Ref(false)
 const _S0_SOLVER_LOADED = Ref(false)
 const _S1_SOLVER_LOADED = Ref(false)
+const _S1B_SOLVER_LOADED = Ref(false)
 const _S2_SOLVER_LOADED = Ref(false)
 const S1_LOCKED_STAGE2_ACCEPTED_HC_KW = 2766.9654
 const DEFAULT_S2_UNMANAGED_EV_SENSITIVITY_SCALES =
@@ -184,6 +185,22 @@ function _load_s1_solver!()
     return true
 end
 
+function _load_s1b_solver!()
+    if !_S1B_SOLVER_LOADED[]
+        try
+            _load_socp_network!()
+            Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "solve", "solve_s1b_central.jl"))
+            _S1B_SOLVER_LOADED[] = true
+        catch err
+            throw(ArgumentError(
+                "The S1-B central solver requires JuMP and Clarabel. " *
+                "Run Julia with this project instantiated, then try again. Original error: $(err)",
+            ))
+        end
+    end
+    return true
+end
+
 function read_ausgrid_s0_load_profile(args...; kwargs...)
     _load_s0_solver!()
     impl = Base.invokelatest(getfield, @__MODULE__, :_read_ausgrid_s0_load_profile)
@@ -234,6 +251,36 @@ end
 function solve_s1_pv_only(args...; kwargs...)
     _load_s1_solver!()
     impl = Base.invokelatest(getfield, @__MODULE__, :_solve_s1_pv_only)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function read_s1b_profile(args...; kwargs...)
+    _load_s1b_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_read_s1b_profile)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function read_s1b_initial_indices(args...; kwargs...)
+    _load_s1b_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_read_s1b_initial_indices)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function build_s1b_central_model(args...; kwargs...)
+    _load_s1b_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_build_s1b_central_model)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function solve_s1b_central(args...; kwargs...)
+    _load_s1b_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_solve_s1b_central)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function validate_s1b_ac(args...; kwargs...)
+    _load_s1b_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_validate_s1b_ac)
     return Base.invokelatest(impl, args...; kwargs...)
 end
 
@@ -351,6 +398,11 @@ export Bus,
     S2UnmanagedEVResult,
     build_s1_pv_only_model,
     solve_s1_pv_only,
+    read_s1b_profile,
+    read_s1b_initial_indices,
+    build_s1b_central_model,
+    solve_s1b_central,
+    validate_s1b_ac,
     build_s1_pv_only_paper_case,
     build_s1_pv_only_paper_model,
     solve_s1_pv_only_paper_model,

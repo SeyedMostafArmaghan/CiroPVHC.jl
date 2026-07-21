@@ -1,0 +1,8 @@
+metric,value,unit
+"maximum_active_balance_residual",1.765063979523862e-5,"kW"
+"maximum_reactive_balance_residual",1.1940168873156992e-5,"kvar"
+"maximum_voltage_drop_residual",5.317447988872903e-8,"p.u.^2"
+"maximum_root_voltage_residual",1.5816458476258788e-8,"p.u.^2"
+"maximum_soc_gap",50.998927244546884,"p.u.^2"
+"minimum_soc_gap",-3.780794557428635e-6,"p.u.^2"
+"maximum_relative_soc_gap",0.9997459423185506,"ratio"

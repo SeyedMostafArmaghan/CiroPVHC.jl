@@ -1,0 +1,2 @@
+iteration,optimization_intervals,hc_kw,solver_status,ac_under_intervals,ac_over_intervals,ac_failed_intervals,added_intervals,added_timestamps,outcome
+1,1536,240084.22889737104,"OPTIMAL",0,22076,0,0,"","existing_interval_blocker"
