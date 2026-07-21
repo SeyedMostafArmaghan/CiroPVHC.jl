@@ -36,20 +36,7 @@ struct BenchmarkData
     normalization_power_kw::Float64
 end
 
-struct ExactACState
-    converged::Bool
-    iterations::Int
-    voltage_complex_pu::Vector{ComplexF64}
-    voltage_pu::Vector{Float64}
-    branch_p_pu::Vector{Float64}
-    branch_q_pu::Vector{Float64}
-    branch_ell_pu2::Vector{Float64}
-    substation_p_kw::Float64
-    substation_q_kvar::Float64
-    active_losses_kw::Float64
-    reactive_losses_kvar::Float64
-    maximum_equation_residual::Float64
-end
+const ExactACState = CiroPVHC.S1BIndependentReplayState
 
 function load_benchmark_data(repository_root::AbstractString)
     profile = CiroPVHC.read_s1b_profile(joinpath(
@@ -144,86 +131,22 @@ function exact_ac_state(
     maximum_iterations::Int=4000,
     damping::Float64=0.70,
 )
-    net_load = _net_load_pu(data, local_t, capacities_kw)
-    impedance = complex.(data.r_pu, data.x_pu)
-    voltage = fill(complex(ROOT_VOLTAGE_PU, 0.0), length(data.buses))
-    converged = false
-    iterations = 0
-    for iteration in 1:maximum_iterations
-        iterations = iteration
-        currents = CiroPVHC._s0_unconstrained_branch_currents(data.topology, voltage, net_load)
-        currents === nothing && break
-        branch_current, _ = currents
-        fixed = CiroPVHC._s0_unconstrained_forward_voltage(
-            data.topology, impedance, branch_current, ROOT_VOLTAGE_PU,
-        )
-        update = maximum(abs.(fixed .- voltage))
-        isfinite(update) || break
-        voltage .= damping .* fixed .+ (1.0 - damping) .* voltage
-        voltage[1] = complex(ROOT_VOLTAGE_PU, 0.0)
-        if update <= tolerance_pu
-            voltage .= fixed
-            converged = true
-            break
-        end
-    end
-    if !converged
-        nan_branch = fill(NaN, length(data.branches))
-        return ExactACState(
-            false, iterations, voltage, abs.(voltage), nan_branch, nan_branch, nan_branch,
-            NaN, NaN, NaN, NaN, Inf,
-        )
-    end
-    branch_current, local_current = something(
-        CiroPVHC._s0_unconstrained_branch_currents(data.topology, voltage, net_load),
-    )
-    branch_p = zeros(length(data.branches))
-    branch_q = zeros(length(data.branches))
-    branch_ell = abs2.(branch_current)
-    for branch_id in eachindex(branch_current)
-        from_bus = data.topology.branch_from[branch_id]
-        sending_power = voltage[from_bus] * conj(branch_current[branch_id])
-        branch_p[branch_id] = real(sending_power)
-        branch_q[branch_id] = imag(sending_power)
-    end
-    root_branches = [
-        data.topology.parent_branch[child] for child in data.topology.children[1]
-    ]
-    substation_p = sum(branch_p[root_branches]) * data.base_power_kw
-    substation_q = sum(branch_q[root_branches]) * data.base_power_kw
-    active_losses = sum(data.r_pu .* branch_ell) * data.base_power_kw
-    reactive_losses = sum(data.x_pu .* branch_ell) * data.base_power_kw
-    maximum_residual = 0.0
-    fixed_voltage = CiroPVHC._s0_unconstrained_forward_voltage(
-        data.topology, impedance, branch_current, ROOT_VOLTAGE_PU,
-    )
-    maximum_residual = max(maximum_residual, maximum(abs.(fixed_voltage .- voltage)))
-    for bus in data.topology.order
-        bus == 1 && continue
-        incoming = branch_current[data.topology.parent_branch[bus]]
-        outgoing = sum(
-            branch_current[data.topology.parent_branch[child]]
-            for child in data.topology.children[bus];
-            init=0.0 + 0.0im,
-        )
-        maximum_residual = max(
-            maximum_residual,
-            abs(incoming - local_current[bus] - outgoing),
-        )
-    end
-    return ExactACState(
-        true,
-        iterations,
-        voltage,
-        abs.(voltage),
-        branch_p,
-        branch_q,
-        branch_ell,
-        substation_p,
-        substation_q,
-        active_losses,
-        reactive_losses,
-        maximum_residual,
+    global_index = data.indices[local_t]
+    return CiroPVHC.replay_s1b_interval(
+        data.buses,
+        data.branches,
+        data.profile.load_multiplier[global_index],
+        data.profile.pv_profile[global_index],
+        capacities_kw;
+        base_mva=data.base_power_kw / 1000.0,
+        root_voltage_pu=ROOT_VOLTAGE_PU,
+        vmin_pu=VMIN_PU,
+        vmax_pu=VMAX_PU,
+        tolerance_pu=tolerance_pu,
+        voltage_tolerance_pu=AC_VOLTAGE_TOL,
+        residual_tolerance_pu=AC_RESIDUAL_TOL,
+        maximum_iterations=maximum_iterations,
+        damping=damping,
     )
 end
 
@@ -241,7 +164,8 @@ function validate_capacities(
             overvoltage_count=0, undervoltage_intervals=0, overvoltage_intervals=0,
             max_import_kw=NaN, max_export_kw=NaN,
             max_active_losses_kw=NaN, max_reactive_losses_kvar=NaN,
-            max_equation_residual=Inf,
+            max_equation_residual=Inf, max_scaled_residual=Inf,
+            phasor_recoverable=false, replay_passed=false,
         )
     end
     vmin = minimum(minimum(state.voltage_pu) for state in states)
@@ -274,6 +198,13 @@ function validate_capacities(
         max_active_losses_kw=maximum(state.active_losses_kw for state in states),
         max_reactive_losses_kvar=maximum(state.reactive_losses_kvar for state in states),
         max_equation_residual=maximum(state.maximum_equation_residual for state in states),
+        max_scaled_residual=maximum(state.maximum_scaled_residual for state in states),
+        phasor_recoverable=all(state.phasor_recoverable for state in states),
+        replay_passed=all(
+            state.voltage_limits_satisfied && state.phasor_recoverable &&
+            state.maximum_equation_residual <= AC_RESIDUAL_TOL
+            for state in states
+        ),
     )
 end
 
@@ -519,7 +450,7 @@ function ac_solution_diagnostics(bundle, data::BenchmarkData)
     maximum_constraint_violation = max(
         max_active_balance, max_reactive_balance, max_voltage_drop, max_current_equality, max_root,
     )
-    accepted = replay.ac_feasible &&
+    accepted = replay.replay_passed &&
                maximum_constraint_violation <= AC_RESIDUAL_TOL &&
                max_voltage_difference <= SOCP_AC_VOLTAGE_TOL
     return (
@@ -577,6 +508,10 @@ function solve_ac_multistart(data::BenchmarkData, specs=multistart_specs(data))
             ac_replay_vmin_pu=diagnostics === nothing ? NaN : diagnostics.replay.vmin,
             ac_replay_vmax_pu=diagnostics === nothing ? NaN : diagnostics.replay.vmax,
             ac_replay_voltage_difference_pu=diagnostics === nothing ? Inf : diagnostics.maximum_replay_voltage_difference,
+            independent_replay_max_absolute_residual=diagnostics === nothing ? Inf : diagnostics.replay.max_equation_residual,
+            independent_replay_max_scaled_residual=diagnostics === nothing ? Inf : diagnostics.replay.max_scaled_residual,
+            independent_replay_phasor_recoverable=diagnostics === nothing ? false : diagnostics.replay.phasor_recoverable,
+            independent_replay_passed=diagnostics === nothing ? false : diagnostics.replay.replay_passed,
             accepted=diagnostics === nothing ? false : diagnostics.accepted && status in ("LOCALLY_SOLVED", "ALMOST_LOCALLY_SOLVED"),
             iterations=_iteration_count(bundle.model),
             solve_time_seconds=isfinite(_solve_time(bundle.model)) ? _solve_time(bundle.model) : elapsed,

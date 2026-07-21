@@ -1,5 +1,5 @@
 stage=S1-B one-day AC-vs-strengthened-SOCP diagnostic benchmark
-repository_commit_at_start=unknown
+repository_commit_at_start=836ad7602a5405f763120a0f45006568f513a52f
 date=2010-12-21
 interval_count=48
 candidate_buses=(13, 20, 24, 30)

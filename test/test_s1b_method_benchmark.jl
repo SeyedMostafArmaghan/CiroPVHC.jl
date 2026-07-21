@@ -61,6 +61,48 @@ end
     @test replay.ac_feasible
     @test replay.failed == 0
     @test replay.max_equation_residual <= 1e-10
+    @test replay.max_scaled_residual <= 1e-10
+    @test replay.phasor_recoverable
+    @test replay.replay_passed
+end
+
+@testset "S1-B independent replay detailed residuals" begin
+    buses, branches = CiroPVHC.build_ieee33_network()
+    baseline = CiroPVHC.replay_s1b_interval(
+        buses, branches, 1.0, 0.0, Dict{Int,Float64}();
+        root_voltage_pu=1.0,
+    )
+    @test baseline.converged
+    @test baseline.phasor_recoverable
+    @test baseline.voltage_limits_satisfied
+    @test baseline.minimum_voltage_bus == 18
+    @test isapprox(baseline.minimum_voltage_pu, 0.913090479361; atol=1e-10)
+    @test isapprox(baseline.substation_p_kw, 3917.677126456; atol=1e-6)
+    @test baseline.active_balance_residual_pu <= 1e-10
+    @test baseline.reactive_balance_residual_pu <= 1e-10
+    @test baseline.voltage_drop_residual_pu2 <= 1e-10
+    @test baseline.current_power_residual_pu2 <= 1e-10
+    @test baseline.phasor_residual_pu <= 1e-10
+    @test baseline.maximum_scaled_residual <= 1e-10
+
+    repository_root = normpath(joinpath(@__DIR__, ".."))
+    data = S1BMB.load_benchmark_data(repository_root)
+    reference_capacities = Dict(
+        13 => 733.6402572860231,
+        20 => 4681.670271374159,
+        24 => 3988.7739981702293,
+        30 => 1276.4003193326757,
+    )
+    replay = S1BMB.validate_capacities(data, reference_capacities)
+    @test replay.replay_passed
+    @test replay.max_equation_residual <= 1e-10
+    @test replay.max_scaled_residual <= 1e-10
+    @test isapprox(replay.vmin, 0.974427788427; atol=1e-10)
+    @test isapprox(replay.vmax, 1.050000004762; atol=1e-10)
+    @test isapprox(replay.max_export_kw, 9469.200668489; atol=1e-6)
+    @test replay.states[25].maximum_voltage_bus == 20
+    @test Date(data.profile.timestamps[data.indices[25]]) == S1BMB.BENCHMARK_DATE
+    @test Time(data.profile.timestamps[data.indices[25]]) == Time(12)
 end
 
 @testset "S1-B deterministic starts and lambda-zero regression" begin

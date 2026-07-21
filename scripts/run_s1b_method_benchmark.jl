@@ -55,7 +55,9 @@ function write_ac_results(path, results)
         "initial_ac_feasible", "termination_status", "primal_status", "objective_kw",
         "c13_kw", "c20_kw", "c24_kw", "c30_kw", "maximum_constraint_violation",
         "nlp_vmin_pu", "nlp_vmax_pu", "ac_replay_feasible", "ac_replay_vmin_pu",
-        "ac_replay_vmax_pu", "ac_replay_voltage_difference_pu", "accepted",
+        "ac_replay_vmax_pu", "ac_replay_voltage_difference_pu",
+        "independent_replay_max_absolute_residual", "independent_replay_max_scaled_residual",
+        "independent_replay_phasor_recoverable", "independent_replay_passed", "accepted",
         "iterations", "solve_time_seconds", "wall_time_seconds",
     )
     rows = [Tuple(getfield(result, Symbol(column)) for column in columns) for result in results]
@@ -107,7 +109,15 @@ function write_ac_operating_points(path, data, best)
         "interval", "timestamp", "load_multiplier", "pv_availability", "converged",
         "vmin_pu", "vmin_bus", "vmax_pu", "vmax_bus", "undervoltage_bus_count",
         "overvoltage_bus_count", "substation_p_kw", "substation_q_kvar",
-        "active_losses_kw", "reactive_losses_kvar", "maximum_ac_equation_residual",
+        "active_losses_kw", "reactive_losses_kvar",
+        "maximum_absolute_residual_pu", "maximum_scaled_residual",
+        "active_balance_residual_pu", "active_balance_scaled_residual", "active_balance_bus",
+        "reactive_balance_residual_pu", "reactive_balance_scaled_residual", "reactive_balance_bus",
+        "voltage_drop_residual_pu2", "voltage_drop_scaled_residual", "voltage_drop_branch",
+        "current_power_equality_residual_pu2", "current_power_equality_scaled_residual",
+        "current_power_equality_branch", "phasor_residual_pu", "phasor_scaled_residual",
+        "phasor_residual_branch", "root_voltage_residual_pu", "voltage_limits_satisfied",
+        "phasor_recoverable", "independent_replay_passed",
     )
     best === nothing && return write_csv(path, columns, Tuple[])
     rows = Tuple[]
@@ -121,7 +131,19 @@ function write_ac_operating_points(path, data, best)
             count(v -> v < S1BMethodBenchmark.VMIN_PU - S1BMethodBenchmark.AC_VOLTAGE_TOL, state.voltage_pu),
             count(v -> v > S1BMethodBenchmark.VMAX_PU + S1BMethodBenchmark.AC_VOLTAGE_TOL, state.voltage_pu),
             state.substation_p_kw, state.substation_q_kvar,
-            state.active_losses_kw, state.reactive_losses_kvar, state.maximum_equation_residual,
+            state.active_losses_kw, state.reactive_losses_kvar,
+            state.maximum_equation_residual, state.maximum_scaled_residual,
+            state.active_balance_residual_pu, state.active_balance_scaled_residual,
+            state.active_balance_bus, state.reactive_balance_residual_pu,
+            state.reactive_balance_scaled_residual, state.reactive_balance_bus,
+            state.voltage_drop_residual_pu2, state.voltage_drop_scaled_residual,
+            state.voltage_drop_branch, state.current_power_residual_pu2,
+            state.current_power_scaled_residual, state.current_power_branch,
+            state.phasor_residual_pu, state.phasor_scaled_residual,
+            state.phasor_residual_branch, state.root_voltage_residual_pu,
+            state.voltage_limits_satisfied, state.phasor_recoverable,
+            state.voltage_limits_satisfied && state.phasor_recoverable &&
+                state.maximum_equation_residual <= S1BMethodBenchmark.AC_RESIDUAL_TOL,
         ))
     end
     write_csv(path, columns, rows)
@@ -176,7 +198,7 @@ function comparison_rows(ac_results, best, socp_results)
     if best !== nothing
         replay = best.diagnostics.replay
         push!(rows, (
-            "AC-OPF multistart best", "best_of_$(length(ac_results))_starts", best.objective_kw,
+            "nonconvex branch-flow AC multistart best", "best_of_$(length(ac_results))_starts", best.objective_kw,
             best.c13_kw, best.c20_kw, best.c24_kw, best.c30_kw,
             best.termination_status, replay.ac_feasible, replay.vmin, replay.vmax,
             replay.undervoltage_count + replay.overvoltage_count, 0.0,
@@ -231,7 +253,7 @@ function decision_evidence(ac_results, best, socp_results, nonuniqueness)
         abs(socp_results[closest_exact].total_hc_kw - best.objective_kw) / best.objective_kw
     keep_socp = !isempty(stable_pairs) && closest_distance <= 0.01
     decision = keep_socp ? "retain strengthened SOCP" :
-               ac_stable ? "move S1-B to AC-OPF" : "inconclusive"
+               ac_stable ? "move S1-B to nonconvex branch-flow AC" : "inconclusive"
     return (
         decision=decision,
         accepted_ac_starts=accepted_count,
@@ -255,7 +277,7 @@ function write_report(path, data, ac_results, best, socp_results, nonuniqueness,
         println(io)
         println(io, "Both methods use all 48 half-hour intervals on $(BENCHMARK_DATE), one shared capacity vector at buses 13/20/24/30, the same load and PV availability, 10 MVA/12.66 kV bases, V0=1.00 p.u., and 0.90-1.05 p.u. voltage limits. Curtailment, site caps, gamma caps, no-export, loss caps, thermal ratings, and transformer limits are absent. This is a one-day diagnostic, not the three-year result.")
         println(io)
-        println(io, "## AC-OPF multistart")
+        println(io, "## Nonconvex branch-flow AC multistart")
         println(io)
         println(io, "- Starts executed: $(length(ac_results)); accepted AC-feasible local solutions: $(evidence.accepted_ac_starts).")
         if best === nothing
@@ -290,7 +312,7 @@ function write_report(path, data, ac_results, best, socp_results, nonuniqueness,
             100.0 * (lambda_zero.total_hc_kw - strongest.total_hc_kw) / lambda_zero.total_hc_kw,
             strongest.total_hc_kw))
         if best !== nothing
-            println(io, @sprintf("- The strongest-penalty SOCP point is %.3f%% above the best AC-OPF HC, but it is not achievable under AC validation.",
+            println(io, @sprintf("- The strongest-penalty SOCP point is %.3f%% above the best nonconvex branch-flow AC HC, but it is not achievable under AC validation.",
                 100.0 * (strongest.total_hc_kw - best.objective_kw) / best.objective_kw))
         end
         for result in socp_results
@@ -306,16 +328,16 @@ function write_report(path, data, ac_results, best, socp_results, nonuniqueness,
         println(io, "**$(evidence.decision)**")
         println(io)
         if evidence.decision == "retain strengthened SOCP"
-            println(io, "A stable adjacent lambda region passed all exactness and AC gates and stayed within 1% of the best AC-OPF solution.")
-        elseif evidence.decision == "move S1-B to AC-OPF"
-            println(io, "AC-OPF produced a repeatable independently replayed solution, while the penalty sweep did not provide a stable, approximately exact, AC-feasible region within 1% of it. Choosing a single penalty would therefore be fragile or would materially alter HC.")
+            println(io, "A stable adjacent lambda region passed all exactness and AC gates and stayed within 1% of the best nonconvex branch-flow AC solution.")
+        elseif evidence.decision == "move S1-B to nonconvex branch-flow AC"
+            println(io, "The nonconvex branch-flow AC model produced a repeatable independently replayed solution, while the penalty sweep did not provide a stable, approximately exact, AC-feasible region within 1% of it. Choosing a single penalty would therefore be fragile or would materially alter HC.")
         else
             println(io, "Neither method supplied enough stable evidence under the predeclared gates for a defensible central-method choice.")
         end
         println(io)
         println(io, "## Scientific limitations")
         println(io)
-        println(io, "The AC result is local, not globally certified. This benchmark covers one critical day only and has no thermal validation because real ampacity data are absent. It does not run the 32-day design, three-year validation, constraint generation, robust optimization, S1-C, or sensitivity cases. The earlier invalid SOCP result remains preserved in its original commit and files.")
+        println(io, "The nonconvex branch-flow AC result is local, not globally certified. This benchmark covers one critical day only and has no thermal validation because real ampacity data are absent. It does not run the 32-day design, three-year validation, constraint generation, robust optimization, S1-C, or sensitivity cases. The earlier invalid SOCP result remains preserved in its original commit and files.")
     end
 end
 
@@ -336,6 +358,7 @@ function main()
     write_ac_results(joinpath(OUTPUT_DIRECTORY, "ac_multistart_results.csv"), ac_results)
     write_best_ac(joinpath(OUTPUT_DIRECTORY, "ac_best_solution.csv"), best, nonuniqueness)
     write_ac_operating_points(joinpath(OUTPUT_DIRECTORY, "ac_operating_point_diagnostics.csv"), data, best)
+    write_ac_operating_points(joinpath(OUTPUT_DIRECTORY, "independent_replay_metrics.csv"), data, best)
     write_socp_sweep(joinpath(OUTPUT_DIRECTORY, "socp_penalty_sweep.csv"), socp_results)
     write_socp_ac_validation(joinpath(OUTPUT_DIRECTORY, "socp_ac_validation.csv"), socp_results)
     write_comparison(joinpath(OUTPUT_DIRECTORY, "method_comparison.csv"), ac_results, best, socp_results)

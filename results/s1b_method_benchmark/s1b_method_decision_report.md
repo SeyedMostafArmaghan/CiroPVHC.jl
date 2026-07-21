@@ -4,7 +4,7 @@
 
 Both methods use all 48 half-hour intervals on 2010-12-21, one shared capacity vector at buses 13/20/24/30, the same load and PV availability, 10 MVA/12.66 kV bases, V0=1.00 p.u., and 0.90-1.05 p.u. voltage limits. Curtailment, site caps, gamma caps, no-export, loss caps, thermal ratings, and transformer limits are absent. This is a one-day diagnostic, not the three-year result.
 
-## AC-OPF multistart
+## Nonconvex branch-flow AC multistart
 
 - Starts executed: 13; accepted AC-feasible local solutions: 13.
 - Best locally optimal AC-feasible HC: 10680.484846163 kW (C13=733.640257286, C20=4681.670271374, C24=3988.773998170, C30=1276.400319333).
@@ -22,7 +22,7 @@ The dimensionless objective is `HC/3715 - lambda * mean_active_loss/3715`. The p
 - Approximately exact sweep points: 0 of 9; stable adjacent exact pairs: 0.
 - Best gap in the sweep occurs at lambda=1 and is still 9.995430e-01; AC feasible=no.
 - At lambda=10, HC falls 94.783% from the lambda=0 upper bound to 12524.755432 kW, but the point remains non-exact and AC-infeasible.
-- The strongest-penalty SOCP point is 17.268% above the best AC-OPF HC, but it is not achievable under AC validation.
+- The strongest-penalty SOCP point is 17.268% above the best nonconvex branch-flow AC HC, but it is not achievable under AC validation.
 - lambda=0: HC=240084.200109 kW, rel_gap=9.998e-01, AC=infeasible, exact=no, AC V=[0.974530, 1.753128].
 - lambda=1e-06: HC=240084.191466 kW, rel_gap=9.998e-01, AC=infeasible, exact=no, AC V=[0.974530, 1.753133].
 - lambda=1e-05: HC=240084.190282 kW, rel_gap=9.998e-01, AC=infeasible, exact=no, AC V=[0.974530, 1.753132].
@@ -35,10 +35,10 @@ The dimensionless objective is `HC/3715 - lambda * mean_active_loss/3715`. The p
 
 ## Decision
 
-**move S1-B to AC-OPF**
+**move S1-B to nonconvex branch-flow AC**
 
-AC-OPF produced a repeatable independently replayed solution, while the penalty sweep did not provide a stable, approximately exact, AC-feasible region within 1% of it. Choosing a single penalty would therefore be fragile or would materially alter HC.
+The nonconvex branch-flow AC model produced a repeatable independently replayed solution, while the penalty sweep did not provide a stable, approximately exact, AC-feasible region within 1% of it. Choosing a single penalty would therefore be fragile or would materially alter HC.
 
 ## Scientific limitations
 
-The AC result is local, not globally certified. This benchmark covers one critical day only and has no thermal validation because real ampacity data are absent. It does not run the 32-day design, three-year validation, constraint generation, robust optimization, S1-C, or sensitivity cases. The earlier invalid SOCP result remains preserved in its original commit and files.
+The nonconvex branch-flow AC result is local, not globally certified. This benchmark covers one critical day only and has no thermal validation because real ampacity data are absent. It does not run the 32-day design, three-year validation, constraint generation, robust optimization, S1-C, or sensitivity cases. The earlier invalid SOCP result remains preserved in its original commit and files.
