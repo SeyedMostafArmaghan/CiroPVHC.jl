@@ -1,0 +1,36 @@
+stage=S1-B one-day AC-vs-strengthened-SOCP diagnostic benchmark
+repository_commit_at_start=unknown
+date=2010-12-21
+interval_count=48
+candidate_buses=(13, 20, 24, 30)
+shared_capacity_vector=true
+curtailment_active=false
+export_allowed=true
+no_export_active=false
+site_cap_active=false
+gamma_cap_active=false
+thermal_constraints_active=false
+loss_cap_active=false
+computational_capacity_bound_active=false
+root_voltage_pu=1.0
+voltage_min_pu=0.9
+voltage_max_pu=1.05
+squared_voltage_min=0.81
+squared_voltage_max=1.1025
+objective=maximize C13 + C20 + C24 + C30
+ac_equality=P^2 + Q^2 = v * ell
+socp_relaxation=P^2 + Q^2 <= v * ell
+normalization_power_kw=3715.0
+normalized_hc=sum(C) / nominal_case_active_load_kw
+normalized_penalty=mean_interval_active_loss_kw / nominal_case_active_load_kw
+penalty_lambdas=(0.0, 1.0e-6, 1.0e-5, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0)
+exactness_soc_tolerance=1.0e-5
+ac_voltage_tolerance_pu=1.0e-5
+socp_ac_voltage_tolerance_pu=0.0001
+multistart_seed=20260721
+ipopt_version=1.15.0
+clarabel_version=0.11.1
+ac_global_optimum_claimed=false
+socp_lambda_zero_is_achievable_hc=false_unless_exact_and_ac_feasible
+three_year_validation_performed=false
+constraint_generation_performed=false
