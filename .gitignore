@@ -1,0 +1,8 @@
+# Downloaded Ausgrid source archives and extracted raw yearly files
+data_raw/ausgrid/
+
+# Local Python environment for the Ausgrid data pipeline
+.venv-data/
+.tmp-python/
+.pytest_cache/
+__pycache__/
