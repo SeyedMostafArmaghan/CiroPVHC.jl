@@ -2,7 +2,7 @@
 
 julia_version = "1.12.6"
 manifest_format = "2.0"
-project_hash = "51d5d37245e4fdecd5d0185eff9af33470a8c27a"
+project_hash = "2fc366e4d1ea1defb47b9bc99d1b0888ee7157d3"
 
 [[deps.AMD]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse_jll"]
@@ -25,7 +25,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.9+0"
 
 [[deps.CiroPVHC]]
-deps = ["Clarabel", "JuMP"]
+deps = ["Clarabel", "Dates", "JuMP", "Printf", "SHA"]
 path = "."
 uuid = "d8362db7-6735-4af4-ae52-7f85ad7c7347"
 version = "0.1.0"

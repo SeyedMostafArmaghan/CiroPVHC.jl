@@ -113,6 +113,8 @@ function add_socp_branch_flow_constraints!(
     p_load_adder_by_bus_kw::Union{Nothing,Dict}=nothing,
     q_load_adder_by_bus_kvar::Union{Nothing,Dict}=nothing,
     root_bus::Int=1,
+    root_voltage_pu::Real=1.0,
+    load_multiplier_by_time::Union{Nothing,AbstractVector}=nothing,
 )
     topology = _build_radial_topology(data; root_bus=root_bus)
     r_pu, x_pu, smax_pu = _branch_pu_parameters(data, topology)
@@ -120,6 +122,12 @@ function add_socp_branch_flow_constraints!(
     times = 1:data.timeseries.T
     bus_by_id = Dict(bus.id => bus for bus in data.buses)
     base_power_kw = _base_power_kw(data)
+    root_voltage = Float64(root_voltage_pu)
+    _require(isfinite(root_voltage), "root voltage must be finite")
+    _require(data.vmin_pu <= root_voltage <= data.vmax_pu, "root voltage must lie inside model voltage bounds")
+    if load_multiplier_by_time !== nothing
+        _require(length(load_multiplier_by_time) == data.timeseries.T, "load-multiplier override length must match T")
+    end
 
     if q_injection_by_bus_kvar === nothing
         q_injection_by_bus_kvar = Dict(
@@ -144,7 +152,7 @@ function add_socp_branch_flow_constraints!(
     @variable(model, ell[branch_id in topology.branch_ids, t in times] >= 0, base_name = "ell")
 
     for t in times
-        @constraint(model, v[topology.root_bus, t] == 1.0)
+        @constraint(model, v[topology.root_bus, t] == root_voltage^2)
     end
 
     for branch_id in topology.branch_ids, t in times
@@ -184,9 +192,11 @@ function add_socp_branch_flow_constraints!(
             child_p = isempty(child_branches) ? 0.0 : sum(Pij[child, t] for child in child_branches)
             child_q = isempty(child_branches) ? 0.0 : sum(Qij[child, t] for child in child_branches)
 
-            p_load_kw = bus.pd_kw * data.timeseries.load_multiplier[t] +
+            load_multiplier = load_multiplier_by_time === nothing ?
+                              data.timeseries.load_multiplier[t] : load_multiplier_by_time[t]
+            p_load_kw = bus.pd_kw * load_multiplier +
                         _series_value_by_bus(p_load_adder_by_bus_kw, bus_id, t)
-            q_load_kvar = bus.qd_kvar * data.timeseries.load_multiplier[t] +
+            q_load_kvar = bus.qd_kvar * load_multiplier +
                           _series_value_by_bus(q_load_adder_by_bus_kvar, bus_id, t)
             p_inj_kw = _series_value_by_bus(p_injection_by_bus_kw, bus_id, t)
             q_inj_kvar = _series_value_by_bus(q_injection_by_bus_kvar, bus_id, t)

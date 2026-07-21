@@ -1,12 +1,17 @@
 module CiroPVHC
 
+using Dates
+
 include("data/types.jl")
 include("data/ieee33.jl")
 include("data/profiles.jl")
 include("data/resources.jl")
 include("data/scenarios.jl")
+include("data/s0_types.jl")
 
 const _CIROPVHC_SRC_DIR = @__DIR__
+const _SOCP_NETWORK_LOADED = Ref(false)
+const _S0_SOLVER_LOADED = Ref(false)
 const _S1_SOLVER_LOADED = Ref(false)
 const _S2_SOLVER_LOADED = Ref(false)
 const S1_LOCKED_STAGE2_ACCEPTED_HC_KW = 2766.9654
@@ -137,10 +142,34 @@ struct S2UnmanagedEVResult
     delta_max_line_loading::Float64
 end
 
+function _load_socp_network!()
+    if !_SOCP_NETWORK_LOADED[]
+        Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "models", "socp_network.jl"))
+        _SOCP_NETWORK_LOADED[] = true
+    end
+    return true
+end
+
+function _load_s0_solver!()
+    if !_S0_SOLVER_LOADED[]
+        try
+            _load_socp_network!()
+            Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "validation", "s0_baseline.jl"))
+            _S0_SOLVER_LOADED[] = true
+        catch err
+            throw(ArgumentError(
+                "The S0 baseline validator requires JuMP and Clarabel. " *
+                "Run Julia with this project instantiated, then try again. Original error: $(err)",
+            ))
+        end
+    end
+    return true
+end
+
 function _load_s1_solver!()
     if !_S1_SOLVER_LOADED[]
         try
-            Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "models", "socp_network.jl"))
+            _load_socp_network!()
             Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "models", "pv_model.jl"))
             Base.include(@__MODULE__, joinpath(_CIROPVHC_SRC_DIR, "solve", "solve_s1_pv_only.jl"))
             _S1_SOLVER_LOADED[] = true
@@ -152,6 +181,30 @@ function _load_s1_solver!()
         end
     end
     return true
+end
+
+function read_ausgrid_s0_load_profile(args...; kwargs...)
+    _load_s0_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_read_ausgrid_s0_load_profile)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function build_s0_baseline_model(args...; kwargs...)
+    _load_s0_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_build_s0_baseline_model)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function solve_s0_load_state(args...; kwargs...)
+    _load_s0_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_solve_s0_load_state)
+    return Base.invokelatest(impl, args...; kwargs...)
+end
+
+function run_s0_full_period_baseline(args...; kwargs...)
+    _load_s0_solver!()
+    impl = Base.invokelatest(getfield, @__MODULE__, :_run_s0_full_period_baseline)
+    return Base.invokelatest(impl, args...; kwargs...)
 end
 
 function _load_s2_solver!()
@@ -258,6 +311,14 @@ export Bus,
     TimeSeries,
     CaseData,
     ScenarioConfig,
+    S0BaselineConfig,
+    S0LoadProfile,
+    S0_INTERVAL_METRIC_COLUMNS,
+    S0_SUMMARY_COLUMNS,
+    S0_BRANCH_PEAK_COLUMNS,
+    S0_VOLTAGE_VIOLATION_COLUMNS,
+    S0_SOLVER_FAILURE_COLUMNS,
+    S0_CRITICAL_INTERVAL_COLUMNS,
     S1_LOCKED_STAGE2_ACCEPTED_HC_KW,
     DEFAULT_S2_UNMANAGED_EV_SENSITIVITY_SCALES,
     build_ieee33_network,
@@ -270,6 +331,16 @@ export Bus,
     build_case33_data,
     check_data_consistency,
     check_radial_network,
+    s0_root_voltage_squared,
+    s0_scaled_bus_load,
+    s0_apparent_power,
+    s0_voltage_violation_counts,
+    s0_branch_peak,
+    s0_assert_full_interval_coverage,
+    read_ausgrid_s0_load_profile,
+    build_s0_baseline_model,
+    solve_s0_load_state,
+    run_s0_full_period_baseline,
     S1PVOnlyResult,
     S2UnmanagedEVConfig,
     S1ComparisonBaseline,
