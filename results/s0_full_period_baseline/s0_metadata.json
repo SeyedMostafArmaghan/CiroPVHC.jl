@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-07-21T13:56:18Z",
+  "repository_commit_at_run": "febf02715ec72d3afb55b390c49b14f68d107697",
+  "input_file": "D:\\CiroPVHC.jl\\data_processed\\ausgrid\\ausgrid_halfhour_normalized.csv",
+  "input_sha256": "504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500",
+  "input_interval_count": 52608,
+  "input_start_timestamp": "2010-07-01 00:00:00",
+  "input_end_timestamp": "2013-06-30 23:30:00",
+  "dt_hours": 0.5,
+  "root_voltages_pu": [1.0, 1.03, 1.05],
+  "operational_voltage_limits_pu": {"minimum": 0.95, "maximum": 1.05},
+  "diagnostic_voltage_bounds_pu": {"minimum": 0.8, "maximum": 1.1},
+  "configuration": {
+    "pv_capacity_and_injection_kw": 0.0,
+    "ev_load_kw": 0.0,
+    "bess_charge_kw": 0.0,
+    "bess_discharge_kw": 0.0,
+    "curtailment_variables": "absent",
+    "no_export_constraint_active": false,
+    "loss_cap_constraint_active": false,
+    "candidate_pv_buses_have_effect": false,
+    "root_voltage_equality": "v_root = V0^2",
+    "load_scaling": "P_i,t=P_i_case33bw*m_t and Q_i,t=Q_i_case33bw*m_t"
+  },
+  "numerical_tolerances": {
+    "balance_kw_or_kvar": 0.001,
+    "voltage_drop_pu2": 1.0e-8,
+    "soc_gap_pu2": 1.0e-7,
+    "root_voltage_pu2": 1.0e-9,
+    "ell_pu2": 1.0e-10,
+    "voltage_reporting_pu": 1.0e-7,
+    "zero_pv_export_kw": 1.0e-6,
+    "ac_voltage_agreement_pu": 2.0e-5,
+    "ac_substation_power_agreement_kw_or_kvar": 0.02
+  },
+  "solver": {
+    "name": "Clarabel",
+    "version": "0.11.1",
+    "jump_version": "1.30.1",
+    "julia_version": "1.12.6",
+    "julia_threads": 4,
+    "method": "thread-local reusable one-interval SOCP models with deterministic streamed chunks",
+    "chunk_size_intervals": 512,
+    "target_tolerance_gap_abs_rel": 1.0e-9,
+    "target_tolerance_feasibility": 1.0e-9,
+    "reduced_tolerance_gap_abs_rel": 1.0e-6,
+    "reduced_tolerance_feasibility": 1.0e-6,
+    "objective": "minimize active branch losses to tighten the SOCP relaxation",
+    "operational_infeasibility_fallback": "same SOCP with diagnostic voltage bounds; operational limits remain post-solution validation thresholds"
+  },
+  "current_conversion": {
+    "verified": true,
+    "formula": "I_A=sqrt(ell_pu2)*Sbase_VA/(sqrt(3)*Vbase_LL_V)",
+    "base_mva": 10.0,
+    "base_kv_line_to_line": 12.66,
+    "note": "This is a unit conversion, not a documented IEEE 33-bus rating."
+  },
+  "ac_validation": {
+    "performed": true,
+    "method": "independent nonlinear radial backward-forward sweep",
+    "critical_records_per_root_voltage": 4
+  },
+  "runtime_seconds": 898.6690001487732,
+  "case_solver_runtime_seconds": [265.80936140000006, 264.62896120000005, 268.84930749999995],
+  "case_fully_validated": [false, false, false],
+  "output_files": [
+    "s0_branch_peak_metrics.csv",
+    "s0_critical_intervals.csv",
+    "s0_interval_metrics.csv",
+    "s0_metadata.json",
+    "s0_report.md",
+    "s0_solver_failures.csv",
+    "s0_summary.csv",
+    "s0_voltage_violations.csv"
+  ]
+}
