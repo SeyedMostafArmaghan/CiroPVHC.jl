@@ -141,7 +141,15 @@ const _CG_HISTORY_COLUMNS = (
     "iteration", "active_before", "active_after", "accepted_start_count",
     "best_start_name", "objective_kw", "c13_kw", "c20_kw", "c24_kw", "c30_kw",
     "replay_count", "replay_failure_count", "violating_count", "max_violation_pu",
-    "added_indices", "stop_reason", "start_summary",
+    "minimum_voltage_pu", "minimum_voltage_bus", "minimum_voltage_timestamp",
+    "maximum_voltage_pu", "maximum_voltage_bus", "maximum_voltage_timestamp",
+    "worst_violation_type", "worst_violation_bus", "worst_violation_timestamp",
+    "maximum_equation_residual", "maximum_scaled_residual",
+    "minimum_substation_p_kw", "maximum_substation_p_kw",
+    "minimum_substation_q_kvar", "maximum_substation_q_kvar",
+    "maximum_upstream_apparent_kva", "solve_time_seconds", "replay_time_seconds",
+    "added_indices", "added_timestamps", "checkpoint_path", "checkpoint_status",
+    "stop_reason", "start_summary",
 )
 
 function _cg_write_history(config, history)
@@ -183,16 +191,28 @@ function _cg_read_history(config)
     rows = NamedTuple[]
     for line in lines[2:end]
         values = _cg_parse_csv_line(line)
-        push!(rows, (
-            iteration=parse(Int, values[1]), active_before=parse(Int, values[2]),
-            active_after=parse(Int, values[3]), accepted_start_count=parse(Int, values[4]),
-            best_start_name=values[5], objective_kw=parse(Float64, values[6]),
-            c13_kw=parse(Float64, values[7]), c20_kw=parse(Float64, values[8]),
-            c24_kw=parse(Float64, values[9]), c30_kw=parse(Float64, values[10]),
-            replay_count=parse(Int, values[11]), replay_failure_count=parse(Int, values[12]),
-            violating_count=parse(Int, values[13]), max_violation_pu=parse(Float64, values[14]),
-            added_indices=values[15], stop_reason=values[16], start_summary=values[17],
+        length(values) == length(_CG_HISTORY_COLUMNS) || throw(ArgumentError(
+            "iteration summary schema does not match the production evidence schema",
         ))
+        typed = Any[]
+        integer_columns = Set((
+            "iteration", "active_before", "active_after", "accepted_start_count",
+            "replay_count", "replay_failure_count", "violating_count",
+            "minimum_voltage_bus", "maximum_voltage_bus", "worst_violation_bus",
+        ))
+        float_columns = Set((
+            "objective_kw", "c13_kw", "c20_kw", "c24_kw", "c30_kw",
+            "max_violation_pu", "minimum_voltage_pu", "maximum_voltage_pu",
+            "maximum_equation_residual", "maximum_scaled_residual",
+            "minimum_substation_p_kw", "maximum_substation_p_kw",
+            "minimum_substation_q_kvar", "maximum_substation_q_kvar",
+            "maximum_upstream_apparent_kva", "solve_time_seconds", "replay_time_seconds",
+        ))
+        for (column, value) in zip(_CG_HISTORY_COLUMNS, values)
+            push!(typed, column in integer_columns ? parse(Int, value) :
+                         column in float_columns ? parse(Float64, value) : value)
+        end
+        push!(rows, NamedTuple{Symbol.(_CG_HISTORY_COLUMNS)}(Tuple(typed)))
     end
     return rows
 end
@@ -203,6 +223,28 @@ function _cg_previous_spec(capacities, seed)
         name="previous_active_set_best", kind="warm_start_only", seed=seed,
         capacities_kw=values, direction_limit_kw=NaN, scale_fraction=NaN,
     )
+end
+
+_cg_property(row, name::Symbol, default) = hasproperty(row, name) ? getproperty(row, name) : default
+
+function _cg_sum_property(rows, name::Symbol)
+    values = Float64[_cg_property(row, name, 0.0) for row in rows]
+    return any(!isfinite, values) ? NaN : sum(values)
+end
+
+function _cg_start_summary(starts)
+    return join((
+        join((
+            _cg_property(row, :start_name, ""),
+            _cg_property(row, :start_kind, ""),
+            _cg_property(row, :seed, 0),
+            _cg_property(row, :termination_status, ""),
+            _cg_property(row, :independent_replay_passed, false),
+            _cg_property(row, :accepted, false),
+            _cg_property(row, :objective_kw, NaN),
+            _cg_property(row, :solve_time_seconds, NaN),
+        ), '|') for row in starts
+    ), ';')
 end
 
 function _cg_replay_interval(
@@ -226,6 +268,13 @@ function _cg_replay_interval(
                      !state.phasor_recoverable ? "phasor_not_recoverable" :
                      state.maximum_equation_residual > AC_RESIDUAL_TOL ? "residual_exceeded" :
                      !finite_voltage ? "nonfinite_voltage" : ""
+    lower_excess = trustworthy ? VMIN_PU - vmin - voltage_tolerance_pu : Inf
+    upper_excess = trustworthy ? vmax - VMAX_PU - voltage_tolerance_pu : Inf
+    violation_type = !trustworthy ? failure_reason :
+                     lower_excess > upper_excess && lower_excess > 0.0 ? "minimum_voltage" :
+                     upper_excess > 0.0 ? "maximum_voltage" : ""
+    violation_bus = violation_type == "minimum_voltage" ? state.minimum_voltage_bus :
+                    violation_type == "maximum_voltage" ? state.maximum_voltage_bus : 0
     global_index = data.indices[local_t]
     return (
         global_index=global_index,
@@ -233,9 +282,19 @@ function _cg_replay_interval(
         converged=state.converged,
         phasor_recoverable=state.phasor_recoverable,
         maximum_equation_residual=state.maximum_equation_residual,
+        maximum_scaled_residual=state.maximum_scaled_residual,
         vmin_pu=vmin,
+        vmin_bus=state.minimum_voltage_bus,
         vmax_pu=vmax,
+        vmax_bus=state.maximum_voltage_bus,
         violation_pu=violation,
+        violation_type=violation_type,
+        violation_bus=violation_bus,
+        load_multiplier=data.profile.load_multiplier[global_index],
+        pv_factor=data.profile.pv_profile[global_index],
+        substation_p_kw=state.substation_p_kw,
+        substation_q_kvar=state.substation_q_kvar,
+        upstream_apparent_kva=hypot(state.substation_p_kw, state.substation_q_kvar),
         replay_passed=trustworthy && violation <= 0.0,
         failure_reason=failure_reason,
     )
@@ -257,9 +316,11 @@ function _cg_write_iteration_details(config, iteration, starts, replay_rows)
     directory = joinpath(config.output_directory, "checkpoints")
     mkpath(directory)
     start_columns = (
-        "start_id", "start_name", "start_kind", "termination_status", "primal_status",
+        "start_id", "start_name", "start_kind", "seed", "termination_status", "primal_status",
         "objective_kw", "c13_kw", "c20_kw", "c24_kw", "c30_kw",
-        "independent_replay_passed", "accepted", "error_message",
+        "maximum_constraint_violation", "independent_replay_max_absolute_residual",
+        "independent_replay_max_scaled_residual", "independent_replay_passed",
+        "accepted", "iterations", "solve_time_seconds", "wall_time_seconds", "error_message",
     )
     start_rows = [Tuple(
         hasproperty(row, Symbol(column)) ? getfield(row, Symbol(column)) : ""
@@ -269,7 +330,10 @@ function _cg_write_iteration_details(config, iteration, starts, replay_rows)
                   start_columns, start_rows)
     replay_columns = (
         "global_index", "timestamp", "converged", "phasor_recoverable",
-        "maximum_equation_residual", "vmin_pu", "vmax_pu", "violation_pu",
+        "maximum_equation_residual", "maximum_scaled_residual",
+        "vmin_pu", "vmin_bus", "vmax_pu", "vmax_bus", "violation_pu",
+        "violation_type", "violation_bus", "load_multiplier", "pv_factor",
+        "substation_p_kw", "substation_q_kvar", "upstream_apparent_kva",
         "replay_passed", "failure_reason",
     )
     replay_values = [Tuple(getfield(row, Symbol(column)) for column in replay_columns)
@@ -315,16 +379,23 @@ function run_ac_constraint_generation(
         best = best_ac_result(starts)
         if best === nothing
             final_status = "no_accepted_ac_start"
-            start_summary = join((
-                "$(row.start_name):$(row.termination_status):$(row.accepted):$(row.objective_kw)"
-                for row in starts
-            ), ';')
+            start_summary = _cg_start_summary(starts)
             push!(history, (
                 iteration=iteration, active_before=active_before, active_after=active_before,
                 accepted_start_count=0, best_start_name="", objective_kw=NaN,
                 c13_kw=NaN, c20_kw=NaN, c24_kw=NaN, c30_kw=NaN,
                 replay_count=0, replay_failure_count=0, violating_count=0,
                 max_violation_pu=NaN, added_indices="", stop_reason=final_status,
+                minimum_voltage_pu=NaN, minimum_voltage_bus=0, minimum_voltage_timestamp="",
+                maximum_voltage_pu=NaN, maximum_voltage_bus=0, maximum_voltage_timestamp="",
+                worst_violation_type="", worst_violation_bus=0, worst_violation_timestamp="",
+                maximum_equation_residual=NaN, maximum_scaled_residual=NaN,
+                minimum_substation_p_kw=NaN, maximum_substation_p_kw=NaN,
+                minimum_substation_q_kvar=NaN, maximum_substation_q_kvar=NaN,
+                maximum_upstream_apparent_kva=NaN,
+                solve_time_seconds=_cg_sum_property(starts, :solve_time_seconds),
+                replay_time_seconds=0.0, added_timestamps="",
+                checkpoint_path=_cg_state_path(config), checkpoint_status="written_terminal",
                 start_summary=start_summary,
             ))
             _cg_write_iteration_details(config, iteration, starts, NamedTuple[])
@@ -334,12 +405,14 @@ function run_ac_constraint_generation(
             break
         end
         capacities = Dict(bus => getfield(best, Symbol("c$(bus)_kw")) for bus in CANDIDATE_BUSES)
+        replay_started = time()
         replay_rows = replay_fn === _cg_replay_interval ?
             [replay_fn(validation_data, local_t, capacities;
                        voltage_tolerance_pu=config.voltage_tolerance_pu)
              for local_t in eachindex(validation_data.indices)] :
             [replay_fn(validation_data, local_t, capacities)
              for local_t in eachindex(validation_data.indices)]
+        replay_time_seconds = time() - replay_started
         failures = count(row -> !isfinite(row.violation_pu), replay_rows)
         violating = count(row -> !row.replay_passed || row.violation_pu > 0.0, replay_rows)
         ranked = rank_replay_violations(replay_rows, active_indices)
@@ -360,11 +433,17 @@ function run_ac_constraint_generation(
             stop_reason = final_status
         end
         accepted_count = count(row -> row.accepted, starts)
-        start_summary = join((
-            "$(row.start_name):$(row.termination_status):$(row.accepted):$(row.objective_kw)"
-            for row in starts
-        ), ';')
+        start_summary = _cg_start_summary(starts)
         maximum_violation = isempty(replay_rows) ? NaN : maximum(row.violation_pu for row in replay_rows)
+        finite_rows = [row for row in replay_rows if isfinite(row.vmin_pu) && isfinite(row.vmax_pu)]
+        min_row = isempty(finite_rows) ? nothing : argmin(row -> row.vmin_pu, finite_rows)
+        max_row = isempty(finite_rows) ? nothing : argmax(row -> row.vmax_pu, finite_rows)
+        all_ranked = rank_replay_violations(replay_rows, Int[])
+        worst_row = isempty(all_ranked) ? nothing : first(all_ranked)
+        added_timestamps = join((
+            Dates.format(validation_data.profile.timestamps[index], dateformat"yyyy-mm-dd HH:MM:SS")
+            for index in additions
+        ), ';')
         push!(history, (
             iteration=iteration, active_before=active_before, active_after=length(active_indices),
             accepted_start_count=accepted_count, best_start_name=best.start_name,
@@ -373,7 +452,28 @@ function run_ac_constraint_generation(
             c24_kw=capacities[24], c30_kw=capacities[30],
             replay_count=length(replay_rows), replay_failure_count=failures,
             violating_count=violating, max_violation_pu=maximum_violation,
-            added_indices=join(additions, ';'), stop_reason=stop_reason,
+            minimum_voltage_pu=min_row === nothing ? NaN : min_row.vmin_pu,
+            minimum_voltage_bus=min_row === nothing ? 0 : min_row.vmin_bus,
+            minimum_voltage_timestamp=min_row === nothing ? "" : min_row.timestamp,
+            maximum_voltage_pu=max_row === nothing ? NaN : max_row.vmax_pu,
+            maximum_voltage_bus=max_row === nothing ? 0 : max_row.vmax_bus,
+            maximum_voltage_timestamp=max_row === nothing ? "" : max_row.timestamp,
+            worst_violation_type=worst_row === nothing ? "" : worst_row.violation_type,
+            worst_violation_bus=worst_row === nothing ? 0 : worst_row.violation_bus,
+            worst_violation_timestamp=worst_row === nothing ? "" : worst_row.timestamp,
+            maximum_equation_residual=isempty(replay_rows) ? NaN : maximum(row.maximum_equation_residual for row in replay_rows),
+            maximum_scaled_residual=isempty(replay_rows) ? NaN : maximum(row.maximum_scaled_residual for row in replay_rows),
+            minimum_substation_p_kw=isempty(replay_rows) ? NaN : minimum(row.substation_p_kw for row in replay_rows),
+            maximum_substation_p_kw=isempty(replay_rows) ? NaN : maximum(row.substation_p_kw for row in replay_rows),
+            minimum_substation_q_kvar=isempty(replay_rows) ? NaN : minimum(row.substation_q_kvar for row in replay_rows),
+            maximum_substation_q_kvar=isempty(replay_rows) ? NaN : maximum(row.substation_q_kvar for row in replay_rows),
+            maximum_upstream_apparent_kva=isempty(replay_rows) ? NaN : maximum(row.upstream_apparent_kva for row in replay_rows),
+            solve_time_seconds=_cg_sum_property(starts, :solve_time_seconds),
+            replay_time_seconds=replay_time_seconds,
+            added_indices=join(additions, ';'), added_timestamps=added_timestamps,
+            checkpoint_path=_cg_state_path(config),
+            checkpoint_status=isempty(stop_reason) ? "written_resumable" : "written_terminal",
+            stop_reason=stop_reason,
             start_summary=start_summary,
         ))
         _cg_write_iteration_details(config, iteration, starts, replay_rows)

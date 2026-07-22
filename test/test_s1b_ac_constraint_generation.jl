@@ -4,15 +4,29 @@ using JuMP
 if !isdefined(Main, :S1BMethodBenchmark)
     include(joinpath(@__DIR__, "..", "src", "benchmark", "s1b_method_benchmark.jl"))
 end
+
+@testset "S1-B production entry point preflight" begin
+    repository_root = normpath(joinpath(@__DIR__, ".."))
+    runner = joinpath(repository_root, "scripts", "run_s1b_ac_constraint_generation.jl")
+    command = `$(Base.julia_cmd()) --project=$repository_root $runner --confirm-full-period --preflight-only`
+    output = read(command, String)
+    @test occursin("production_entry_point_preflight=passed", output)
+    @test occursin("interval_count=52608", output)
+    @test occursin("complete_day_count=1096", output)
+end
 const S1BCG = Main.S1BMethodBenchmark
 
-function mock_start_result(start_id, start_name, active_count)
+function mock_start_result(start_id, start_name, active_count; seed=20260721)
     return (
-        start_id=start_id, start_name=start_name, start_kind="test",
+        start_id=start_id, start_name=start_name, start_kind="test", seed=seed,
         termination_status="LOCALLY_SOLVED", primal_status="FEASIBLE_POINT",
         objective_kw=Float64(active_count), c13_kw=Float64(active_count),
         c20_kw=0.0, c24_kw=0.0, c30_kw=0.0,
-        independent_replay_passed=true, accepted=true, error_message="",
+        maximum_constraint_violation=0.0,
+        independent_replay_max_absolute_residual=0.0,
+        independent_replay_max_scaled_residual=0.0,
+        independent_replay_passed=true, accepted=true, iterations=1,
+        solve_time_seconds=0.01, wall_time_seconds=0.01, error_message="",
     )
 end
 
@@ -24,7 +38,7 @@ function mock_specs(data; seed)
 end
 
 function mock_solve(data, specs)
-    return [mock_start_result(index, spec.name, length(data.indices))
+    return [mock_start_result(index, spec.name, length(data.indices); seed=spec.seed)
             for (index, spec) in enumerate(specs)]
 end
 
@@ -35,9 +49,73 @@ function mock_replay(data, local_t, capacities)
     return (
         global_index=global_index, timestamp=string(data.profile.timestamps[global_index]),
         converged=true, phasor_recoverable=true, maximum_equation_residual=0.0,
-        vmin_pu=0.90, vmax_pu=1.05 + violation, violation_pu=violation,
+        maximum_scaled_residual=0.0,
+        vmin_pu=0.90, vmin_bus=18, vmax_pu=1.05 + violation, vmax_bus=30,
+        violation_pu=violation, violation_type=violation > 0.0 ? "maximum_voltage" : "",
+        violation_bus=violation > 0.0 ? 30 : 0,
+        load_multiplier=1.0, pv_factor=1.0,
+        substation_p_kw=-100.0, substation_q_kvar=25.0,
+        upstream_apparent_kva=hypot(100.0, 25.0),
         replay_passed=violation == 0.0, failure_reason="",
     )
+end
+
+function mock_replay_with_failed_interval(data, local_t, capacities)
+    global_index = data.indices[local_t]
+    timestamp = string(data.profile.timestamps[global_index])
+    if local_t == 1
+        return (
+            global_index=global_index, timestamp=timestamp,
+            converged=false, phasor_recoverable=false, maximum_equation_residual=Inf,
+            maximum_scaled_residual=Inf,
+            vmin_pu=NaN, vmin_bus=99, vmax_pu=NaN, vmax_bus=99,
+            violation_pu=Inf, violation_type="nonconverged", violation_bus=0,
+            load_multiplier=1.0, pv_factor=1.0,
+            substation_p_kw=-100.0, substation_q_kvar=25.0,
+            upstream_apparent_kva=hypot(100.0, 25.0),
+            replay_passed=false, failure_reason="nonconverged",
+        )
+    end
+    vmin = local_t == 2 ? 0.93 : 0.97
+    vmax = local_t == 3 ? 1.06 : 1.02
+    return (
+        global_index=global_index, timestamp=timestamp,
+        converged=true, phasor_recoverable=true, maximum_equation_residual=0.0,
+        maximum_scaled_residual=0.0,
+        vmin_pu=vmin, vmin_bus=local_t == 2 ? 18 : 12,
+        vmax_pu=vmax, vmax_bus=local_t == 3 ? 30 : 12,
+        violation_pu=0.0, violation_type="", violation_bus=0,
+        load_multiplier=1.0, pv_factor=1.0,
+        substation_p_kw=-100.0, substation_q_kvar=25.0,
+        upstream_apparent_kva=hypot(100.0, 25.0),
+        replay_passed=true, failure_reason="",
+    )
+end
+
+@testset "S1-B voltage extremes ignore failed replay intervals" begin
+    repository_root = normpath(joinpath(@__DIR__, ".."))
+    day = S1BCG.load_benchmark_data(repository_root)
+    data = S1BCG.subset_benchmark_data(day, day.indices[1:6])
+    directory = mktempdir()
+    config = S1BCG.ACConstraintGenerationConfig(
+        directory; batch_size=1, max_iterations=1, resume=false,
+    )
+    result = S1BCG.run_ac_constraint_generation(
+        data, config; initial_indices=[data.indices[1]], spec_builder=mock_specs,
+        solve_fn=mock_solve, replay_fn=mock_replay_with_failed_interval,
+    )
+    summary = result.history[1]
+    @test summary.replay_failure_count == 1
+    @test isfinite(summary.minimum_voltage_pu)
+    @test summary.minimum_voltage_pu == 0.93
+    @test summary.minimum_voltage_bus == 18
+    @test summary.minimum_voltage_timestamp == string(data.profile.timestamps[data.indices[2]])
+    @test isfinite(summary.maximum_voltage_pu)
+    @test summary.maximum_voltage_pu == 1.06
+    @test summary.maximum_voltage_bus == 30
+    @test summary.maximum_voltage_timestamp == string(data.profile.timestamps[data.indices[3]])
+    @test summary.minimum_voltage_bus != 99
+    @test summary.maximum_voltage_bus != 99
 end
 
 @testset "S1-B boundary bracketing and direction validation" begin
@@ -126,6 +204,23 @@ end
     @test resumed.active_indices == uninterrupted.active_indices
     @test resumed.capacities_kw == uninterrupted.capacities_kw
     @test isapprox(sum(values(resumed.capacities_kw)), resumed.history[end].objective_kw)
-    @test resumed.history == uninterrupted.history
+    deterministic_history_fields = (
+        :iteration, :active_before, :active_after, :accepted_start_count,
+        :objective_kw, :c13_kw, :c20_kw, :c24_kw, :c30_kw,
+        :replay_count, :replay_failure_count, :violating_count, :max_violation_pu,
+        :worst_violation_bus, :added_indices, :added_timestamps, :stop_reason,
+    )
+    project_history(history) = [Tuple(getproperty(row, field) for field in deterministic_history_fields)
+                                for row in history]
+    @test project_history(resumed.history) == project_history(uninterrupted.history)
     @test all(diff([row.active_after for row in resumed.history]) .>= 0)
+    @test resumed.history[1].worst_violation_bus == 30
+    @test resumed.history[1].maximum_upstream_apparent_kva == hypot(100.0, 25.0)
+    @test occursin("|test|20260721|LOCALLY_SOLVED|true|true|", resumed.history[1].start_summary)
+    starts_header = readlines(joinpath(interrupted_directory, "checkpoints", "iteration_001_starts.csv"))[1]
+    replay_header = readlines(joinpath(interrupted_directory, "checkpoints", "iteration_001_replay.csv"))[1]
+    @test occursin("seed", starts_header)
+    @test occursin("solve_time_seconds", starts_header)
+    @test occursin("upstream_apparent_kva", replay_header)
+    @test occursin("violation_bus", replay_header)
 end
