@@ -64,6 +64,9 @@ function mock_replay_with_failed_interval(data, local_t, capacities)
     global_index = data.indices[local_t]
     timestamp = string(data.profile.timestamps[global_index])
     if local_t == 1
+        # A failed interval carries poisoned extremes. The substation values are
+        # deliberately finite so the test proves the reductions exclude the whole
+        # untrustworthy row, not merely its non-finite fields.
         return (
             global_index=global_index, timestamp=timestamp,
             converged=false, phasor_recoverable=false, maximum_equation_residual=Inf,
@@ -71,23 +74,26 @@ function mock_replay_with_failed_interval(data, local_t, capacities)
             vmin_pu=NaN, vmin_bus=99, vmax_pu=NaN, vmax_bus=99,
             violation_pu=Inf, violation_type="nonconverged", violation_bus=0,
             load_multiplier=1.0, pv_factor=1.0,
-            substation_p_kw=-100.0, substation_q_kvar=25.0,
-            upstream_apparent_kva=hypot(100.0, 25.0),
+            substation_p_kw=-9999.0, substation_q_kvar=9999.0,
+            upstream_apparent_kva=99999.0,
             replay_passed=false, failure_reason="nonconverged",
         )
     end
     vmin = local_t == 2 ? 0.93 : 0.97
     vmax = local_t == 3 ? 1.06 : 1.02
+    p_kw = -100.0 - local_t
+    q_kvar = 20.0 + local_t
     return (
         global_index=global_index, timestamp=timestamp,
-        converged=true, phasor_recoverable=true, maximum_equation_residual=0.0,
-        maximum_scaled_residual=0.0,
+        converged=true, phasor_recoverable=true,
+        maximum_equation_residual=1e-9 * local_t,
+        maximum_scaled_residual=1e-10 * local_t,
         vmin_pu=vmin, vmin_bus=local_t == 2 ? 18 : 12,
         vmax_pu=vmax, vmax_bus=local_t == 3 ? 30 : 12,
         violation_pu=0.0, violation_type="", violation_bus=0,
         load_multiplier=1.0, pv_factor=1.0,
-        substation_p_kw=-100.0, substation_q_kvar=25.0,
-        upstream_apparent_kva=hypot(100.0, 25.0),
+        substation_p_kw=p_kw, substation_q_kvar=q_kvar,
+        upstream_apparent_kva=hypot(p_kw, q_kvar),
         replay_passed=true, failure_reason="",
     )
 end
@@ -116,6 +122,28 @@ end
     @test summary.maximum_voltage_timestamp == string(data.profile.timestamps[data.indices[3]])
     @test summary.minimum_voltage_bus != 99
     @test summary.maximum_voltage_bus != 99
+
+    # Sibling extremes must also exclude the failed interval. Intervals 2..6 carry
+    # p_kw = -100 - local_t and q_kvar = 20 + local_t, so the trustworthy extremes
+    # are fully determined and none of them may equal the poisoned values.
+    @test isfinite(summary.maximum_equation_residual)
+    @test summary.maximum_equation_residual == 1e-9 * 6
+    @test isfinite(summary.maximum_scaled_residual)
+    @test summary.maximum_scaled_residual == 1e-10 * 6
+    @test summary.minimum_substation_p_kw == -106.0
+    @test summary.maximum_substation_p_kw == -102.0
+    @test summary.minimum_substation_q_kvar == 22.0
+    @test summary.maximum_substation_q_kvar == 26.0
+    @test summary.maximum_upstream_apparent_kva == hypot(-106.0, 26.0)
+    @test summary.minimum_substation_p_kw != -9999.0
+    @test summary.maximum_substation_q_kvar != 9999.0
+    @test summary.maximum_upstream_apparent_kva != 99999.0
+
+    # Failure detection and violation accounting stay driven by all rows.
+    @test summary.replay_count == 6
+    @test !isfinite(summary.max_violation_pu)
+    @test summary.violating_count >= 1
+    @test summary.stop_reason == "replay_failure_limit"
 end
 
 @testset "S1-B boundary bracketing and direction validation" begin

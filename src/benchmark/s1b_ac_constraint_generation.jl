@@ -232,6 +232,12 @@ function _cg_sum_property(rows, name::Symbol)
     return any(!isfinite, values) ? NaN : sum(values)
 end
 
+function _cg_finite_extreme(reducer, rows, name::Symbol)
+    values = Float64[getproperty(row, name) for row in rows]
+    finite = filter(isfinite, values)
+    return isempty(finite) ? NaN : reducer(finite)
+end
+
 function _cg_start_summary(starts)
     return join((
         join((
@@ -435,9 +441,10 @@ function run_ac_constraint_generation(
         accepted_count = count(row -> row.accepted, starts)
         start_summary = _cg_start_summary(starts)
         maximum_violation = isempty(replay_rows) ? NaN : maximum(row.violation_pu for row in replay_rows)
-        finite_rows = [row for row in replay_rows if isfinite(row.vmin_pu) && isfinite(row.vmax_pu)]
-        min_row = isempty(finite_rows) ? nothing : argmin(row -> row.vmin_pu, finite_rows)
-        max_row = isempty(finite_rows) ? nothing : argmax(row -> row.vmax_pu, finite_rows)
+        trustworthy_rows = [row for row in replay_rows if isfinite(row.violation_pu) &&
+                            isfinite(row.vmin_pu) && isfinite(row.vmax_pu)]
+        min_row = isempty(trustworthy_rows) ? nothing : argmin(row -> row.vmin_pu, trustworthy_rows)
+        max_row = isempty(trustworthy_rows) ? nothing : argmax(row -> row.vmax_pu, trustworthy_rows)
         all_ranked = rank_replay_violations(replay_rows, Int[])
         worst_row = isempty(all_ranked) ? nothing : first(all_ranked)
         added_timestamps = join((
@@ -461,13 +468,13 @@ function run_ac_constraint_generation(
             worst_violation_type=worst_row === nothing ? "" : worst_row.violation_type,
             worst_violation_bus=worst_row === nothing ? 0 : worst_row.violation_bus,
             worst_violation_timestamp=worst_row === nothing ? "" : worst_row.timestamp,
-            maximum_equation_residual=isempty(replay_rows) ? NaN : maximum(row.maximum_equation_residual for row in replay_rows),
-            maximum_scaled_residual=isempty(replay_rows) ? NaN : maximum(row.maximum_scaled_residual for row in replay_rows),
-            minimum_substation_p_kw=isempty(replay_rows) ? NaN : minimum(row.substation_p_kw for row in replay_rows),
-            maximum_substation_p_kw=isempty(replay_rows) ? NaN : maximum(row.substation_p_kw for row in replay_rows),
-            minimum_substation_q_kvar=isempty(replay_rows) ? NaN : minimum(row.substation_q_kvar for row in replay_rows),
-            maximum_substation_q_kvar=isempty(replay_rows) ? NaN : maximum(row.substation_q_kvar for row in replay_rows),
-            maximum_upstream_apparent_kva=isempty(replay_rows) ? NaN : maximum(row.upstream_apparent_kva for row in replay_rows),
+            maximum_equation_residual=_cg_finite_extreme(maximum, trustworthy_rows, :maximum_equation_residual),
+            maximum_scaled_residual=_cg_finite_extreme(maximum, trustworthy_rows, :maximum_scaled_residual),
+            minimum_substation_p_kw=_cg_finite_extreme(minimum, trustworthy_rows, :substation_p_kw),
+            maximum_substation_p_kw=_cg_finite_extreme(maximum, trustworthy_rows, :substation_p_kw),
+            minimum_substation_q_kvar=_cg_finite_extreme(minimum, trustworthy_rows, :substation_q_kvar),
+            maximum_substation_q_kvar=_cg_finite_extreme(maximum, trustworthy_rows, :substation_q_kvar),
+            maximum_upstream_apparent_kva=_cg_finite_extreme(maximum, trustworthy_rows, :upstream_apparent_kva),
             solve_time_seconds=_cg_sum_property(starts, :solve_time_seconds),
             replay_time_seconds=replay_time_seconds,
             added_indices=join(additions, ';'), added_timestamps=added_timestamps,
