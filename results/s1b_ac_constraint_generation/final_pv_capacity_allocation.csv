@@ -1,0 +1,6 @@
+bus,capacity_kw,capacity_mw,status
+"13",733.6402572816077,0.7336402572816076,"independently_replay_feasible_local_solution"
+"20",4681.670271371973,4.681670271371973,"independently_replay_feasible_local_solution"
+"24",3988.773998169411,3.988773998169411,"independently_replay_feasible_local_solution"
+"30",1276.4003193304388,1.2764003193304387,"independently_replay_feasible_local_solution"
+"total",10680.484846153431,10.680484846153432,"independently_replay_feasible_local_solution"

@@ -1,0 +1,8 @@
+terminal_status=converged
+verification_passed=true
+interval_count=52608
+replay_failures=0
+voltage_violations=0
+active_set_monotone=true
+checkpoint_allocation_matches=true
+binding_reproducible=true
