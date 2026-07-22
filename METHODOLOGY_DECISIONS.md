@@ -36,3 +36,13 @@ The following decisions are locked for the central S1-B run.
   \]
 
 - **Open risk #2 — robust extension:** the planned budgeted-robust extension was built around SOCP and may become computationally or methodologically infeasible after moving to a nonconvex multi-scenario AC formulation. This risk must be prototyped on a small case before claiming that the original R0–R3 architecture remains viable.
+
+## S1-B exact-AC constraint-generation readiness (2026-07-22)
+
+- The independently confirmed one-day foundation remains a best stable AC-feasible **local** solution of 10.680484846 MW; all 13 starts passed independent replay. It is neither a global optimum nor a proven upper bound.
+- The production architecture uses a nonconvex branch-flow AC model for a balanced radial feeder, deterministic multi-start, and independent complex backward-forward-sweep replay. The common installed-capacity vector is shared by all active operating points.
+- The central label remains **voltage-only hosting capacity with unconstrained upstream exchange.** No defensible documented transformer/substation rating was found and no central `S_tr` limit is activated.
+- Synthetic bidirectional `S_tr` limits remain deferred to separately authorized and explicitly labeled sensitivity studies; they must not be presented as equipment data.
+- Detailed full-period replay/start tables and resumable checkpoints are local ignored artifacts; compact summaries, configurations, reports, code, and tests are committed under `docs/S1B_OUTPUT_RETENTION_POLICY.md`.
+- Ipopt remains a local nonlinear solver. Adding operating points can produce non-monotone accepted objectives across iterations, so every active set retains its own best independently replayed local result and no monotonic/global claim is made.
+- **Open robust-optimization risk:** scaling a budgeted-robust formulation over this nonconvex AC model may be computationally or methodologically infeasible. A small prototype and an explicit treatment of local-solution uncertainty are required before retaining any earlier R0–R3 architecture claim.

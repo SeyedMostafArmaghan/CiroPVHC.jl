@@ -1,0 +1,16 @@
+study = "S1-B full-period exact-AC constraint generation"
+model = "nonconvex branch-flow AC model for a balanced radial feeder"
+result_label = "voltage-only hosting capacity with unconstrained upstream exchange"
+validation_intervals = 52608
+batch_size = 3
+max_iterations = 20
+voltage_tolerance_pu = 1.0e-5
+maximum_replay_failures = 0
+resume = true
+multistart_seed = 20260721
+curtailment = false
+upstream_export_allowed = true
+site_cap_active = false
+thermal_constraints_active = false
+transformer_constraint_active = false
+global_optimum_claimed = false

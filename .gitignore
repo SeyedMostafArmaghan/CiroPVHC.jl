@@ -6,3 +6,9 @@ data_raw/ausgrid/
 .tmp-python/
 .pytest_cache/
 __pycache__/
+
+# S1-B exact-AC constraint generation: regenerable detailed checkpoints and solver scratch.
+/results/s1b_ac_constraint_generation/checkpoints/
+/results/s1b_ac_constraint_generation/solver_tmp/
+/results/s1b_ac_constraint_generation_smoke/checkpoints/
+/results/s1b_ac_constraint_generation_smoke/solver_tmp/

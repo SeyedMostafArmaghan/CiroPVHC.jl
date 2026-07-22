@@ -7,6 +7,7 @@ using Clarabel
 using Dates
 using Random
 using Printf
+using SHA
 
 const MOI = JuMP.MOI
 
@@ -38,16 +39,15 @@ end
 
 const ExactACState = CiroPVHC.S1BIndependentReplayState
 
-function load_benchmark_data(repository_root::AbstractString)
+function _load_benchmark_data(repository_root::AbstractString, indices::Vector{Int})
     profile = CiroPVHC.read_s1b_profile(joinpath(
         repository_root, "data_processed", "ausgrid", "ausgrid_halfhour_normalized.csv",
     ))
-    indices = findall(timestamp -> Date(timestamp) == BENCHMARK_DATE, profile.timestamps)
-    length(indices) == 48 || throw(ArgumentError(
-        "benchmark date $(BENCHMARK_DATE) must contain exactly 48 intervals; found $(length(indices))",
-    ))
-    all(diff(profile.timestamps[indices]) .== Minute(30)) ||
-        throw(ArgumentError("benchmark intervals are not contiguous half-hours"))
+    isempty(indices) && throw(ArgumentError("benchmark interval set must not be empty"))
+    all(index -> 1 <= index <= length(profile.timestamps), indices) ||
+        throw(ArgumentError("benchmark interval index is outside the profile"))
+    length(unique(indices)) == length(indices) ||
+        throw(ArgumentError("benchmark interval indices must be unique"))
     buses, branches = CiroPVHC.build_ieee33_network()
     topology = CiroPVHC._s0_unconstrained_topology(buses, branches; root_bus=1)
     bus_by_id = Dict(bus.id => bus for bus in buses)
@@ -72,6 +72,39 @@ function load_benchmark_data(repository_root::AbstractString)
         x_pu,
         base_power_kw,
         normalization_power_kw,
+    )
+end
+
+function load_benchmark_data(repository_root::AbstractString)
+    profile = CiroPVHC.read_s1b_profile(joinpath(
+        repository_root, "data_processed", "ausgrid", "ausgrid_halfhour_normalized.csv",
+    ))
+    indices = findall(timestamp -> Date(timestamp) == BENCHMARK_DATE, profile.timestamps)
+    length(indices) == 48 || throw(ArgumentError(
+        "benchmark date $(BENCHMARK_DATE) must contain exactly 48 intervals; found $(length(indices))",
+    ))
+    all(diff(profile.timestamps[indices]) .== Minute(30)) ||
+        throw(ArgumentError("benchmark intervals are not contiguous half-hours"))
+    return _load_benchmark_data(repository_root, indices)
+end
+
+function load_full_benchmark_data(repository_root::AbstractString)
+    profile = CiroPVHC.read_s1b_profile(joinpath(
+        repository_root, "data_processed", "ausgrid", "ausgrid_halfhour_normalized.csv",
+    ))
+    return _load_benchmark_data(repository_root, collect(eachindex(profile.timestamps)))
+end
+
+function subset_benchmark_data(data::BenchmarkData, indices::AbstractVector{<:Integer})
+    selected = Int.(indices)
+    isempty(selected) && throw(ArgumentError("benchmark interval subset must not be empty"))
+    length(unique(selected)) == length(selected) ||
+        throw(ArgumentError("benchmark interval subset must be unique"))
+    all(index -> index in data.indices, selected) ||
+        throw(ArgumentError("benchmark interval subset is outside the parent data set"))
+    return BenchmarkData(
+        data.profile, selected, data.buses, data.branches, data.topology,
+        data.r_pu, data.x_pu, data.base_power_kw, data.normalization_power_kw,
     )
 end
 
@@ -208,20 +241,21 @@ function validate_capacities(
     )
 end
 
-function _direction_limit(data::BenchmarkData, direction::Vector{Float64})
-    length(direction) == length(CANDIDATE_BUSES) || throw(ArgumentError("invalid direction"))
-    isapprox(sum(direction), 1.0; atol=1e-12) || throw(ArgumentError("direction must sum to one"))
-    all(x -> x >= 0.0, direction) || throw(ArgumentError("direction must be nonnegative"))
-    feasible(total_kw) = validate_capacities(
-        data,
-        Dict(bus => total_kw * direction[i] for (i, bus) in enumerate(CANDIDATE_BUSES));
-        voltage_tolerance_pu=0.0,
-    ).ac_feasible
+function _bisect_feasible_limit(
+    feasible,
+    initial_upper::Real;
+    max_doublings::Int=30,
+    bisections::Int=45,
+)
+    upper = Float64(initial_upper)
+    isfinite(upper) && upper > 0.0 ||
+        throw(ArgumentError("initial upper bound must be positive and finite"))
+    max_doublings >= 0 || throw(ArgumentError("max_doublings must be nonnegative"))
+    bisections >= 0 || throw(ArgumentError("bisections must be nonnegative"))
     lower = 0.0
-    upper = data.normalization_power_kw
     feasible(lower) || throw(ArgumentError("zero-PV benchmark state is infeasible"))
     bracketed = false
-    for _ in 1:30
+    for _ in 1:max_doublings
         if feasible(upper)
             lower = upper
             upper *= 2.0
@@ -231,9 +265,9 @@ function _direction_limit(data::BenchmarkData, direction::Vector{Float64})
         end
     end
     bracketed || throw(ArgumentError(
-        "failed to bracket an AC voltage boundary after 30 doublings; no model cap was added",
+        "failed to bracket an AC voltage boundary after $(max_doublings) doublings; no model cap was added",
     ))
-    for _ in 1:45
+    for _ in 1:bisections
         middle = (lower + upper) / 2.0
         if feasible(middle)
             lower = middle
@@ -241,7 +275,28 @@ function _direction_limit(data::BenchmarkData, direction::Vector{Float64})
             upper = middle
         end
     end
-    return lower
+    return (limit_kw=lower, feasible_lower_kw=lower, infeasible_upper_kw=upper)
+end
+
+function _validate_direction(direction::Vector{Float64})
+    length(direction) == length(CANDIDATE_BUSES) || throw(ArgumentError("invalid direction"))
+    all(isfinite, direction) || throw(ArgumentError("direction must be finite"))
+    isapprox(sum(direction), 1.0; atol=1e-12) || throw(ArgumentError("direction must sum to one"))
+    all(x -> x >= 0.0, direction) || throw(ArgumentError("direction must be nonnegative"))
+    return direction
+end
+
+function _direction_limit(data::BenchmarkData, direction::Vector{Float64})
+    _validate_direction(direction)
+    function feasible(total_kw)
+        validation = validate_capacities(
+        data,
+        Dict(bus => total_kw * direction[i] for (i, bus) in enumerate(CANDIDATE_BUSES));
+        voltage_tolerance_pu=0.0,
+        )
+        return validation.ac_feasible && validation.replay_passed
+    end
+    return _bisect_feasible_limit(feasible, data.normalization_power_kw).limit_kw
 end
 
 function multistart_directions(; seed::Int=MULTISTART_SEED)
@@ -474,28 +529,55 @@ function solve_ac_multistart(data::BenchmarkData, specs=multistart_specs(data))
     results = NamedTuple[]
     for (start_id, spec) in enumerate(specs)
         bundle = build_ac_opf_model(data)
-        initial_validation = initialize_ac_model!(bundle, data, spec.capacities_kw)
+        initial_validation = nothing
+        initialization_error = nothing
+        try
+            initial_validation = initialize_ac_model!(bundle, data, spec.capacities_kw)
+        catch error
+            initialization_error = sprint(showerror, error)
+        end
         started = time()
-        optimize!(bundle.model)
+        solver_error = nothing
+        if initialization_error === nothing
+            try
+                optimize!(bundle.model)
+            catch error
+                solver_error = sprint(showerror, error)
+            end
+        end
         elapsed = time() - started
-        status = string(termination_status(bundle.model))
-        primal = string(primal_status(bundle.model))
-        has_primal = try has_values(bundle.model) catch; false end
-        diagnostics = has_primal ? ac_solution_diagnostics(bundle, data) : nothing
+        status = initialization_error === nothing ?
+                 (solver_error === nothing ? string(termination_status(bundle.model)) : "SOLVER_ERROR") :
+                 "INITIALIZATION_FAILED"
+        primal = initialization_error === nothing && solver_error === nothing ?
+                 string(primal_status(bundle.model)) : "NO_SOLUTION"
+        has_primal = initialization_error === nothing && solver_error === nothing &&
+                     (try has_values(bundle.model) catch; false end)
+        diagnostics = nothing
+        diagnostics_error = nothing
+        if has_primal
+            try
+                diagnostics = ac_solution_diagnostics(bundle, data)
+            catch error
+                diagnostics_error = sprint(showerror, error)
+                status = "DIAGNOSTICS_ERROR"
+            end
+        end
         capacities = diagnostics === nothing ? Dict(bus => NaN for bus in CANDIDATE_BUSES) : diagnostics.capacities_kw
+        initial_capacity(i) = i <= length(spec.capacities_kw) ? spec.capacities_kw[i] : NaN
         push!(results, (
             start_id=start_id,
             start_name=spec.name,
             start_kind=spec.kind,
             seed=spec.seed,
-            initial_c13_kw=spec.capacities_kw[1],
-            initial_c20_kw=spec.capacities_kw[2],
-            initial_c24_kw=spec.capacities_kw[3],
-            initial_c30_kw=spec.capacities_kw[4],
+            initial_c13_kw=initial_capacity(1),
+            initial_c20_kw=initial_capacity(2),
+            initial_c24_kw=initial_capacity(3),
+            initial_c30_kw=initial_capacity(4),
             initial_total_kw=sum(spec.capacities_kw),
             initial_direction_limit_kw=spec.direction_limit_kw,
             initial_scale_fraction=spec.scale_fraction,
-            initial_ac_feasible=initial_validation.ac_feasible,
+            initial_ac_feasible=initial_validation === nothing ? false : initial_validation.ac_feasible,
             termination_status=status,
             primal_status=primal,
             objective_kw=diagnostics === nothing ? NaN : diagnostics.total_hc_kw,
@@ -514,8 +596,14 @@ function solve_ac_multistart(data::BenchmarkData, specs=multistart_specs(data))
             independent_replay_passed=diagnostics === nothing ? false : diagnostics.replay.replay_passed,
             accepted=diagnostics === nothing ? false : diagnostics.accepted && status in ("LOCALLY_SOLVED", "ALMOST_LOCALLY_SOLVED"),
             iterations=_iteration_count(bundle.model),
-            solve_time_seconds=isfinite(_solve_time(bundle.model)) ? _solve_time(bundle.model) : elapsed,
+            solve_time_seconds=if initialization_error !== nothing || solver_error !== nothing
+                elapsed
+            else
+                measured = _solve_time(bundle.model)
+                isfinite(measured) ? measured : elapsed
+            end,
             wall_time_seconds=elapsed,
+            error_message=something(initialization_error, solver_error, diagnostics_error, ""),
             diagnostics=diagnostics,
         ))
         @printf("AC start %d/%d %-28s status=%s HC=%.6f accepted=%s\n",
@@ -527,7 +615,12 @@ function solve_ac_multistart(data::BenchmarkData, specs=multistart_specs(data))
 end
 
 function best_ac_result(results)
-    accepted = [result for result in results if result.accepted]
+    accepted = [
+        result for result in results
+        if result.accepted &&
+           result.termination_status in ("LOCALLY_SOLVED", "ALMOST_LOCALLY_SOLVED") &&
+           result.independent_replay_passed && isfinite(result.objective_kw)
+    ]
     isempty(accepted) && return nothing
     return argmax(result -> result.objective_kw, accepted)
 end
@@ -713,12 +806,18 @@ function multistart_nonuniqueness(results; objective_tolerance_kw::Float64=0.1, 
     )
 end
 
+include("s1b_ac_constraint_generation.jl")
+
 export BenchmarkData,
     ExactACState,
     BENCHMARK_DATE,
     CANDIDATE_BUSES,
     PENALTY_LAMBDAS,
+    AC_VOLTAGE_TOL,
+    MULTISTART_SEED,
     load_benchmark_data,
+    load_full_benchmark_data,
+    subset_benchmark_data,
     effective_configuration,
     exact_ac_state,
     validate_capacities,
@@ -730,6 +829,11 @@ export BenchmarkData,
     ac_solution_diagnostics,
     solve_ac_multistart,
     best_ac_result,
+    ACConstraintGenerationConfig,
+    deterministic_seed_indices,
+    smoke_validation_indices,
+    rank_replay_violations,
+    run_ac_constraint_generation,
     solve_socp_penalty_sweep,
     multistart_nonuniqueness
 
