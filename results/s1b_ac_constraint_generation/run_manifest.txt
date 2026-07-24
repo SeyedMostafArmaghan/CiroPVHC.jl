@@ -1,5 +1,5 @@
 study=S1-B full-period exact-AC constraint generation
-source_commit=36a3c91f7f3a7d1bc24404fc7e884dadc6b075de
+source_commit=9b9616ea177fc39aaaaa0aca5f8b84cf16c8cccd
 source_working_tree_clean=false
 branch=codex/s1b-ac-vs-strengthened-socp
 production_command=julia --project=. scripts/run_s1b_ac_constraint_generation.jl --confirm-full-period
@@ -8,9 +8,9 @@ configuration_path=config\s1b_ac_constraint_generation_production.toml
 input_profile_path=data_processed\ausgrid\ausgrid_halfhour_normalized.csv
 input_profile_sha256=504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500
 interval_count=52608
-production_started_at_utc=2026-07-22T16:03:41.499
-production_finished_at_utc=2026-07-22T16:05:21.881
-verification_started_at_utc=2026-07-22T16:38:50.543
-verification_finished_at_utc=2026-07-22T16:38:58.263
+production_started_at_utc=2026-07-23T20:42:33.349
+production_finished_at_utc=2026-07-23T20:43:40.146
+verification_started_at_utc=2026-07-24T12:00:49.687
+verification_finished_at_utc=2026-07-24T12:00:55.104
 terminal_status=converged
-independent_verification_passed=true
+separate_replay_verification_passed=true

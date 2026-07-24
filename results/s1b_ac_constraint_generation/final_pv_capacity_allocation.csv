@@ -1,6 +1,6 @@
 bus,capacity_kw,capacity_mw,status
-"13",733.6402572816077,0.7336402572816076,"independently_replay_feasible_local_solution"
-"20",4681.670271371973,4.681670271371973,"independently_replay_feasible_local_solution"
-"24",3988.773998169411,3.988773998169411,"independently_replay_feasible_local_solution"
-"30",1276.4003193304388,1.2764003193304387,"independently_replay_feasible_local_solution"
-"total",10680.484846153431,10.680484846153432,"independently_replay_feasible_local_solution"
+"13",644.0813217195221,0.644081321719522,"separate_replay_feasible_local_solution"
+"20",-7.52767928949953e-9,-7.527679289499529e-12,"separate_replay_feasible_local_solution"
+"24",-7.595967722456592e-9,-7.595967722456592e-12,"separate_replay_feasible_local_solution"
+"30",-7.4011295272371066e-9,-7.401129527237107e-12,"separate_replay_feasible_local_solution"
+"total",644.0813216969973,0.6440813216969973,"separate_replay_feasible_local_solution"

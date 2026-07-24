@@ -25,6 +25,11 @@ const SOCP_AC_VOLTAGE_TOL = 1e-4
 const AC_RESIDUAL_TOL = 1e-5
 const MULTISTART_SEED = 20260721
 
+# Mirrors the `no_export_tol_kw` default of CiroPVHC.S2UnmanagedEVConfig (src/CiroPVHC.jl).
+# No new tolerance is introduced here; test_s1b_ac_constraint_generation.jl asserts
+# the two stay equal so a change on either side cannot drift silently.
+const NO_EXPORT_TOL_KW = 1e-3
+
 struct BenchmarkData
     profile::Any
     indices::Vector{Int}
@@ -108,15 +113,15 @@ function subset_benchmark_data(data::BenchmarkData, indices::AbstractVector{<:In
     )
 end
 
-function effective_configuration(data::BenchmarkData)
+function effective_configuration(data::BenchmarkData; no_export_active::Bool=false)
     return (
         date=BENCHMARK_DATE,
         interval_count=length(data.indices),
         candidate_buses=CANDIDATE_BUSES,
         shared_capacity_vector=true,
         curtailment_active=false,
-        export_allowed=true,
-        no_export_active=false,
+        export_allowed=!no_export_active,
+        no_export_active=no_export_active,
         site_cap_active=false,
         gamma_cap_active=false,
         thermal_constraints_active=false,
@@ -351,7 +356,53 @@ function multistart_specs(data::BenchmarkData; seed::Int=MULTISTART_SEED)
     return specs
 end
 
-function build_ac_opf_model(data::BenchmarkData; silent::Bool=true)
+"""
+    root_branch_ids(data::BenchmarkData)
+
+Branches whose upstream end is the substation bus. Upstream active power is the
+sum of their `P` flows, matching `substation_p = sum(branch_p[root_branches])` in
+`CiroPVHC.replay_s1b_interval`, so the optimization model and the independent
+replay read the substation through the same quantity.
+"""
+root_branch_ids(data::BenchmarkData) =
+    [data.topology.parent_branch[child] for child in data.topology.children[1]]
+
+"""
+    build_ac_opf_model(data; silent=true, no_export_active=false, no_export_tol_kw=NO_EXPORT_TOL_KW)
+
+Sign convention, which the no-export constraint depends on entirely. The bus
+power balance below reads
+
+    P[incoming, t] - r * ell[incoming, t] - child_p == (pd_kw * load - injection) / base_power_kw
+
+so `P[branch, t]` is the active flow travelling from the upstream end of the
+branch toward its downstream end: it is positive when power is delivered *into*
+the feeder. At the root branch that is import from the grid, and negative `P`
+is export. `CiroPVHC.replay_s1b_interval` forms `substation_p_kw` from exactly
+the same branch flows and documents the identical convention ("Positive
+`substation_p_kw` means import and negative means upstream export"), so model
+and replay agree by construction rather than by coincidence.
+
+With `no_export_active`, the constraint is therefore a *lower* bound on root
+active flow, and that bound is exactly zero.
+
+The bound is deliberately not relaxed by `no_export_tol_kw`. The objective
+maximises installed capacity, so the optimum always sits on this bound; if the
+model were allowed to export up to the tolerance, the independent replay -- which
+rejects export above the same tolerance -- would flag ordinary solver/replay
+numerical difference as a violation and constraint generation could never
+converge. The tolerance is therefore an *audit* tolerance belonging to the
+replay, applied in kW against `substation_p_kw`, which is also in kW. No kW
+quantity is ever placed next to a per-unit variable: the model bound is the
+dimensionless zero, and `no_export_tol_pu` below is reported for traceability
+only and is not used as the constraint bound.
+"""
+function build_ac_opf_model(
+    data::BenchmarkData;
+    silent::Bool=true,
+    no_export_active::Bool=false,
+    no_export_tol_kw::Float64=NO_EXPORT_TOL_KW,
+)
     model = Model(Ipopt.Optimizer)
     set_optimizer_attribute(model, "tol", 1e-9)
     set_optimizer_attribute(model, "constr_viol_tol", 1e-8)
@@ -400,12 +451,34 @@ function build_ac_opf_model(data::BenchmarkData; silent::Bool=true)
                 bus.qd_kvar * load_multiplier / data.base_power_kw)
         end
     end
+    # Hard no-export: upstream active power must not go negative in any interval.
+    # The bound is exactly 0.0 per unit -- see the docstring for why it is not
+    # relaxed by the audit tolerance. no_export_tol_pu is computed only so the
+    # evidence can record the audit tolerance in both unit systems.
+    no_export_tol_pu = no_export_tol_kw / data.base_power_kw
+    no_export_bound_pu = 0.0
+    root_branches = root_branch_ids(data)
+    no_export_constraints = JuMP.ConstraintRef[]
+    if no_export_active
+        for t in times
+            push!(no_export_constraints, @constraint(model,
+                sum(P[branch, t] for branch in root_branches) >= no_export_bound_pu))
+        end
+    end
     @objective(model, Max, sum(capacity_kw[bus] for bus in CANDIDATE_BUSES))
     return (
         model=model, capacity_kw=capacity_kw, P=P, Q=Q, v=v, ell=ell,
         exact_current_equality=true, interval_count=length(times),
         shared_capacity_variable_count=length(CANDIDATE_BUSES),
         computational_capacity_bound_active=false,
+        no_export_active=no_export_active,
+        no_export_tol_kw=no_export_tol_kw,
+        no_export_tol_pu=no_export_tol_pu,
+        no_export_bound_pu=no_export_bound_pu,
+        root_branches=root_branches,
+        # Counted from the model itself, so verification can confirm the constraint
+        # exists rather than trusting a configuration label.
+        no_export_constraint_count=length(no_export_constraints),
     )
 end
 
@@ -525,10 +598,17 @@ function ac_solution_diagnostics(bundle, data::BenchmarkData)
     )
 end
 
-function solve_ac_multistart(data::BenchmarkData, specs=multistart_specs(data))
+function solve_ac_multistart(
+    data::BenchmarkData,
+    specs=multistart_specs(data);
+    no_export_active::Bool=false,
+    no_export_tol_kw::Float64=NO_EXPORT_TOL_KW,
+)
     results = NamedTuple[]
     for (start_id, spec) in enumerate(specs)
-        bundle = build_ac_opf_model(data)
+        bundle = build_ac_opf_model(
+            data; no_export_active=no_export_active, no_export_tol_kw=no_export_tol_kw,
+        )
         initial_validation = nothing
         initialization_error = nothing
         try
@@ -823,6 +903,8 @@ export BenchmarkData,
     validate_capacities,
     multistart_directions,
     multistart_specs,
+    NO_EXPORT_TOL_KW,
+    root_branch_ids,
     build_ac_opf_model,
     build_socp_penalty_model,
     initialize_ac_model!,
@@ -833,6 +915,7 @@ export BenchmarkData,
     deterministic_seed_indices,
     smoke_validation_indices,
     rank_replay_violations,
+    select_constraint_additions,
     run_ac_constraint_generation,
     solve_socp_penalty_sweep,
     multistart_nonuniqueness

@@ -6,6 +6,8 @@ struct ACConstraintGenerationConfig
     maximum_replay_failures::Int
     resume::Bool
     seed::Int
+    no_export_active::Bool
+    no_export_tol_kw::Float64
 end
 
 function ACConstraintGenerationConfig(
@@ -16,15 +18,18 @@ function ACConstraintGenerationConfig(
     maximum_replay_failures::Int=0,
     resume::Bool=true,
     seed::Int=MULTISTART_SEED,
+    no_export_active::Bool=false,
+    no_export_tol_kw::Float64=NO_EXPORT_TOL_KW,
 )
     batch_size > 0 || throw(ArgumentError("batch_size must be positive"))
     max_iterations > 0 || throw(ArgumentError("max_iterations must be positive"))
     voltage_tolerance_pu >= 0.0 || throw(ArgumentError("voltage tolerance must be nonnegative"))
     maximum_replay_failures >= 0 ||
         throw(ArgumentError("maximum_replay_failures must be nonnegative"))
+    no_export_tol_kw >= 0.0 || throw(ArgumentError("no-export tolerance must be nonnegative"))
     return ACConstraintGenerationConfig(
         String(output_directory), batch_size, max_iterations, voltage_tolerance_pu,
-        maximum_replay_failures, resume, seed,
+        maximum_replay_failures, resume, seed, no_export_active, no_export_tol_kw,
     )
 end
 
@@ -68,14 +73,18 @@ function _cg_signature(data::BenchmarkData, config::ACConstraintGenerationConfig
         "$(index):$(data.profile.timestamps[index]):$(data.profile.load_multiplier[index]):$(data.profile.pv_profile[index])"
         for index in data.indices
     ), ';')))
+    # The policy flags are part of the signature: a checkpoint written under
+    # export-allowed must never be resumed by a no-export run, and vice versa.
     material = join((
-        "s1b-ac-constraint-generation-v1",
+        "s1b-ac-constraint-generation-v2",
         join(data.indices, ';'),
         profile_fingerprint,
         string(config.batch_size),
         string(config.voltage_tolerance_pu),
         string(config.maximum_replay_failures),
         string(config.seed),
+        string(config.no_export_active),
+        string(config.no_export_tol_kw),
     ), '|')
     return bytes2hex(sha256(material))
 end
@@ -141,6 +150,8 @@ const _CG_HISTORY_COLUMNS = (
     "iteration", "active_before", "active_after", "accepted_start_count",
     "best_start_name", "objective_kw", "c13_kw", "c20_kw", "c24_kw", "c30_kw",
     "replay_count", "replay_failure_count", "violating_count", "max_violation_pu",
+    "voltage_violating_count", "export_violating_count",
+    "maximum_export_violation_kw", "maximum_export_kw", "export_binding_interval_count",
     "minimum_voltage_pu", "minimum_voltage_bus", "minimum_voltage_timestamp",
     "maximum_voltage_pu", "maximum_voltage_bus", "maximum_voltage_timestamp",
     "worst_violation_type", "worst_violation_bus", "worst_violation_timestamp",
@@ -198,11 +209,14 @@ function _cg_read_history(config)
         integer_columns = Set((
             "iteration", "active_before", "active_after", "accepted_start_count",
             "replay_count", "replay_failure_count", "violating_count",
+            "voltage_violating_count", "export_violating_count",
+            "export_binding_interval_count",
             "minimum_voltage_bus", "maximum_voltage_bus", "worst_violation_bus",
         ))
         float_columns = Set((
             "objective_kw", "c13_kw", "c20_kw", "c24_kw", "c30_kw",
-            "max_violation_pu", "minimum_voltage_pu", "maximum_voltage_pu",
+            "max_violation_pu", "maximum_export_violation_kw", "maximum_export_kw",
+            "minimum_voltage_pu", "maximum_voltage_pu",
             "maximum_equation_residual", "maximum_scaled_residual",
             "minimum_substation_p_kw", "maximum_substation_p_kw",
             "minimum_substation_q_kvar", "maximum_substation_q_kvar",
@@ -258,6 +272,8 @@ function _cg_replay_interval(
     local_t::Int,
     capacities;
     voltage_tolerance_pu::Float64=AC_VOLTAGE_TOL,
+    no_export_active::Bool=false,
+    no_export_tol_kw::Float64=NO_EXPORT_TOL_KW,
 )
     state = exact_ac_state(data, local_t, capacities)
     finite_voltage = !isempty(state.voltage_pu) && all(isfinite, state.voltage_pu)
@@ -281,6 +297,15 @@ function _cg_replay_interval(
                      upper_excess > 0.0 ? "maximum_voltage" : ""
     violation_bus = violation_type == "minimum_voltage" ? state.minimum_voltage_bus :
                     violation_type == "maximum_voltage" ? state.maximum_voltage_bus : 0
+    # Export magnitude in kW. state.substation_p_kw is positive for import and
+    # negative for export (CiroPVHC.replay_s1b_interval docstring), the same
+    # convention the model's root-flow constraint uses, so negating it here gives
+    # export as a positive number. Kept in kW and never mixed with the per-unit
+    # voltage metric: the two violations stay separate quantities throughout.
+    export_kw = trustworthy ? -state.substation_p_kw : NaN
+    export_violation_kw = !trustworthy ? Inf :
+                          !no_export_active ? 0.0 :
+                          max(export_kw - no_export_tol_kw, 0.0)
     global_index = data.indices[local_t]
     return (
         global_index=global_index,
@@ -301,7 +326,9 @@ function _cg_replay_interval(
         substation_p_kw=state.substation_p_kw,
         substation_q_kvar=state.substation_q_kvar,
         upstream_apparent_kva=hypot(state.substation_p_kw, state.substation_q_kvar),
-        replay_passed=trustworthy && violation <= 0.0,
+        export_kw=export_kw,
+        export_violation_kw=export_violation_kw,
+        replay_passed=trustworthy && violation <= 0.0 && export_violation_kw <= 0.0,
         failure_reason=failure_reason,
     )
 end
@@ -317,6 +344,67 @@ function rank_replay_violations(replay_rows, active_indices)
     ))
     return candidates
 end
+
+_cg_export_violation(row) = _cg_property(row, :export_violation_kw, 0.0)
+
+"""
+    select_constraint_additions(replay_rows, active_indices, config)
+
+Deterministic choice of the intervals entering the active set this iteration.
+
+With `no_export_active`, two independent metrics are ranked separately and the
+worst offender of each category is taken: the largest `export_violation_kw` and
+the largest `violation_pu`. They are never normalised, summed, or weighted
+against each other, and neither category can starve the other — each gets one
+addition per iteration regardless of the other's magnitude. If a single interval
+is the worst on both counts it is added once. Untrustworthy intervals (non-finite
+metrics) rank ahead of both, because a failed replay must be resolved first.
+
+Ordering here is an implementation detail of how the active set grows. It carries
+no claim that either constraint outranks the other: both are hard constraints and
+the convergence gate treats them identically.
+
+Without `no_export_active` this reduces to the previous behaviour exactly:
+`rank_replay_violations` truncated at `batch_size`.
+"""
+function select_constraint_additions(replay_rows, active_indices, config)
+    if !config.no_export_active
+        ranked = rank_replay_violations(replay_rows, active_indices)
+        return [row.global_index for row in ranked[1:min(config.batch_size, length(ranked))]]
+    end
+    active = Set(active_indices)
+    candidates = [row for row in replay_rows if !(row.global_index in active) &&
+                  (!row.replay_passed || row.violation_pu > 0.0 ||
+                   _cg_export_violation(row) > 0.0)]
+    isempty(candidates) && return Int[]
+    worst_by(metric) = begin
+        pool = [row for row in candidates if !isfinite(metric(row)) || metric(row) > 0.0]
+        isempty(pool) ? nothing : first(sort(pool; by=row -> (
+            isfinite(metric(row)) ? 1 : 0,               # non-finite first
+            isfinite(metric(row)) ? -metric(row) : 0.0,  # then largest magnitude
+            row.global_index,                            # deterministic tie-break
+        )))
+    end
+    picks = Int[]
+    for row in (worst_by(_cg_export_violation), worst_by(row -> row.violation_pu))
+        row === nothing && continue
+        row.global_index in picks || push!(picks, row.global_index)
+    end
+    return picks
+end
+
+# Single source of truth for the per-interval replay schema. The verification
+# script reads this rather than keeping its own copy, so a column added here can
+# never be missing from the verification evidence.
+const CG_REPLAY_COLUMNS = (
+    "global_index", "timestamp", "converged", "phasor_recoverable",
+    "maximum_equation_residual", "maximum_scaled_residual",
+    "vmin_pu", "vmin_bus", "vmax_pu", "vmax_bus", "violation_pu",
+    "violation_type", "violation_bus", "load_multiplier", "pv_factor",
+    "substation_p_kw", "substation_q_kvar", "upstream_apparent_kva",
+    "export_kw", "export_violation_kw",
+    "replay_passed", "failure_reason",
+)
 
 function _cg_write_iteration_details(config, iteration, starts, replay_rows)
     directory = joinpath(config.output_directory, "checkpoints")
@@ -334,14 +422,7 @@ function _cg_write_iteration_details(config, iteration, starts, replay_rows)
     ) for row in starts]
     _cg_write_csv(joinpath(directory, "iteration_$(lpad(iteration, 3, '0'))_starts.csv"),
                   start_columns, start_rows)
-    replay_columns = (
-        "global_index", "timestamp", "converged", "phasor_recoverable",
-        "maximum_equation_residual", "maximum_scaled_residual",
-        "vmin_pu", "vmin_bus", "vmax_pu", "vmax_bus", "violation_pu",
-        "violation_type", "violation_bus", "load_multiplier", "pv_factor",
-        "substation_p_kw", "substation_q_kvar", "upstream_apparent_kva",
-        "replay_passed", "failure_reason",
-    )
+    replay_columns = CG_REPLAY_COLUMNS
     replay_values = [Tuple(getfield(row, Symbol(column)) for column in replay_columns)
                      for row in replay_rows]
     _cg_write_csv(joinpath(directory, "iteration_$(lpad(iteration, 3, '0'))_replay.csv"),
@@ -353,7 +434,13 @@ function run_ac_constraint_generation(
     config::ACConstraintGenerationConfig;
     initial_indices=deterministic_seed_indices(validation_data),
     spec_builder=multistart_specs,
-    solve_fn=solve_ac_multistart,
+    # The default solver carries the policy from the config, so the model that is
+    # solved and the replay that audits it are driven by the same flags.
+    solve_fn=(active_data, specs) -> solve_ac_multistart(
+        active_data, specs;
+        no_export_active=config.no_export_active,
+        no_export_tol_kw=config.no_export_tol_kw,
+    ),
     replay_fn=_cg_replay_interval,
 )
     mkpath(config.output_directory)
@@ -392,6 +479,9 @@ function run_ac_constraint_generation(
                 c13_kw=NaN, c20_kw=NaN, c24_kw=NaN, c30_kw=NaN,
                 replay_count=0, replay_failure_count=0, violating_count=0,
                 max_violation_pu=NaN, added_indices="", stop_reason=final_status,
+                voltage_violating_count=0, export_violating_count=0,
+                maximum_export_violation_kw=NaN, maximum_export_kw=NaN,
+                export_binding_interval_count=0,
                 minimum_voltage_pu=NaN, minimum_voltage_bus=0, minimum_voltage_timestamp="",
                 maximum_voltage_pu=NaN, maximum_voltage_bus=0, maximum_voltage_timestamp="",
                 worst_violation_type="", worst_violation_bus=0, worst_violation_timestamp="",
@@ -414,16 +504,22 @@ function run_ac_constraint_generation(
         replay_started = time()
         replay_rows = replay_fn === _cg_replay_interval ?
             [replay_fn(validation_data, local_t, capacities;
-                       voltage_tolerance_pu=config.voltage_tolerance_pu)
+                       voltage_tolerance_pu=config.voltage_tolerance_pu,
+                       no_export_active=config.no_export_active,
+                       no_export_tol_kw=config.no_export_tol_kw)
              for local_t in eachindex(validation_data.indices)] :
             [replay_fn(validation_data, local_t, capacities)
              for local_t in eachindex(validation_data.indices)]
         replay_time_seconds = time() - replay_started
         failures = count(row -> !isfinite(row.violation_pu), replay_rows)
-        violating = count(row -> !row.replay_passed || row.violation_pu > 0.0, replay_rows)
-        ranked = rank_replay_violations(replay_rows, active_indices)
+        # Two independent counts. The gate below requires both to be zero; neither
+        # is weighted against the other, and neither can mask the other.
+        voltage_violating = count(row -> !row.replay_passed || row.violation_pu > 0.0, replay_rows)
+        export_violating = count(row -> _cg_export_violation(row) > 0.0, replay_rows)
+        violating = count(row -> !row.replay_passed || row.violation_pu > 0.0 ||
+                                 _cg_export_violation(row) > 0.0, replay_rows)
         additions = failures > config.maximum_replay_failures ? Int[] :
-                    [row.global_index for row in ranked[1:min(config.batch_size, length(ranked))]]
+                    select_constraint_additions(replay_rows, active_indices, config)
         append!(active_indices, additions)
         sort!(unique!(active_indices))
         stop_reason = ""
@@ -459,6 +555,16 @@ function run_ac_constraint_generation(
             c24_kw=capacities[24], c30_kw=capacities[30],
             replay_count=length(replay_rows), replay_failure_count=failures,
             violating_count=violating, max_violation_pu=maximum_violation,
+            voltage_violating_count=voltage_violating,
+            export_violating_count=export_violating,
+            maximum_export_violation_kw=_cg_finite_extreme(
+                maximum, trustworthy_rows, :export_violation_kw,
+            ),
+            maximum_export_kw=_cg_finite_extreme(maximum, trustworthy_rows, :export_kw),
+            export_binding_interval_count=count(
+                row -> abs(_cg_property(row, :export_kw, NaN)) <= config.no_export_tol_kw,
+                trustworthy_rows,
+            ),
             minimum_voltage_pu=min_row === nothing ? NaN : min_row.vmin_pu,
             minimum_voltage_bus=min_row === nothing ? 0 : min_row.vmin_bus,
             minimum_voltage_timestamp=min_row === nothing ? "" : min_row.timestamp,

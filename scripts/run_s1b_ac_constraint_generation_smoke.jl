@@ -28,7 +28,7 @@ open(joinpath(OUTPUT_DIRECTORY, "smoke_report.md"), "w") do io
     println(io, "# S1-B AC constraint-generation smoke report")
     println(io)
     println(io, "- Classification: nonconvex branch-flow AC model for a balanced radial feeder.")
-    println(io, "- Result label: **voltage-only hosting capacity with unconstrained upstream exchange.**")
+    println(io, "- Result label: **$(config.no_export_active ? "voltage-band and no-export hosting capacity" : "voltage-only hosting capacity with unconstrained upstream exchange").**")
     println(io, "- Global optimum claimed: no.")
     println(io, "- Transformer or thermal hosting capacity claimed: no; no defensible substation rating is available.")
     println(io, "- Validation scope: $(length(data.indices)) half-hour intervals on $(join(dates, ", ")).")

@@ -56,6 +56,7 @@ function mock_replay(data, local_t, capacities)
         load_multiplier=1.0, pv_factor=1.0,
         substation_p_kw=-100.0, substation_q_kvar=25.0,
         upstream_apparent_kva=hypot(100.0, 25.0),
+        export_kw=100.0, export_violation_kw=0.0,
         replay_passed=violation == 0.0, failure_reason="",
     )
 end
@@ -76,6 +77,7 @@ function mock_replay_with_failed_interval(data, local_t, capacities)
             load_multiplier=1.0, pv_factor=1.0,
             substation_p_kw=-9999.0, substation_q_kvar=9999.0,
             upstream_apparent_kva=99999.0,
+            export_kw=NaN, export_violation_kw=Inf,
             replay_passed=false, failure_reason="nonconverged",
         )
     end
@@ -94,6 +96,7 @@ function mock_replay_with_failed_interval(data, local_t, capacities)
         load_multiplier=1.0, pv_factor=1.0,
         substation_p_kw=p_kw, substation_q_kvar=q_kvar,
         upstream_apparent_kva=hypot(p_kw, q_kvar),
+        export_kw=-p_kw, export_violation_kw=0.0,
         replay_passed=true, failure_reason="",
     )
 end
@@ -144,6 +147,129 @@ end
     @test !isfinite(summary.max_violation_pu)
     @test summary.violating_count >= 1
     @test summary.stop_reason == "replay_failure_limit"
+end
+
+@testset "S1-B no-export tolerance is bound to the repository tolerance" begin
+    # Not a restatement of the literal: the benchmark constant must equal the
+    # S2UnmanagedEVConfig default it mirrors, so a change on either side fails here.
+    @test S1BCG.NO_EXPORT_TOL_KW == S1BCG.CiroPVHC.S2UnmanagedEVConfig().no_export_tol_kw
+end
+
+@testset "S1-B no-export sign convention, units, and backward compatibility" begin
+    repository_root = normpath(joinpath(@__DIR__, ".."))
+    day = S1BCG.load_benchmark_data(repository_root)
+    one = S1BCG.subset_benchmark_data(day, [day.indices[25]])
+
+    # Backward compatibility: the default build is byte-identical in policy terms
+    # to the pre-change model — no no-export rows at all.
+    open_bundle = S1BCG.build_ac_opf_model(one)
+    @test open_bundle.no_export_active == false
+    @test open_bundle.no_export_constraint_count == 0
+    @test S1BCG.effective_configuration(one).export_allowed == true
+    @test S1BCG.effective_configuration(one).no_export_active == false
+
+    ne = S1BCG.build_ac_opf_model(one; no_export_active=true)
+    @test ne.no_export_active == true
+    @test ne.no_export_constraint_count == length(one.indices)
+    @test S1BCG.effective_configuration(one; no_export_active=true).export_allowed == false
+    @test S1BCG.effective_configuration(one; no_export_active=true).no_export_active == true
+
+    # Units: the model bound is the dimensionless zero, so no kW value is ever
+    # placed next to the per-unit variable P. The kW audit tolerance is reported
+    # in per unit too, and that conversion divides by base power rather than
+    # using the raw kW number.
+    @test ne.no_export_bound_pu == 0.0
+    @test ne.no_export_tol_pu == S1BCG.NO_EXPORT_TOL_KW / one.base_power_kw
+    @test ne.no_export_tol_pu != S1BCG.NO_EXPORT_TOL_KW
+    @test one.base_power_kw > 1.0
+    # The audit tolerance must never become the model bound: if it did, the
+    # optimum would sit on it and the replay would flag numerical noise forever.
+    @test ne.no_export_bound_pu != -ne.no_export_tol_pu
+
+    # Sign convention: root branch flow positive means import. With zero PV at a
+    # loaded interval the feeder must import, so substation_p_kw > 0 and the
+    # export magnitude used by the replay is its negation.
+    zero_caps = Dict(bus => 0.0 for bus in S1BCG.CANDIDATE_BUSES)
+    st = S1BCG.exact_ac_state(one, 1, zero_caps)
+    @test st.substation_p_kw > 0.0
+    @test S1BCG.root_branch_ids(one) == ne.root_branches
+    row = S1BCG._cg_replay_interval(one, 1, zero_caps; no_export_active=true)
+    @test row.export_kw == -st.substation_p_kw
+    @test row.export_kw < 0.0
+    @test row.export_violation_kw == 0.0
+    @test row.replay_passed
+end
+
+@testset "S1-B no-export constraint actually binds the optimum" begin
+    repository_root = normpath(joinpath(@__DIR__, ".."))
+    day = S1BCG.load_benchmark_data(repository_root)
+    peak_pv = day.indices[argmax(day.profile.pv_profile[day.indices])]
+    one = S1BCG.subset_benchmark_data(day, [peak_pv])
+
+    function solve_with(no_export)
+        bundle = S1BCG.build_ac_opf_model(one; no_export_active=no_export)
+        S1BCG.initialize_ac_model!(bundle, one, zeros(4))
+        optimize!(bundle.model)
+        caps = Dict(bus => value(bundle.capacity_kw[bus]) for bus in S1BCG.CANDIDATE_BUSES)
+        return caps, S1BCG.exact_ac_state(one, 1, caps)
+    end
+
+    open_caps, open_state = solve_with(false)
+    ne_caps, ne_state = solve_with(true)
+
+    # Without the constraint the optimum exports heavily at peak PV.
+    @test open_state.substation_p_kw < -1.0
+    # With it, the independently replayed upstream flow stays at or above zero
+    # within tolerance. This is the regression the whole change exists for.
+    @test ne_state.substation_p_kw >= -1.0
+    # And the constraint is genuinely active, not inert.
+    @test sum(values(ne_caps)) < sum(values(open_caps))
+
+    ne_row = S1BCG._cg_replay_interval(one, 1, ne_caps; no_export_active=true)
+    @test ne_row.export_violation_kw == 0.0
+    open_row = S1BCG._cg_replay_interval(one, 1, open_caps; no_export_active=true)
+    @test open_row.export_violation_kw > 0.0
+    @test !open_row.replay_passed
+    # Same capacities judged under the old policy must still pass: parameterising
+    # must not retroactively invalidate export-allowed results.
+    @test S1BCG._cg_replay_interval(one, 1, open_caps; no_export_active=false).replay_passed
+end
+
+@testset "S1-B addition selection keeps both categories independent" begin
+    mk(gi, vpu, ekw; passed=false) = (
+        global_index=gi, violation_pu=vpu, export_violation_kw=ekw,
+        replay_passed=passed,
+    )
+    open_config = S1BCG.ACConstraintGenerationConfig(mktempdir(); batch_size=3, no_export_active=false)
+    ne_config = S1BCG.ACConstraintGenerationConfig(mktempdir(); batch_size=3, no_export_active=true)
+
+    # Worst voltage and worst export are different intervals: one of each, and the
+    # voltage offender is not starved by the much larger export number.
+    rows = [
+        mk(2, 0.05, 0.0),
+        mk(3, 0.0, 900.0),
+        mk(4, 0.01, 10.0),
+        mk(5, 0.0, 0.0; passed=true),
+    ]
+    @test S1BCG.select_constraint_additions(rows, Int[], ne_config) == [3, 2]
+
+    # Same interval worst on both counts: added once, not twice.
+    both = [mk(7, 0.09, 500.0), mk(8, 0.01, 1.0)]
+    @test S1BCG.select_constraint_additions(both, Int[], ne_config) == [7]
+
+    # Already-active intervals are never re-added; the next-worst offender of the
+    # export category (interval 4) takes over, and the voltage pick is unaffected.
+    @test S1BCG.select_constraint_additions(rows, [3], ne_config) == [4, 2]
+    # With every export offender active, only the voltage category contributes.
+    @test S1BCG.select_constraint_additions(rows, [3, 4], ne_config) == [2]
+
+    # Untrustworthy intervals outrank both categories.
+    failed = [mk(9, Inf, Inf), mk(10, 0.5, 800.0)]
+    @test first(S1BCG.select_constraint_additions(failed, Int[], ne_config)) == 9
+
+    # Export-allowed mode reproduces the previous ranking behaviour exactly.
+    @test S1BCG.select_constraint_additions(rows, Int[], open_config) ==
+          [row.global_index for row in S1BCG.rank_replay_violations(rows, Int[])][1:3]
 end
 
 @testset "S1-B boundary bracketing and direction validation" begin
