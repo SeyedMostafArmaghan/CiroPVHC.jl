@@ -1,0 +1,12 @@
+siting_tag,share_bus13,share_bus20,share_bus24,share_bus30,configuration_type,equal_share
+13,1.0,0.0,0.0,0.0,single_bus,true
+20,0.0,1.0,0.0,0.0,single_bus,true
+24,0.0,0.0,1.0,0.0,single_bus,true
+30,0.0,0.0,0.0,1.0,single_bus,true
+13+20,0.5,0.5,0.0,0.0,multi_bus,true
+13+24,0.5,0.0,0.5,0.0,multi_bus,true
+13+30,0.5,0.0,0.0,0.5,multi_bus,true
+20+24,0.0,0.5,0.5,0.0,multi_bus,true
+20+30,0.0,0.5,0.0,0.5,multi_bus,true
+24+30,0.0,0.0,0.5,0.5,multi_bus,true
+13+20+24+30,0.25,0.25,0.25,0.25,multi_bus,true
