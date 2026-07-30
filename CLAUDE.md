@@ -50,6 +50,16 @@
   Do not write results to AppData\Local\Temp - Windows may delete it.
 - Ausgrid data is never modified: no deletion, no interpolation of DST intervals.
 
+## Independent physical-input verification
+- Any verification intended to validate physical model inputs must reconstruct
+  the bus-injection vector independently from primary inputs and canonical
+  source data, including installed capacity `H`, profile factor `f_t`, raw load
+  data, and external VPP injection commands. It must not use the main assembled
+  injection vector as its sole source. Agreement between two consumers of the
+  same assembly validates numerical consistency, not physical input correctness.
+- Independent replay and residual checks remain necessary, but they do not
+  replace independent reconstruction of physical inputs.
+
 ## Claims discipline
 - Never claim global optimality. Multistart gives clusters, not proofs.
 - The full-period replay uses the same validated AC replay engine; it is a
