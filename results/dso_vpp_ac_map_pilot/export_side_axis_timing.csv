@@ -1,0 +1,2 @@
+computation_base_commit,timing_scope,evaluation_count,wall_seconds,total_allocated_bytes,total_gc_time_ms
+ae24e08180cf154c3c49b136d5babc5f190b6a0c,"scan orchestration including assembly, primary AC solve, independent replay, residual audit, classification, evaluator bookkeeping, and CSV-row construction; excludes artifact file I/O",3691,15.3498603,540029155,1210.6643
