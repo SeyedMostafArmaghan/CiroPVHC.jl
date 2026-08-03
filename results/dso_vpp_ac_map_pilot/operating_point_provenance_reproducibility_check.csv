@@ -1,0 +1,9 @@
+file,scientific_mismatches,byte_identical,excluded_fields
+operating_point_provenance_neighbor_rows.csv,0,true,
+operating_point_provenance_phaseb_audit_comparison.csv,0,true,
+operating_point_provenance_coefficient_reconstruction.csv,0,true,
+operating_point_provenance_numeric_occurrences.csv,0,true,
+operating_point_provenance_path_audit.csv,0,true,
+operating_point_provenance_summary.csv,0,true,
+operating_point_provenance_report.md,0,true,
+operating_point_provenance_manifest.csv,0,true,

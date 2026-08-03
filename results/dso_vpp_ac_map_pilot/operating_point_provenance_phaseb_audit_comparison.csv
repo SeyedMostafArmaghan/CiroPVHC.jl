@@ -1,0 +1,21 @@
+field,phase_b_value,analytical_audit_value,absolute_difference,relative_difference,source_call_path_provenance,classification
+canonical timestamp,2012-10-15 13:00:00,2012-10-15 13:00:00,,,data_processed/ausgrid/ausgrid_halfhour_normalized.csv SHA256=504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500; raw row data_row=40203;file_line=40204;date=2012-10-15;slot=26,EXACT_MATCH
+row identifier,data_row=40203;file_line=40204;date=2012-10-15;slot=26,data_row=40203;file_line=40204;date=2012-10-15;slot=26,,,data_processed/ausgrid/ausgrid_halfhour_normalized.csv SHA256=504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500; raw row data_row=40203;file_line=40204;date=2012-10-15;slot=26,EXACT_MATCH
+PV factor,0.91495687390211622,0.91495687390211622,0,0,data_processed/ausgrid/ausgrid_halfhour_normalized.csv SHA256=504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500; raw row data_row=40203;file_line=40204;date=2012-10-15;slot=26,EXACT_MATCH
+reference PV kW,777.71334281679879,777.71334281679879,0,0,850 * canonical PV factor at bus 13,EXACT_MATCH
+load multiplier,0.15594037439888725,0.15594037439888725,0,0,data_processed/ausgrid/ausgrid_halfhour_normalized.csv SHA256=504dfa1c4d037d7497caa330611b5bb45f9774a2b9a984443753c88cba3de500; raw row data_row=40203;file_line=40204;date=2012-10-15;slot=26,EXACT_MATCH
+P-load vector hash,005b502eaea71a65dff980d9b11fc59249111e9efdcc3941e3ab8838881763e6,005b502eaea71a65dff980d9b11fc59249111e9efdcc3941e3ab8838881763e6,,,canonical-text SHA-256; independent raw-file vector matches within declared absolute tolerance 1e-12 kW; independent hash=f19cba2e01803565a0ef0ed31289109be2200e2613eff7f2316dd0e3b7d033fb,EXACT_MATCH
+Q-load vector hash,20091698e5459f3d490985cd7279e052f022c7d7e95407053e1565c18ba7dd62,20091698e5459f3d490985cd7279e052f022c7d7e95407053e1565c18ba7dd62,,,canonical-text SHA-256; independent raw-file vector matches within declared absolute tolerance 1e-12 kvar; independent hash=d6f3626ad619c327e693ef1f5f7c6dba1b5c56003197df1369ad3e54fd585251,EXACT_MATCH
+reference-PV bus,13,13,0,0,Stage0.assemble_stage0_inputs,EXACT_MATCH
+reference-PV injection,777.71334281679879,777.71334281679879,0,0,independent raw-profile reconstruction=777.71334281679879,EXACT_MATCH
+VPP P13 command,0,0,0,0,zero-command baseline used by both provenance paths,EXACT_MATCH
+VPP P30 command,0,0,0,0,zero-command baseline used by both provenance paths,EXACT_MATCH
+VPP Q13 command,0,0,0,0,reactive VPP command fixed to zero,EXACT_MATCH
+VPP Q30 command,0,0,0,0,reactive VPP command fixed to zero,EXACT_MATCH
+complete 33-bus P-injection-vector hash,ad06151fb3e8b26036af367f3166a349de7d7625cc059ca350badbc7f3f821da,ad06151fb3e8b26036af367f3166a349de7d7625cc059ca350badbc7f3f821da,,,generation-minus-load convention; independent raw-file vector matches within declared absolute tolerance 1e-12 kW; independent hash=ad06151fb3e8b26036af367f3166a349de7d7625cc059ca350badbc7f3f821da,EXACT_MATCH
+complete 33-bus Q-injection-vector hash,31f57721572d62106cabfb82883e4c7d437d502a38ae3a20820a579616e55b77,31f57721572d62106cabfb82883e4c7d437d502a38ae3a20820a579616e55b77,,,generation-minus-load convention; independent raw-file vector matches within declared absolute tolerance 1e-12 kvar; independent hash=007d2fc17ddbad425b7b860250c16a28e88afcd4412e18ec3a1e5daca24b7fd9,EXACT_MATCH
+baseMVA,10,10,0,0,case33bw.m:17 and Stage0.BASE_MVA,EXACT_MATCH
+basekV,12.66,12.66,0,0,case33bw bus records,EXACT_MATCH
+vmax,1.05,1.05,0,0,Phase-B ScanConfig and analytical AuditConfig,EXACT_MATCH
+phase-specific P13 boundary/corner command,681.37054443399995,156.89470053621986,,,Phase-B one-axis safe endpoint versus analytical two-coordinate corner; not an exogenous operating-point field,NOT_APPLICABLE
+phase-specific P30 boundary/corner command,1739.5922851600001,1610.2756675516089,,,Phase-B one-axis safe endpoint versus analytical two-coordinate corner; not an exogenous operating-point field,NOT_APPLICABLE

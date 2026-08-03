@@ -1,0 +1,8 @@
+artifact,field,value,classification,rationale
+export_side_axis_evidence_manifest.csv,profile_input_path;network_input_path;runner_path,repository-relative fields,REPOSITORY_RELATIVE,Phase-B scientific manifest records no drive letter
+ac_anchored_linear_corner_audit_manifest.csv,profile_input_path;network_input_path;runner_path,repository-relative fields,REPOSITORY_RELATIVE,analytical-audit scientific manifest records no drive letter
+stage0_data_audit_corrected.csv,source_path;authoritative_points_path,D:\CiroPVHC.jl (legacy operational provenance),NONSCIENTIFIC_ABSOLUTE_PATH_EXCLUDED_FROM_REPRODUCIBILITY,scientific identity is supplied by adjacent SHA-256 fields; this repair-only artifact is not a production map
+_archived_stage0_missing_reference_pv_20260730T145810Z/stage0_data_audit.csv,source_path,D:\CiroPVHC.jl (invalid archived run),NONSCIENTIFIC_ABSOLUTE_PATH_EXCLUDED_FROM_REPRODUCIBILITY,archive is explicitly invalid for scientific use
+_archived_stage0_missing_reference_pv_20260730T145810Z/stage0_audit_report.md,Repository,D:\CiroPVHC.jl (invalid archived run),NONSCIENTIFIC_ABSOLUTE_PATH_EXCLUDED_FROM_REPRODUCIBILITY,archive is explicitly invalid for scientific use
+_archived_stage0_missing_reference_pv_20260730T145810Z/archive_manifest.csv,original_path;archived_path,repository-relative fields,REPOSITORY_RELATIVE,archive manifest paths are portable
+operating_point_provenance_*,all path fields,repository-relative fields,REPOSITORY_RELATIVE,scientific artifacts are byte-identical across output directories
