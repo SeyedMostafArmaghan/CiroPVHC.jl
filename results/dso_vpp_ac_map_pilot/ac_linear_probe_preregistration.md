@@ -118,3 +118,75 @@ The corner direction `theta*` is added as a required corner-focused direction fo
 No numerical base direction grid or compatible numerical perturbation spacing was specified in the original preregistration. Therefore this amendment does **not** invent a value of `delta`; the adjacent directions `theta*-delta` and `theta*+delta` remain unresolved for the later probe-design commit. Any later resolution must preserve the original grid and use the preregistered deterministic half-smallest-positive-spacing rule, physical clipping to `[0,pi/2]`, and angular deduplication tolerance `1e-12 rad`.
 
 **Pre-execution declaration:** no AC radial scan, LinDistFlow radial scan, intermediate-direction probe, or direction probe had been executed before this amendment. This amendment was informed only by the analytical AC-anchored linear diagnostic and not by any AC radial-probe result. It does not preregister or assert an AC result at the candidate corner.
+
+## Pre-execution Amendment 2 — Operating-point provenance and continuous metrics
+
+**Amendment date:** 2026-08-03. This is an additive amendment. It does not delete, replace, amend in place, or reinterpret the original preregistration or Amendment 1.
+
+### Operating-point resolution
+
+The deterministic provenance audit classified the discrepancy as **`ADJACENT_TIMESTAMP_HISTORICAL_TEXT_ERROR`**. The exact canonical value `0.9282211452522351` belongs to `2012-10-15 12:30:00` (slot 25). Both Phase B and the analytical audit instead select `2012-10-15 13:00:00` (slot 26), whose canonical PV factor is `0.9149568739021162`, by exact timestamp key. Their independently checked 33-bus load and signed injection vectors agree, and both scale active and reactive base loads by the same canonical multiplier. No production timestamp lookup or operating-point mismatch was found.
+
+Consequently, the following internally linear quantities remain valid: the exact linear quadrilateral, active set `{13,30}`, `Lambda_lin`, determinant, and condition number. The following mixed AC/linear quantities also remain internally valid at the aligned operating point: `g13`, `g30`, the two axis boundary squared-voltage residuals, and the normalized corner angle based on the committed Phase-B AC scales.
+
+### Exact linear-region result
+
+In the domain `P13 >= 0, P30 >= 0`, the AC-anchored LinDistFlow upper-voltage feasible set is exactly the quadrilateral with vertices
+
+```text
+O = (0, 0)
+A = (L13_linear, 0)
+C = (P13_star, P30_star)
+B = (0, L30_linear)
+```
+
+The proof basis is: unique bus-13 binding on axis 13; unique bus-30 binding on axis 30; all-bus feasibility at `C`; convexity of every affine voltage half-space; and intersection of the two active voltage constraints with the nonnegative axes. The nearest inactive constraint is bus 14, and its margin is recorded separately from the active/inactive separation in the provenance artifact.
+
+The closed-form metric remains
+
+```text
+Lambda_lin =
+    area(quadrilateral - axis-intercept triangle)
+    / area(axis-intercept triangle)
+```
+
+with the neutral name **additional linear feasible area beyond the axis-calibrated single-hyperplane triangle**. It must not be called DOSS capacity loss unless a separately demonstrated DOSS formulation constructs exactly that triangle.
+
+### Preregistered squared-voltage boundary residual
+
+For each valid future direction, define `epsilon_v(theta)` consistently as the approximation-boundary squared-voltage residual at the binding or declared near-binding voltage constraint, with the sign convention fixed in the future implementation before execution and reported explicitly. The direction-probe report must retain at minimum:
+
+```text
+mean epsilon_v
+minimum epsilon_v
+maximum epsilon_v
+range epsilon_v
+standard deviation epsilon_v
+coefficient of variation when numerically meaningful
+sign changes
+binding-bus identity
+```
+
+No isotropy or constant bias is asserted. The only prospective hypothesis is:
+
+> The two export-axis boundary squared-voltage residuals are numerically similar; the direction probe will test whether this persists at intermediate directions.
+
+### Preregistered area decomposition
+
+Using the same angular domain and quadrature rule for every term, define
+
+```text
+Lambda_plus =
+    integral max(r_AC(theta)^2 - r_triangle(theta)^2, 0) dtheta
+    / integral r_triangle(theta)^2 dtheta
+
+Lambda_minus =
+    integral max(r_triangle(theta)^2 - r_AC(theta)^2, 0) dtheta
+    / integral r_triangle(theta)^2 dtheta
+
+Lambda_net = Lambda_plus - Lambda_minus
+```
+
+`Lambda_plus` measures additional AC radial area beyond the reference triangle. `Lambda_minus` measures reference-triangle area lying outside the AC radial boundary. Their common denominator prevents cancellation ambiguity; the signed net is reported only after both nonnegative components. No convexity of the AC region is assumed, and no numerical threshold may be selected after observing probe results.
+
+**Pre-execution declaration:** no AC radial scan, LinDistFlow radial scan, intermediate-direction probe, direction probe, DOE, optimization, or prohibited downstream model was executed for this provenance audit or this amendment.
