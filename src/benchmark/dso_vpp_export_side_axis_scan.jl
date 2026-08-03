@@ -731,7 +731,9 @@ function topology_coefficient(network, candidate_bus, injection_bus)
     candidate_path = Set(radial_path_branch_ids(network, candidate_bus))
     injection_path = Set(radial_path_branch_ids(network, injection_bus))
     common = intersect(candidate_path, injection_path)
-    return 2 * sum(real(network.impedance_pu[branch]) for branch in common)
+    return 2 * sum(
+        branch -> real(network.impedance_pu[branch]), common; init=0.0,
+    )
 end
 
 function parse_bus_set(value)
