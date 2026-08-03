@@ -78,3 +78,43 @@ V_i^{AC}\!\left(t,r_{\mathrm{approx}},\theta\right).
 Future reporting must retain every buswise `Delta V_i` and may additionally summarize its maximum absolute value and corresponding bus. Unresolved nonconvergent rays are excluded from both primary quantitative metrics and reported separately by status.
 
 Area is a secondary descriptive metric and is not part of the primary go/no-go gate. No numerical conclusion, acceptance threshold, LinDistFlow result, intermediate-direction result, or radial-probe result is preregistered here.
+
+## Pre-execution Amendment 1 — Analytically Identified Linear-Corner Directions
+
+**Amendment date:** 2026-07-31. This section is an additive amendment. It does not delete, replace, or reinterpret the original preregistration above.
+
+### Locked provenance and analytical method
+
+- Original preregistration commit: `79d92dce83a41cc0407897b78afa43d6252cd70f`.
+- Phase-B commit: `24138a3423875d1c58f814b8f448cebdd8287383`.
+- Capacity source: the Git blob `24138a3423875d1c58f814b8f448cebdd8287383:results/dso_vpp_ac_map_pilot/export_side_axis_capacity_bounds.csv`.
+- Committed capacity CSV SHA-256: `79ae1cd38ca705399babfa104e4f14c75f18d9bed4ecd4cd5b4b99d044a6af92`.
+- Fixed scales remain `s13 = 681.370544434 kW` and `s30 = 1739.59228516 kW`.
+- Limiting timestamp: `2012-10-15 13:00:00`.
+- Exact linear-model variant: **`AC_ANCHORED_LINDISTFLOW`**. For every voltage-constrained bus `j`, the audit used the squared-voltage headroom `Delta v_j = 1.05^2 - abs2(V_j^AC(0))` from the corrected AC fixed-injection solution at `P13_VPP=P30_VPP=0`, with the committed timestamp-dependent load and PV factors, `H=850 kW` reference PV at bus 13, and zero reactive commands. It then constructed `c_jk = 2 sum r_e` over the common root paths for `k in {13,30}`, ranked `Delta v_j/c_jk` over all 33 buses, solved the bus-13/bus-30 equality system, and evaluated every bus constraint at that intersection.
+- Coefficients at or below `1e-14` were non-controlling; axis ties used `1e-6 kW`; corner near-binding used `1e-10` in squared-voltage margin; the intersection condition-number threshold was `1e10`.
+
+### Analytical result fixed before probe execution
+
+- Axis 13 all-bus argmin: `{13}`, classified `LINEAR_AXIS_13_SELF_BINDS`.
+- Axis 30 all-bus argmin: `{30}`, classified `LINEAR_AXIS_30_SELF_BINDS`.
+- Full-envelope candidate classification: **`EXPOSED_LINEAR_CORNER_13_30`**.
+- Candidate coordinates: `P13* = 156.894700536220 kW`, `P30* = 1610.27566755161 kW`.
+- Full-envelope active/near-binding set: `{13,30}`; no third bus was active within the declared tolerance and no all-bus constraint was violated.
+- Fixed normalized corner direction:
+
+\[
+\theta^*=
+\operatorname{atan2}\!\left(
+\frac{1610.27566755161}{1739.59228516},
+\frac{156.894700536220}{681.370544434}
+\right)
+=1.32698958614415\ \mathrm{rad}
+=76.0309027438716^\circ.
+\]
+
+The corner direction `theta*` is added as a required corner-focused direction for the later normalized radial-probe design. The reason is prospective and structural: the complete analytical all-bus envelope identified a unique exposed intersection of the bus-13 and bus-30 upper-voltage constraints, which the coordinate rays alone cannot interrogate.
+
+No numerical base direction grid or compatible numerical perturbation spacing was specified in the original preregistration. Therefore this amendment does **not** invent a value of `delta`; the adjacent directions `theta*-delta` and `theta*+delta` remain unresolved for the later probe-design commit. Any later resolution must preserve the original grid and use the preregistered deterministic half-smallest-positive-spacing rule, physical clipping to `[0,pi/2]`, and angular deduplication tolerance `1e-12 rad`.
+
+**Pre-execution declaration:** no AC radial scan, LinDistFlow radial scan, intermediate-direction probe, or direction probe had been executed before this amendment. This amendment was informed only by the analytical AC-anchored linear diagnostic and not by any AC radial-probe result. It does not preregister or assert an AC result at the candidate corner.
