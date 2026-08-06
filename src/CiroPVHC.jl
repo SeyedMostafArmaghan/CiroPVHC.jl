@@ -3,6 +3,7 @@ module CiroPVHC
 using Dates
 
 include("data/types.jl")
+include("data/interface_coordinates.jl")
 include("data/ieee33.jl")
 include("data/profiles.jl")
 include("data/resources.jl")
@@ -353,6 +354,30 @@ end
 
 export Bus,
     Branch,
+    InterfaceReactivePolicy,
+    UnityPowerFactor,
+    UNITY_POWER_FACTOR,
+    InterfaceDefinition,
+    InterfaceOperatingPoint,
+    CommandInjection,
+    AbsolutePCCInjection,
+    AggregateResourcePower,
+    InterfaceCoordinateTransform,
+    reactive_policy_name,
+    interface_reactive_power_kvar,
+    command_to_absolute,
+    absolute_to_command,
+    assemble_bus_net_active_demand_kw,
+    assemble_bus_net_reactive_demand_kvar,
+    AUDITED_PCC_TIMESTAMP,
+    AUDITED_REFERENCE_PV_CAPACITY_KW,
+    AUDITED_REFERENCE_PV_FACTOR,
+    AUDITED_REFERENCE_PV_INJECTION_KW,
+    REFERENCE_PV_OWNERSHIP,
+    REFERENCE_PV_CAPACITY_ACCOUNTING_STATUS,
+    BUS_13_CASE_LOAD_OWNERSHIP,
+    BUS_30_CASE_LOAD_OWNERSHIP,
+    audited_pilot_interface_transform,
     PVUnit,
     EVCS,
     BESS,
