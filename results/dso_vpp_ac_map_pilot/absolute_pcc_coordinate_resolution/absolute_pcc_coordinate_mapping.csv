@@ -1,0 +1,13 @@
+item,interface_id,bus_id,quantity_kind,implemented_equation_or_value,units,positive_meaning,ownership,coordinate_system,evidence
+audited operating point,ALL,13;30,InterfaceOperatingPoint,2012-10-15 13:00:00,timezone-naive timestamp,not applicable,fixed pilot anchor,ABSOLUTE_PCC_TRANSLATION,data_processed/ausgrid/ausgrid_halfhour_normalized.csv; operating_point_provenance_summary.csv
+bus-13 command,PCC_13,13,P_command,externally supplied incremental command,kW,incremental TVPP export,experimental command; not resource-derived P_agg,COMMAND_COORDINATES,src/benchmark/dso_vpp_ac_map_stage0.jl:89-116
+bus-30 command,PCC_30,30,P_command,externally supplied incremental command,kW,incremental TVPP export,experimental command; not resource-derived P_agg,COMMAND_COORDINATES,src/benchmark/dso_vpp_ac_map_stage0.jl:89-116
+bus-13 absolute interface,PCC_13,13,P_PCC_abs,P_PCC_13_abs=777.7133428167988+P_command_13,kW,TVPP export,reference PV plus experimental command,ABSOLUTE_PCC_COORDINATES,src/data/interface_coordinates.jl:command_to_absolute
+bus-30 absolute interface,PCC_30,30,P_PCC_abs,P_PCC_30_abs=P_command_30,kW,TVPP export,experimental command,ABSOLUTE_PCC_COORDINATES,src/data/interface_coordinates.jl:command_to_absolute
+audited baseline vector,PCC_13;PCC_30,13;30,P_PCC_base,"[777.7133428167988,0]",kW,TVPP export,850 kW reference PV is TVPP-owned,ABSOLUTE_PCC_COORDINATES,850*0.9149568739021162
+future aggregate resource power,ALL,data-driven,P_agg,resource-derived PV+EV+BESS aggregate; no pilot computation,kW,export positive; import negative,TVPP resource model,NOT_YET_MAPPED_TO_PCC,src/data/interface_coordinates.jl:AggregateResourcePower
+network active demand,ALL,data-driven,p_net,passive_DSO_load-sum(P_PCC_abs)-other_nonload_DSO_injections,kW,network consumption,DSO network model,NETWORK_COORDINATES,src/data/interface_coordinates.jl:assemble_bus_net_active_demand_kw
+bus-13 passive load,PCC_13,13,passive_DSO_load,60*load_multiplier,kW,network consumption,BUS_13_CASE_LOAD_IS_DSO_BACKGROUND,NETWORK_COORDINATES,src/data/ieee33.jl:17
+bus-30 passive load,PCC_30,30,passive_DSO_load,200*load_multiplier,kW,network consumption,BUS_30_CASE_LOAD_IS_DSO_BACKGROUND,NETWORK_COORDINATES,src/data/ieee33.jl:34
+interface reactive policy,PCC_13;PCC_30,13;30,Q_PCC,Q_PCC=kappa(P_PCC)=0,kvar,reactive export,UNITY_POWER_FACTOR,ABSOLUTE_PCC_COORDINATES,src/data/interface_coordinates.jl:UnityPowerFactor
+reference capacity accounting,PCC_13,13,planning H_13,total-versus-expansion accounting not selected,kW nameplate,not applicable,REFERENCE_PV_CAPACITY_ACCOUNTING_REQUIRES_FINAL_HC_FORMULATION_DECISION,UNRESOLVED_PLANNING_CHOICE,absolute_pcc_coordinate_resolution_report.md
