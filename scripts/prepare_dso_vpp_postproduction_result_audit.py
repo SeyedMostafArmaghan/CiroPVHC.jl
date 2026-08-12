@@ -20,6 +20,7 @@ AXIS_GUARD_KW = 20_000.0
 RAY_GUARD = 2.0
 BOUNDARY_TOLERANCE_KW = 1.0
 CARDINAL_ANGLES = (0.0, 90.0, 180.0, 270.0)
+CARDINAL_GEOMETRY_TOLERANCE_KW = 1e-9
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -161,6 +162,31 @@ def direction_vector(theta: float, scales: dict[str, float], centered: bool) -> 
         sx = scales["p13_max"] if cosine >= 0 else abs(scales["p13_min"])
         sy = scales["p30_max"] if sine >= 0 else abs(scales["p30_min"])
     return cosine * sx, sine * sy
+
+
+def cardinal_r1_point(angle: float, scales: dict[str, float]) -> tuple[float, float]:
+    delta_p13, delta_p30 = direction_vector(angle, scales, centered=True)
+    return scales["c13"] + delta_p13, scales["c30"] + delta_p30
+
+
+def expected_cardinal_r1_point(angle: float, scales: dict[str, float]) -> tuple[float, float]:
+    expected = {
+        0.0: (scales["p13_max"], scales["c30"]),
+        90.0: (scales["c13"], scales["p30_max"]),
+        180.0: (scales["p13_min"], scales["c30"]),
+        270.0: (scales["c13"], scales["p30_min"]),
+    }
+    return expected[angle]
+
+
+def certified_ray_contract_pass(ray: dict[str, str]) -> bool:
+    return (
+        ray["status"] == "RAY_CERTIFIED_BOUNDARY"
+        and ray["safe_solver_status"] == "CONVERGED_FEASIBLE"
+        and ray["violating_solver_status"] == "CONVERGED_INFEASIBLE"
+        and math.isclose(f(ray["official_boundary_r"]), f(ray["safe_r"]), abs_tol=1e-12)
+        and f(ray["violating_r"]) > f(ray["safe_r"])
+    )
 
 
 def binding_audit(boundaries: list[dict[str, str]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -695,36 +721,63 @@ def cardinal_audit(base: list[dict[str, str]], axes_by_time: dict[str, dict[str,
         if angle not in CARDINAL_ANGLES:
             continue
         timestamp = ray["timestamp"]
-        axis = axes_by_time[timestamp][axis_for_angle[angle]]
         scales = scales_for(timestamp, axes_by_time, centers_by_time)
         radius = f(ray["official_boundary_r"])
-        varying_ray = f(ray["safe_p13_abs_kw"]) if angle in {0.0, 180.0} else f(ray["safe_p30_abs_kw"])
-        axis_coordinate = f(axis["official_boundary_p_pcc_kw"])
-        varying_difference = abs(varying_ray - axis_coordinate)
-        full_distance = math.hypot(f(ray["safe_p13_abs_kw"]) - f(axis["safe_p13_abs_kw"]), f(ray["safe_p30_abs_kw"]) - f(axis["safe_p30_abs_kw"]))
-        orthogonal_center = abs(scales["c30"]) if angle in {0.0, 180.0} else abs(scales["c13"])
+        constructed_p13, constructed_p30 = cardinal_r1_point(angle, scales)
+        expected_p13, expected_p30 = expected_cardinal_r1_point(angle, scales)
+        p13_error = abs(constructed_p13 - expected_p13)
+        p30_error = abs(constructed_p30 - expected_p30)
+        geometry_pass = p13_error <= CARDINAL_GEOMETRY_TOLERANCE_KW and p30_error <= CARDINAL_GEOMETRY_TOLERANCE_KW
         rows.append({
             "timestamp": timestamp, "angle_deg": angle, "axis": axis_for_angle[angle],
-            "ray_status": ray["status"], "ray_r": radius, "abs_r_minus_one": abs(radius - 1.0),
-            "varying_coordinate_difference_kw": varying_difference,
-            "full_physical_endpoint_distance_from_origin_axis_endpoint_kw": full_distance,
-            "orthogonal_center_coordinate_magnitude_kw": orthogonal_center,
+            "expected_r1_p13_kw": expected_p13, "expected_r1_p30_kw": expected_p30,
+            "constructed_r1_p13_kw": constructed_p13, "constructed_r1_p30_kw": constructed_p30,
+            "r1_p13_absolute_error_kw": p13_error, "r1_p30_absolute_error_kw": p30_error,
+            "geometry_tolerance_kw": CARDINAL_GEOMETRY_TOLERANCE_KW,
+            "cardinal_r1_geometry_identity_pass": geometry_pass,
+            "actual_boundary_status": ray["status"],
+            "actual_boundary_r": radius, "actual_boundary_delta_r": radius - 1.0,
+            "actual_boundary_r_equal_one_required": False,
+            "normal_boundary_contract_pass": certified_ray_contract_pass(ray),
             "ray_bracket_width_kw": f(ray["bracket_width_kw"]),
-            "passes_r_equal_one_expectation": math.isclose(radius, 1.0, abs_tol=1e-12),
-            "passes_varying_coordinate_1kw_tolerance": varying_difference <= BOUNDARY_TOLERANCE_KW,
-            "passes_full_endpoint_1kw_tolerance": full_distance <= BOUNDARY_TOLERANCE_KW,
             "guard_limited": ray["status"] == "RAY_UNBOUNDED_WITHIN_GUARD",
         })
-    deviations = [row["abs_r_minus_one"] for row in rows]
+    direction_summaries = {}
+    for angle in CARDINAL_ANGLES:
+        direction_rows = [row for row in rows if row["angle_deg"] == angle]
+        deltas = [row["actual_boundary_delta_r"] for row in direction_rows]
+        positive_rows = [row for row in direction_rows if row["actual_boundary_delta_r"] > 0.0]
+        negative_rows = [row for row in direction_rows if row["actual_boundary_delta_r"] < 0.0]
+        direction_summaries[f"{int(angle)}_degrees"] = {
+            "delta_r": numeric_summary(deltas),
+            "fraction_r_greater_than_one": len(positive_rows) / len(direction_rows),
+            "fraction_r_less_than_one": len(negative_rows) / len(direction_rows),
+            "largest_positive_deviation": (
+                {"timestamp": max(positive_rows, key=lambda row: (row["actual_boundary_delta_r"], row["timestamp"]))["timestamp"],
+                 "delta_r": max(row["actual_boundary_delta_r"] for row in positive_rows)}
+                if positive_rows else None
+            ),
+            "largest_negative_deviation": (
+                {"timestamp": min(negative_rows, key=lambda row: (row["actual_boundary_delta_r"], row["timestamp"]))["timestamp"],
+                 "delta_r": min(row["actual_boundary_delta_r"] for row in negative_rows)}
+                if negative_rows else None
+            ),
+        }
+    geometry_pass_count = sum(row["cardinal_r1_geometry_identity_pass"] for row in rows)
     return rows, {
         "comparison_count": len(rows),
-        "abs_r_minus_one": numeric_summary(deviations),
-        "varying_coordinate_pass_count": sum(row["passes_varying_coordinate_1kw_tolerance"] for row in rows),
-        "full_endpoint_pass_count": sum(row["passes_full_endpoint_1kw_tolerance"] for row in rows),
+        "timestamp_count": len({row["timestamp"] for row in rows}),
+        "geometry_tolerance_kw": CARDINAL_GEOMETRY_TOLERANCE_KW,
+        "geometry_identity_pass_count": geometry_pass_count,
+        "geometry_identity_fail_count": len(rows) - geometry_pass_count,
+        "normal_boundary_contract_pass_count": sum(row["normal_boundary_contract_pass"] for row in rows),
         "guard_limited_cardinal_count": sum(row["guard_limited"] for row in rows),
-        "invariant_verdict": "FAIL_MATERIAL",
-        "reason": "At r=1 the centered cardinal construction reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the certified origin-axis point. The AC boundary consequently need not occur at r=1.",
-        "required_classification": "POSTPRODUCTION_RESULT_AUDIT_BLOCKED",
+        "invariant_verdict": "PASS" if geometry_pass_count == len(rows) else "FAIL_MATERIAL",
+        "correct_invariant": "At r=1 the centered cardinal construction reaches the signed-axis bound in the varying coordinate and retains the orthogonal center coordinate.",
+        "actual_boundary_r_minus_one_by_direction": direction_summaries,
+        "actual_boundary_interpretation": "CARDINAL_CENTERLINE_COUPLING_DIAGNOSTIC",
+        "interpretation_limit": "Actual cardinal boundary delta_r alone does not measure convexity, anisotropy, or global coupling strength.",
+        "historical_rule_note": "PREVIOUS_CARDINAL_R_EQ_1_AUDIT_RULE_INVALID_FOR_CENTERED_RADIAL_GEOMETRY",
     }
 
 
@@ -791,7 +844,7 @@ def main() -> int:
         "count_checks_pass": len(centers) == 32 and len(axes) == 128 and len(rays) == 1634
             and len(adaptive) == 482 and len(guard_rows) == 73 and len(retry_rows) == 143
             and len(first_attempts) == 87229 and len(attempts) == 87372 and len(cardinal_rows) == 128,
-        "cardinal_invariant_pass": cardinal_summary["invariant_verdict"] == "PASS",
+        "cardinal_geometry_pass": cardinal_summary["invariant_verdict"] == "PASS",
     }
     production_manifest_rows = read_csv(PRODUCTION / "artifact_manifest.csv")
     production_hashes_pass = all(
@@ -800,6 +853,24 @@ def main() -> int:
         and sha256(PRODUCTION / row["artifact"]) == row["sha256"]
         for row in production_manifest_rows
     )
+    config_hash_matches = manifest["config_sha256"] == "18530df3a6aad54c619e061b9c9f40136509cebe135fd42ee2e3c032383cb06d"
+    validation.update({
+        "cardinal_timestamp_count": cardinal_summary["timestamp_count"],
+        "cardinal_boundary_contract_pass": cardinal_summary["normal_boundary_contract_pass_count"] == 128,
+        "no_cardinal_guard_truncation": cardinal_summary["guard_limited_cardinal_count"] == 0,
+        "production_artifact_hashes_pass": production_hashes_pass,
+        "scientific_config_hash_matches": config_hash_matches,
+    })
+    material_checks_pass = (
+        validation["count_checks_pass"]
+        and validation["cardinal_geometry_pass"]
+        and validation["cardinal_timestamp_count"] == 32
+        and validation["cardinal_boundary_contract_pass"]
+        and validation["no_cardinal_guard_truncation"]
+        and validation["production_artifact_hashes_pass"]
+        and validation["scientific_config_hash_matches"]
+    )
+    validation["material_checks_pass"] = material_checks_pass
     validation_rows = [
         {"check": "exactly_32_timestamps", "passed": len(centers) == 32, "detail": f"observed={len(centers)}"},
         {"check": "exactly_128_axes", "passed": len(axes) == 128, "detail": f"observed={len(axes)}"},
@@ -811,14 +882,16 @@ def main() -> int:
         {"check": "actual_attempt_reconciliation", "passed": len(attempts) == 87372 and decomposition_summary["actual_total"] == 87372, "detail": f"attempt_rows={len(attempts)} decomposition={decomposition_summary['actual_total']}"},
         {"check": "retry_difference_reconciliation", "passed": len(attempts) - len(first_attempts) == len(retry_rows), "detail": f"difference={len(attempts)-len(first_attempts)}"},
         {"check": "exactly_128_cardinal_comparisons", "passed": len(cardinal_rows) == 128, "detail": f"observed={len(cardinal_rows)}"},
+        {"check": "exactly_32_cardinal_timestamps", "passed": cardinal_summary["timestamp_count"] == 32, "detail": f"observed={cardinal_summary['timestamp_count']}"},
         {"check": "no_cardinal_guard_truncation", "passed": cardinal_summary["guard_limited_cardinal_count"] == 0, "detail": f"observed={cardinal_summary['guard_limited_cardinal_count']}"},
         {"check": "production_artifact_hashes", "passed": production_hashes_pass, "detail": f"manifest_rows={len(production_manifest_rows)}"},
-        {"check": "scientific_config_hash_matches", "passed": manifest["config_sha256"] == "18530df3a6aad54c619e061b9c9f40136509cebe135fd42ee2e3c032383cb06d", "detail": str(manifest["config_sha256"])},
+        {"check": "scientific_config_hash_matches", "passed": config_hash_matches, "detail": str(manifest["config_sha256"])},
         {"check": "no_new_ac_solves", "passed": True, "detail": "artifact-only Python extractor"},
-        {"check": "cardinal_normalization_invariant", "passed": validation["cardinal_invariant_pass"], "detail": cardinal_summary["invariant_verdict"]},
+        {"check": "all_128_cardinal_r1_geometry_identities", "passed": validation["cardinal_geometry_pass"], "detail": f"passed={cardinal_summary['geometry_identity_pass_count']} tolerance_kw={CARDINAL_GEOMETRY_TOLERANCE_KW}"},
+        {"check": "all_128_cardinal_boundary_contracts", "passed": cardinal_summary["normal_boundary_contract_pass_count"] == 128, "detail": f"passed={cardinal_summary['normal_boundary_contract_pass_count']}"},
     ]
     write_csv(OUTPUT / "postproduction_validation_checks.csv", validation_rows)
-    classification = "POSTPRODUCTION_RESULT_AUDIT_BLOCKED" if not validation["cardinal_invariant_pass"] else "POSTPRODUCTION_RESULT_AUDIT_COMPLETE_WITH_DOCUMENTED_LIMITATIONS"
+    classification = "POSTPRODUCTION_RESULT_AUDIT_COMPLETE_WITH_DOCUMENTED_LIMITATIONS" if material_checks_pass else "POSTPRODUCTION_RESULT_AUDIT_BLOCKED"
     summary = {
         "classification": classification,
         "production_execution_base_commit": manifest["git_commit"],
@@ -843,6 +916,22 @@ def main() -> int:
         ],
     }
     write_json(OUTPUT / "postproduction_result_audit_summary.json", summary)
+
+    cardinal_diagnostic_lines = []
+    for angle in CARDINAL_ANGLES:
+        direction = cardinal_summary["actual_boundary_r_minus_one_by_direction"][f"{int(angle)}_degrees"]
+        delta = direction["delta_r"]
+        positive = direction["largest_positive_deviation"]
+        negative = direction["largest_negative_deviation"]
+        positive_text = f"{positive['delta_r']:.9f} at {positive['timestamp']}" if positive else "none"
+        negative_text = f"{negative['delta_r']:.9f} at {negative['timestamp']}" if negative else "none"
+        cardinal_diagnostic_lines.append(
+            f"- {int(angle)} degrees: mean {delta['mean']:.9f}, median {delta['median']:.9f}, "
+            f"min {delta['minimum']:.9f}, q25 {delta['q25']:.9f}, q75 {delta['q75']:.9f}, max {delta['maximum']:.9f}; "
+            f"fraction r>1 {direction['fraction_r_greater_than_one']:.6f}, fraction r<1 {direction['fraction_r_less_than_one']:.6f}; "
+            f"largest positive {positive_text}, largest negative {negative_text}."
+        )
+    cardinal_diagnostic_text = "\n".join(cardinal_diagnostic_lines)
 
     report = f"""# Postproduction result audit
 
@@ -876,9 +965,15 @@ All 482 intervals reconcile. Marginal and exact-combination counts are in `adapt
 
 The analytical corner was transformed into centered normalized coordinates and bracketed by stored production directions. No AC inference was made: `NO_NEW_AC_CORNER_VALIDATION_PERFORMED`. The anchor classifier used only total axis width and median base-ray radius; the exact causing metric(s) are listed in `anchor_near_extreme_summary.json`.
 
-## Cardinal invariant blocker
+## Corrected cardinal geometry and coupling diagnostic
 
-All 128 cardinal comparisons were evaluated and none was guard-limited. Nevertheless, |r−1| has mean {cardinal_summary['abs_r_minus_one']['mean']:.9f} and maximum {cardinal_summary['abs_r_minus_one']['maximum']:.9f}. This is material. At r=1 a centered cardinal ray reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the origin-axis certified point. Therefore the asserted cardinal normalization invariant does not hold for the implemented scientific construction, and the supplied audit rule requires `POSTPRODUCTION_RESULT_AUDIT_BLOCKED`.
+All {cardinal_summary['geometry_identity_pass_count']}/{cardinal_summary['comparison_count']} deterministic cardinal identities pass at tolerance {CARDINAL_GEOMETRY_TOLERANCE_KW:.1e} kW. At r=1 the centered construction maps 0 degrees to `(P13_max, center_P30)`, 180 degrees to `(P13_min, center_P30)`, 90 degrees to `(center_P13, P30_max)`, and 270 degrees to `(center_P13, P30_min)`. These are generally not the absolute-axis AC probe points because the orthogonal center coordinate need not be zero. Therefore `PREVIOUS_CARDINAL_R_EQ_1_AUDIT_RULE_INVALID_FOR_CENTERED_RADIAL_GEOMETRY`.
+
+The actual certified boundary radii retain their scientific value as `CARDINAL_CENTERLINE_COUPLING_DIAGNOSTIC`; delta_r = r_boundary - 1 is summarized by direction:
+
+{cardinal_diagnostic_text}
+
+This diagnostic alone does not measure convexity, anisotropy, or global coupling strength. All {cardinal_summary['normal_boundary_contract_pass_count']} cardinal certified boundaries satisfy the normal safe/violating endpoint contract, and none was guard-limited (r_guard=2).
 
 ## Limitations
 

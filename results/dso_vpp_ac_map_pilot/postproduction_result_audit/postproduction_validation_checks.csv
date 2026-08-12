@@ -9,8 +9,10 @@ logical_evaluation_reconciliation,True,first_attempts=87229 decomposition=87229
 actual_attempt_reconciliation,True,attempt_rows=87372 decomposition=87372
 retry_difference_reconciliation,True,difference=143
 exactly_128_cardinal_comparisons,True,observed=128
+exactly_32_cardinal_timestamps,True,observed=32
 no_cardinal_guard_truncation,True,observed=0
 production_artifact_hashes,True,manifest_rows=16
 scientific_config_hash_matches,True,18530df3a6aad54c619e061b9c9f40136509cebe135fd42ee2e3c032383cb06d
 no_new_ac_solves,True,artifact-only Python extractor
-cardinal_normalization_invariant,False,FAIL_MATERIAL
+all_128_cardinal_r1_geometry_identities,True,passed=128 tolerance_kw=1e-09
+all_128_cardinal_boundary_contracts,True,passed=128

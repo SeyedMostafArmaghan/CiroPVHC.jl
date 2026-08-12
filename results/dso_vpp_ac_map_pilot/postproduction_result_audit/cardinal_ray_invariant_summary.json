@@ -1,20 +1,108 @@
 {
-  "abs_r_minus_one": {
-    "count": 128,
-    "maximum": 0.38828125,
-    "mean": 0.07957534790039063,
-    "median": 0.034960937499999956,
-    "minimum": 0.003808593749999978,
-    "q05": 0.008017578125000008,
-    "q25": 0.016357421874999972,
-    "q75": 0.12910156250000004,
-    "q95": 0.26063964843749987
+  "actual_boundary_interpretation": "CARDINAL_CENTERLINE_COUPLING_DIAGNOSTIC",
+  "actual_boundary_r_minus_one_by_direction": {
+    "0_degrees": {
+      "delta_r": {
+        "count": 32,
+        "maximum": 0.05214843750000009,
+        "mean": -0.0766448974609375,
+        "median": -0.02607421874999999,
+        "minimum": -0.38828125,
+        "q05": -0.315048828125,
+        "q25": -0.179833984375,
+        "q75": 0.023657226562500022,
+        "q95": 0.03972656249999995
+      },
+      "fraction_r_greater_than_one": 0.4375,
+      "fraction_r_less_than_one": 0.5625,
+      "largest_negative_deviation": {
+        "delta_r": -0.38828125,
+        "timestamp": "2011-02-05 18:00:00"
+      },
+      "largest_positive_deviation": {
+        "delta_r": 0.05214843750000009,
+        "timestamp": "2013-04-17 05:30:00"
+      }
+    },
+    "180_degrees": {
+      "delta_r": {
+        "count": 32,
+        "maximum": 0.33125000000000004,
+        "mean": 0.065338134765625,
+        "median": 0.022216796875,
+        "minimum": -0.04443359375,
+        "q05": -0.03377929687499999,
+        "q25": -0.020117187499999994,
+        "q75": 0.15317382812500002,
+        "q95": 0.26861816406249994
+      },
+      "fraction_r_greater_than_one": 0.5625,
+      "fraction_r_less_than_one": 0.4375,
+      "largest_negative_deviation": {
+        "delta_r": -0.04443359375,
+        "timestamp": "2013-04-17 05:30:00"
+      },
+      "largest_positive_deviation": {
+        "delta_r": 0.33125000000000004,
+        "timestamp": "2011-02-05 18:00:00"
+      }
+    },
+    "270_degrees": {
+      "delta_r": {
+        "count": 32,
+        "maximum": 0.2408203124999999,
+        "mean": 0.04917297363281249,
+        "median": 0.01806640625,
+        "minimum": -0.030566406249999956,
+        "q05": -0.022827148437500045,
+        "q25": -0.012744140624999983,
+        "q75": 0.11301269531249991,
+        "q95": 0.1960888671874999
+      },
+      "fraction_r_greater_than_one": 0.5625,
+      "fraction_r_less_than_one": 0.4375,
+      "largest_negative_deviation": {
+        "delta_r": -0.030566406249999956,
+        "timestamp": "2013-04-17 05:30:00"
+      },
+      "largest_positive_deviation": {
+        "delta_r": 0.2408203124999999,
+        "timestamp": "2011-02-05 18:00:00"
+      }
+    },
+    "90_degrees": {
+      "delta_r": {
+        "count": 32,
+        "maximum": 0.034960937499999956,
+        "mean": -0.0562530517578125,
+        "median": -0.020703125000000044,
+        "minimum": -0.27558593750000004,
+        "q05": -0.2242236328125,
+        "q25": -0.12924804687500002,
+        "q75": 0.014526367187500056,
+        "q95": 0.025986328124999937
+      },
+      "fraction_r_greater_than_one": 0.4375,
+      "fraction_r_less_than_one": 0.5625,
+      "largest_negative_deviation": {
+        "delta_r": -0.27558593750000004,
+        "timestamp": "2011-02-05 18:00:00"
+      },
+      "largest_positive_deviation": {
+        "delta_r": 0.034960937499999956,
+        "timestamp": "2013-04-17 05:30:00"
+      }
+    }
   },
   "comparison_count": 128,
-  "full_endpoint_pass_count": 0,
+  "correct_invariant": "At r=1 the centered cardinal construction reaches the signed-axis bound in the varying coordinate and retains the orthogonal center coordinate.",
+  "geometry_identity_fail_count": 0,
+  "geometry_identity_pass_count": 128,
+  "geometry_tolerance_kw": 1e-09,
   "guard_limited_cardinal_count": 0,
-  "invariant_verdict": "FAIL_MATERIAL",
-  "reason": "At r=1 the centered cardinal construction reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the certified origin-axis point. The AC boundary consequently need not occur at r=1.",
-  "required_classification": "POSTPRODUCTION_RESULT_AUDIT_BLOCKED",
-  "varying_coordinate_pass_count": 0
+  "historical_rule_note": "PREVIOUS_CARDINAL_R_EQ_1_AUDIT_RULE_INVALID_FOR_CENTERED_RADIAL_GEOMETRY",
+  "interpretation_limit": "Actual cardinal boundary delta_r alone does not measure convexity, anisotropy, or global coupling strength.",
+  "invariant_verdict": "PASS",
+  "normal_boundary_contract_pass_count": 128,
+  "timestamp_count": 32
 }

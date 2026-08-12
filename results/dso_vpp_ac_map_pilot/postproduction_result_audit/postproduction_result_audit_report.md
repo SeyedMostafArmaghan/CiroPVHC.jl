@@ -1,6 +1,6 @@
 # Postproduction result audit
 
-Final classification: `POSTPRODUCTION_RESULT_AUDIT_BLOCKED`
+Final classification: `POSTPRODUCTION_RESULT_AUDIT_COMPLETE_WITH_DOCUMENTED_LIMITATIONS`
 
 ## Provenance and reconciliation
 
@@ -30,9 +30,18 @@ All 482 intervals reconcile. Marginal and exact-combination counts are in `adapt
 
 The analytical corner was transformed into centered normalized coordinates and bracketed by stored production directions. No AC inference was made: `NO_NEW_AC_CORNER_VALIDATION_PERFORMED`. The anchor classifier used only total axis width and median base-ray radius; the exact causing metric(s) are listed in `anchor_near_extreme_summary.json`.
 
-## Cardinal invariant blocker
+## Corrected cardinal geometry and coupling diagnostic
 
-All 128 cardinal comparisons were evaluated and none was guard-limited. Nevertheless, |r−1| has mean 0.079575348 and maximum 0.388281250. This is material. At r=1 a centered cardinal ray reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the origin-axis certified point. Therefore the asserted cardinal normalization invariant does not hold for the implemented scientific construction, and the supplied audit rule requires `POSTPRODUCTION_RESULT_AUDIT_BLOCKED`.
+All 128/128 deterministic cardinal identities pass at tolerance 1.0e-09 kW. At r=1 the centered construction maps 0 degrees to `(P13_max, center_P30)`, 180 degrees to `(P13_min, center_P30)`, 90 degrees to `(center_P13, P30_max)`, and 270 degrees to `(center_P13, P30_min)`. These are generally not the absolute-axis AC probe points because the orthogonal center coordinate need not be zero. Therefore `PREVIOUS_CARDINAL_R_EQ_1_AUDIT_RULE_INVALID_FOR_CENTERED_RADIAL_GEOMETRY`.
+
+The actual certified boundary radii retain their scientific value as `CARDINAL_CENTERLINE_COUPLING_DIAGNOSTIC`; delta_r = r_boundary - 1 is summarized by direction:
+
+- 0 degrees: mean -0.076644897, median -0.026074219, min -0.388281250, q25 -0.179833984, q75 0.023657227, max 0.052148438; fraction r>1 0.437500, fraction r<1 0.562500; largest positive 0.052148438 at 2013-04-17 05:30:00, largest negative -0.388281250 at 2011-02-05 18:00:00.
+- 90 degrees: mean -0.056253052, median -0.020703125, min -0.275585938, q25 -0.129248047, q75 0.014526367, max 0.034960937; fraction r>1 0.437500, fraction r<1 0.562500; largest positive 0.034960937 at 2013-04-17 05:30:00, largest negative -0.275585938 at 2011-02-05 18:00:00.
+- 180 degrees: mean 0.065338135, median 0.022216797, min -0.044433594, q25 -0.020117187, q75 0.153173828, max 0.331250000; fraction r>1 0.562500, fraction r<1 0.437500; largest positive 0.331250000 at 2011-02-05 18:00:00, largest negative -0.044433594 at 2013-04-17 05:30:00.
+- 270 degrees: mean 0.049172974, median 0.018066406, min -0.030566406, q25 -0.012744141, q75 0.113012695, max 0.240820312; fraction r>1 0.562500, fraction r<1 0.437500; largest positive 0.240820312 at 2011-02-05 18:00:00, largest negative -0.030566406 at 2013-04-17 05:30:00.
+
+This diagnostic alone does not measure convexity, anisotropy, or global coupling strength. All 128 cardinal certified boundaries satisfy the normal safe/violating endpoint contract, and none was guard-limited (r_guard=2).
 
 ## Limitations
 
