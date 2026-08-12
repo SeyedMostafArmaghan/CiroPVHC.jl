@@ -1,0 +1,137 @@
+schema_version = 1
+classification = "PRODUCTION_PROBE_PREREGISTERED_READY_FOR_REMOTE_BACKUP"
+production_probe_execution_authorized = false
+all_timestamps_dense = true
+
+[coordinates]
+active_power_coordinate = "ABSOLUTE_PHYSICAL_P_PCC_KW"
+export_sign = "POSITIVE"
+reactive_policy = "UNITY_POWER_FACTOR_INTERFACE_POLICY"
+q_pcc_kvar = 0.0
+resource_capability_defines_network_boundary = false
+
+[timestamp_policy_t1]
+selected_timestamp_count = 32
+mandatory_anchor = "2012-10-15 13:00:00"
+mandatory_anchor_slot = "SPRING_AFTERNOON_EXPORT"
+anchor_removed_from_rankings = true
+slot_count = 32
+slot_definition = "SEASON_X_DAYPART_X_EXPORT_IMPORT"
+all_timestamps_dense = true
+selector_inputs = ["LOAD_MULTIPLIER", "PV_FACTOR", "SEASON", "DAYPART", "TIMESTAMP_TIEBREAK"]
+forbidden_selector_inputs = ["AXIS_BOUND", "AC_RESULT", "BINDING_BUS", "BOUNDARY_RADIUS"]
+export_ranking = ["PV_FACTOR_DESC", "LOAD_MULTIPLIER_ASC", "TIMESTAMP_ASC"]
+import_ranking = ["LOAD_MULTIPLIER_DESC", "PV_FACTOR_ASC", "TIMESTAMP_ASC"]
+summer_months = [12, 1, 2]
+autumn_months = [3, 4, 5]
+winter_months = [6, 7, 8]
+spring_months = [9, 10, 11]
+night_slots = [0, 11]
+morning_slots = [12, 23]
+afternoon_slots = [24, 35]
+evening_slots = [36, 47]
+
+[axis_search_g1]
+axis_count_per_timestamp = 4
+axes = ["P13_POSITIVE", "P13_NEGATIVE", "P30_POSITIVE", "P30_NEGATIVE"]
+initial_step_pu = 0.01
+initial_step_kw = 100.0
+doubling_factor = 2.0
+hard_guard_pu = 2.0
+hard_guard_kw_absolute_per_axis = 20000.0
+hard_guard_semantics = "NUMERICAL_SEARCH_CAP_ONLY"
+coarse_step_divisor = 20
+coarse_extent_multiplier = 2.0
+coarse_sweep_required_before_bisection = true
+no_reentry_label = "NO_RE_ENTRY_DETECTED_AT_SWEEP_RESOLUTION_DELTA"
+reentry_label = "AXIS_REENTRY_DETECTED"
+guard_label = "AXIS_UNBOUNDED_WITHIN_GUARD"
+unresolved_label = "AXIS_UNRESOLVED"
+monotonicity_proven = false
+
+[center_policy_c1]
+tier_1 = "CENTER_TIER_1_AXIS_MIDPOINT"
+tier_1_requires_four_finite_valid_axes = true
+tier_1_formula = "C_EQUALS_COMPONENTWISE_MIDPOINT_OF_SIGNED_AXIS_LIMITS"
+tier_1_requires_ac_feasible = true
+tier_2 = "CENTER_TIER_2_CONTRACTED"
+tier_2_used_if_midpoint_infeasible = true
+tier_2_contractions = 20
+tier_2_formula = "C_J_EQUALS_2_POW_MINUS_J_TIMES_C0"
+tier_3 = "CENTER_TIER_3_ORIGIN"
+tier_3_used_if_no_contracted_center_is_feasible = true
+tier_3_point_kw = [0.0, 0.0]
+unresolved_label = "CENTER_UNRESOLVED"
+same_timestamp_s0_evidence_required = true
+
+[normalization]
+kind = "SIGN_SPECIFIC_AXIS_HALF_WIDTHS"
+angle_space = "NORMALIZED_COORDINATE_SPACE"
+physical_point_formula = "P_EQUALS_C_PLUS_R_TIMES_V"
+p13_positive_scale_formula = "P13_MAX_MINUS_C13"
+p13_negative_scale_formula = "C13_MINUS_P13_MIN"
+p30_positive_scale_formula = "P30_MAX_MINUS_C30"
+p30_negative_scale_formula = "C30_MINUS_P30_MIN"
+
+[ray_search_s1]
+coarse_step_normalized_r = 0.05
+guard_normalized_r = 2.0
+full_coarse_sweep_required_before_bisection = true
+no_reentry_label = "NO_RE_ENTRY_DETECTED_AT_SWEEP_RESOLUTION_DELTA"
+reentry_label = "RAY_REENTRY_DETECTED"
+method_review_label = "CENTERED_RADIAL_METHOD_REVIEW_REQUIRED"
+star_shapedness = "NOT_PROVEN"
+
+[direction_grid]
+base_direction_count_per_timestamp = 36
+base_spacing_degrees = 10.0
+minimum_angle_degrees = 0.0
+maximum_angle_exclusive_degrees = 360.0
+adaptive_levels = 1
+maximum_adaptive_directions_per_timestamp = 36
+maximum_total_directions_per_timestamp = 72
+adaptive_midpoint_triggers = ["BOUNDARY_MECHANISM_CHANGE", "BINDING_BUS_CHANGE", "NORMALIZED_RADIUS_DIFFERENCE_GT_10_PERCENT", "UNRESOLVED_NONCONVERGED_REENTRY_OR_GUARD_LIMITED_ENDPOINT"]
+manual_posthoc_angles_allowed = false
+
+[boundary_policy_b1]
+mechanisms = ["BINDING_VMAX", "BINDING_VMIN", "SWEEP_NONCONVERGED", "UNRESOLVED", "AXIS_UNBOUNDED_WITHIN_GUARD"]
+solver_statuses = ["CONVERGED_FEASIBLE", "CONVERGED_INFEASIBLE", "NONCONVERGED_FIRST_ATTEMPT", "NONCONVERGED_AFTER_RETRY", "UNRESOLVED"]
+required_diagnostics = ["BINDING_BUS", "BINDING_VOLTAGE", "VOLTAGE_MARGIN"]
+nonconvergence_means_infeasible = false
+
+[voltage_policy_v1]
+minimum_voltage_pu = 0.90
+maximum_voltage_pu = 1.05
+
+[aggregation_policy_a1]
+coordinate_space = "PHYSICAL_ABSOLUTE_P_PCC_COORDINATES"
+ray_by_ray_cross_timestamp_averaging_allowed = false
+normalized_theta_cross_timestamp_averaging_allowed = false
+direction_index_cross_timestamp_intersection_allowed = false
+cross_timestamp_lambda_allowed = false
+cross_timestamp_theta_star_allowed = false
+
+[stopping_and_replay]
+boundary_bracket_width_kw = 1.0
+endpoint_voltage_distance_pu = 1.0e-5
+replay_voltage_agreement_pu = 2.0e-5
+residual_tolerance = 1.0e-5
+maximum_bisection_refinements = 60
+retry_order = ["FLAT_START", "NEAREST_ACCEPTED_NEIGHBOR_START"]
+unresolved_points_interpolated = false
+
+[distribution_output_contract]
+required_fields = ["P13_POSITIVE_AXIS", "P13_NEGATIVE_AXIS", "P30_POSITIVE_AXIS", "P30_NEGATIVE_AXIS", "AXIS_WIDTHS", "CENTERS", "CENTER_TIERS", "BINDING_MECHANISMS", "BINDING_BUSES", "BOUNDARY_RADII", "RETRIES", "UNRESOLVED_COUNTS"]
+anchor_position_labels = ["EXTREME", "NEAR_EXTREME", "TYPICAL", "PLATEAU_REGION"]
+axis_bounds_are_output_analysis_only = true
+
+[execution]
+production_probe_enabled = false
+worker_processes = 8
+threads_per_worker = 1
+checkpoint_after_each_direction = true
+checkpoint_after_each_timestamp = true
+checkpoint_write = "ATOMIC"
+resume_required = true
+target_machine = "12_CPU_32_GB_RAM_VM"
+cluster_required = false
