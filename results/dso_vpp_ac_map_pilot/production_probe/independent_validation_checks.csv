@@ -1,0 +1,24 @@
+check,passed,detail
+exactly_32_timestamps,true,observed=32
+mandatory_anchor_exists,true,anchor_count=1
+no_duplicate_timestamp,true,unique=32
+four_signed_axes_each,true,axis_rows=128
+tier1_requires_four_finite_axes,true,finite-valid status checked
+invalid_axes_excluded_from_tier1,true,guard/unresolved/reentry excluded
+binding_mechanism_invariants,true,violating voltage and bus independently checked
+certified_endpoints_are_safe_and_violating,true,certified=1689
+official_coordinate_is_safe_endpoint,true,axis and ray reported coordinates checked
+no_nonconverged_bisection_endpoint,true,endpoint status fields checked
+two_endpoint_records_per_certified_boundary,true,groups=1689 endpoint_rows=3378
+endpoint_artifact_marks_only_safe_official,true,official flags checked
+retry_semantics,true,distinct nearest-neighbor retry checked
+evaluation_counts_match_manifest,true,attempts=87372 logical=87229
+base_angle_grid,true,36 cardinal-inclusive 10-degree angles
+adaptive_angles_justified,true,adaptive_rows=482
+maximum_72_directions,true,36 base plus <=36 adaptive
+no_unpreregistered_angle,true,base or triggered midpoint
+checkpoint_provenance_and_file_hashes,true,segments=32
+artifact_manifest_hashes,true,artifacts=16
+absolute_physical_cross_time_semantics,true,no cross-time normalized-direction aggregation validated
+no_ray_reentry,true,centered-radial fatal state absent
+normal_validation_also_passed,true,independent result compared with normal report

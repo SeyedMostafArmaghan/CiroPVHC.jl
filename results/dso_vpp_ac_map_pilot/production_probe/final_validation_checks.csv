@@ -1,0 +1,15 @@
+check,passed,detail
+exactly_32_timestamps,true,observed=32
+mandatory_anchor_exists,true,anchor_count=1
+no_duplicate_timestamps,true,unique=32
+four_signed_axes_each,true,required=4
+tier1_uses_four_finite_valid_axes,true,finite-valid=AXIS_CERTIFIED_BOUNDARY
+invalid_axes_excluded_from_tier1,true,guard/unresolved/reentry excluded
+binding_invariants,true,actual converged violation and bus required
+official_boundaries_are_safe_endpoints,true,last converged feasible
+no_nonconverged_bisection_endpoint,true,safe/violating certified
+adaptive_angles_justified,true,preregistered trigger list nonempty
+direction_count_cap,true,36 base and <=36 adaptive
+no_unpreregistered_angles,true,base grid plus triggered midpoints only
+physical_coordinate_cross_time_semantics,true,summaries use P13/P30 absolute axes; normalized directions are not averaged cross-time
+checkpoint_provenance_consistent,true,all loaded segments matched 18530df3a6aad54c619e061b9c9f40136509cebe135fd42ee2e3c032383cb06d
