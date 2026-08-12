@@ -1,0 +1,31 @@
+schema_version = 1
+classification = "PRODUCTION_PROBE_VERIFIED_READY_FOR_REMOTE_BACKUP"
+production_probe_executed = false
+push_performed = false
+semantic_amendment_made = true
+
+[git_before_audit]
+branch = "codex/dso-vpp-ac-map-pilot"
+head = "a6c0e515676a13be5b6bda5d183d38811506e55b"
+remote_tip = "d8e1bb0a7909711b4124f95673fb3a4802ae783a"
+behind = 0
+ahead = 7
+working_tree_clean = true
+
+[verification]
+v1_independent_s0 = true
+v2_finite_valid = true
+v3_anchor_replacement = true
+v4_boundary_state_machine = true
+v5_cost_provenance = true
+v6_semantic_labels = true
+near_axis_mandatory_refinement_added = false
+unresolved_scientific_blockers = 0
+
+[tests]
+python_passed = 15
+python_total = 15
+julia_passed = 137
+julia_total = 137
+preregistration_artifacts_reproduced = 6
+audit_artifacts_reproduced = 9

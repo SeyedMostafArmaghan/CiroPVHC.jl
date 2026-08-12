@@ -22,6 +22,8 @@ S0_PATH = ROOT / "results" / "s0_full_period_baseline" / "s0_interval_metrics.cs
 OUTPUT_DIR = ROOT / "results" / "dso_vpp_ac_map_pilot" / "production_probe_preregistration"
 CONFIG_PATH = ROOT / "config" / "dso_vpp_production_probe_preregistration.toml"
 TEST_PATH = ROOT / "test_python" / "test_prepare_dso_vpp_production_probe_preregistration.py"
+JULIA_CONTRACT_PATH = ROOT / "src" / "benchmark" / "dso_vpp_production_probe_contract.jl"
+JULIA_CONTRACT_TEST_PATH = ROOT / "test" / "test_dso_vpp_production_probe_contract.jl"
 
 ANCHOR = "2012-10-15 13:00:00"
 ANCHOR_SLOT = ("SPRING", "AFTERNOON", "EXPORT")
@@ -124,6 +126,44 @@ def rank_points(points: list[ProfilePoint], mode: str) -> list[ProfilePoint]:
     raise ValueError(f"unknown stress mode: {mode}")
 
 
+def semantic_category(point: ProfilePoint, mode: str) -> str:
+    """Describe the selected condition without overstating night PV export stress."""
+    if mode == "IMPORT":
+        return "HIGH_LOAD_IMPORT_ORIENTED"
+    if point.daypart == "NIGHT" and point.pv_factor == 0.0:
+        return "LOW_LOAD_ZERO_PV"
+    if point.daypart == "NIGHT":
+        return "NIGHT_NOMINAL_EXPORT_RANKING_NONZERO_PV"
+    return "PV_AVAILABILITY_LOAD_EXPORT_ORIENTED"
+
+
+def finite_valid_axis_status(status: str) -> bool:
+    """Numerical guards, unresolved searches, and re-entry are not finite bounds."""
+    return status == "AXIS_CERTIFIED_BOUNDARY"
+
+
+def valid_voltage_bracket(lower: dict[str, object], upper: dict[str, object]) -> bool:
+    """Require an ordered converged-feasible/converged-violating bracket."""
+    return (
+        float(lower["coordinate"]) < float(upper["coordinate"])
+        and lower["solver_status"] == "CONVERGED_FEASIBLE"
+        and float(lower["vmin_pu"]) >= 0.90
+        and float(lower["vmax_pu"]) <= 1.05
+        and upper["solver_status"] == "CONVERGED_INFEASIBLE"
+        and (float(upper["vmin_pu"]) < 0.90 or float(upper["vmax_pu"]) > 1.05)
+    )
+
+
+def binding_invariant(mechanism: str, endpoint: dict[str, object]) -> bool:
+    if endpoint["solver_status"] != "CONVERGED_INFEASIBLE":
+        return False
+    if mechanism == "BINDING_VMIN":
+        return float(endpoint["vmin_pu"]) < 0.90 and endpoint.get("vmin_bus") is not None
+    if mechanism == "BINDING_VMAX":
+        return float(endpoint["vmax_pu"]) > 1.05 and endpoint.get("vmax_bus") is not None
+    return False
+
+
 def select_timestamps(points: list[ProfilePoint]) -> list[dict[str, object]]:
     by_timestamp = {point.timestamp_text: point for point in points}
     assert ANCHOR in by_timestamp
@@ -167,6 +207,7 @@ def select_timestamps(points: list[ProfilePoint]) -> list[dict[str, object]]:
                         "load_multiplier": f"{choice.load_multiplier:.17g}",
                         "pv_factor": f"{choice.pv_factor:.17g}",
                         "selection_basis": basis,
+                        "semantic_category": semantic_category(choice, mode),
                         "mandatory_anchor": str(choice.timestamp_text == ANCHOR).lower(),
                         "dense_probe": "true",
                         "profile_row_sha256": choice.source_row_sha256,
@@ -279,6 +320,9 @@ resource_capability_defines_network_boundary = false
 selected_timestamp_count = 32
 mandatory_anchor = "{ANCHOR}"
 mandatory_anchor_slot = "SPRING_AFTERNOON_EXPORT"
+mandatory_anchor_replaces_mode = "EXPORT"
+mandatory_anchor_replacement_rule = "REPLACE_SPRING_AFTERNOON_EXPORT_RANKED_PICK_BEFORE_OTHER_SLOT_SELECTION"
+anchor_natural_rank_irrelevant = true
 anchor_removed_from_rankings = true
 slot_count = 32
 slot_definition = "SEASON_X_DAYPART_X_EXPORT_IMPORT"
@@ -287,6 +331,8 @@ selector_inputs = ["LOAD_MULTIPLIER", "PV_FACTOR", "SEASON", "DAYPART", "TIMESTA
 forbidden_selector_inputs = ["AXIS_BOUND", "AC_RESULT", "BINDING_BUS", "BOUNDARY_RADIUS"]
 export_ranking = ["PV_FACTOR_DESC", "LOAD_MULTIPLIER_ASC", "TIMESTAMP_ASC"]
 import_ranking = ["LOAD_MULTIPLIER_DESC", "PV_FACTOR_ASC", "TIMESTAMP_ASC"]
+semantic_category_field = "SEMANTIC_CATEGORY"
+zero_pv_night_export_category = "LOW_LOAD_ZERO_PV"
 summer_months = [12, 1, 2]
 autumn_months = [3, 4, 5]
 winter_months = [6, 7, 8]
@@ -313,6 +359,8 @@ reentry_label = "AXIS_REENTRY_DETECTED"
 guard_label = "AXIS_UNBOUNDED_WITHIN_GUARD"
 unresolved_label = "AXIS_UNRESOLVED"
 monotonicity_proven = false
+finite_valid_statuses = ["AXIS_CERTIFIED_BOUNDARY"]
+finite_invalid_statuses = ["AXIS_UNBOUNDED_WITHIN_GUARD", "AXIS_UNRESOLVED", "AXIS_REENTRY_DETECTED"]
 
 [center_policy_c1]
 tier_1 = "CENTER_TIER_1_AXIS_MIDPOINT"
@@ -346,6 +394,7 @@ no_reentry_label = "NO_RE_ENTRY_DETECTED_AT_SWEEP_RESOLUTION_DELTA"
 reentry_label = "RAY_REENTRY_DETECTED"
 method_review_label = "CENTERED_RADIAL_METHOD_REVIEW_REQUIRED"
 star_shapedness = "NOT_PROVEN"
+unresolved_label = "RAY_UNRESOLVED"
 
 [direction_grid]
 base_direction_count_per_timestamp = 36
@@ -357,12 +406,36 @@ maximum_adaptive_directions_per_timestamp = 36
 maximum_total_directions_per_timestamp = 72
 adaptive_midpoint_triggers = ["BOUNDARY_MECHANISM_CHANGE", "BINDING_BUS_CHANGE", "NORMALIZED_RADIUS_DIFFERENCE_GT_10_PERCENT", "UNRESOLVED_NONCONVERGED_REENTRY_OR_GUARD_LIMITED_ENDPOINT"]
 manual_posthoc_angles_allowed = false
+near_axis_mandatory_refinement = false
+near_axis_refinement_status = "CANDIDATE_PREPRODUCTION_AMENDMENT"
+near_axis_intervals_degrees = ["350-0", "0-10", "80-90", "90-100", "170-180", "180-190", "260-270", "270-280"]
+near_axis_decision = "BASE_AXES_AND_EXISTING_ADAPTIVE_TRIGGERS_RETAINED_NO_CONCRETE_BLOCKER_FOUND"
 
 [boundary_policy_b1]
 mechanisms = ["BINDING_VMAX", "BINDING_VMIN", "SWEEP_NONCONVERGED", "UNRESOLVED", "AXIS_UNBOUNDED_WITHIN_GUARD"]
 solver_statuses = ["CONVERGED_FEASIBLE", "CONVERGED_INFEASIBLE", "NONCONVERGED_FIRST_ATTEMPT", "NONCONVERGED_AFTER_RETRY", "UNRESOLVED"]
 required_diagnostics = ["BINDING_BUS", "BINDING_VOLTAGE", "VOLTAGE_MARGIN"]
 nonconvergence_means_infeasible = false
+valid_bracket_lower_status = "CONVERGED_FEASIBLE"
+valid_bracket_upper_status = "CONVERGED_INFEASIBLE"
+upper_endpoint_requires_actual_registered_constraint_violation = true
+nonconverged_endpoint_allowed_in_bisection = false
+feasible_to_nonconverged_axis_outcome = "AXIS_UNRESOLVED"
+feasible_to_nonconverged_ray_outcome = "RAY_UNRESOLVED"
+official_boundary_endpoint = "LAST_CONVERGED_FEASIBLE"
+interpolated_region_requires_independent_conservative_validation = true
+convexity_claimed = false
+
+[boundary_endpoint_storage]
+store_both_sides = true
+safe_endpoint_status = "CONVERGED_FEASIBLE"
+violating_endpoint_status = "CONVERGED_INFEASIBLE"
+required_fields = ["COORDINATE_OR_R", "P13_ABS_KW", "P30_ABS_KW", "VMIN_PU", "VMIN_BUS", "VMAX_PU", "VMAX_BUS", "SOLVER_STATUS"]
+
+[binding_invariants]
+binding_vmin_requires = ["CONVERGED_INFEASIBLE", "VMIN_LT_0_90", "NON_NULL_VMIN_BUS", "STORED_VMIN"]
+binding_vmax_requires = ["CONVERGED_INFEASIBLE", "VMAX_GT_1_05", "NON_NULL_VMAX_BUS", "STORED_VMAX"]
+numerical_bisection_stop_alone_may_assign_binding = false
 
 [voltage_policy_v1]
 minimum_voltage_pu = 0.90
@@ -383,6 +456,17 @@ replay_voltage_agreement_pu = 2.0e-5
 residual_tolerance = 1.0e-5
 maximum_bisection_refinements = 60
 retry_order = ["FLAT_START", "NEAREST_ACCEPTED_NEIGHBOR_START"]
+retry_operational_difference = "INITIALIZATION_STRATEGY"
+retry_requires_nearest_accepted_neighbor = true
+identical_flat_start_retry_allowed = false
+retry_unavailable_without_neighbor_outcome = "UNRESOLVED_AFTER_FIRST_ATTEMPT"
+primary_maximum_iterations_each_attempt = 2000
+primary_damping_each_attempt = 0.70
+primary_convergence_tolerance_each_attempt = 1.0e-11
+independent_replay_initialization = "FLAT_START"
+independent_replay_maximum_iterations = 4000
+independent_replay_convergence_tolerance = 1.0e-12
+physical_voltage_limits_changed_by_retry = false
 unresolved_points_interpolated = false
 
 [distribution_output_contract]
@@ -424,8 +508,8 @@ def cost_rows() -> list[dict[str, object]]:
             "search_count": searches,
             "estimated_evaluations_per_search": per_search,
             "estimated_ac_evaluations": evaluations,
-            "observed_ms_per_evaluation": f"{OBSERVED_MS_PER_EVALUATION:.4f}",
-            "estimated_serial_kernel_seconds": f"{serial_seconds:.3f}",
+            "empirical_aggregate_ms_per_evaluation": f"{OBSERVED_MS_PER_EVALUATION:.4f}",
+            "estimated_aggregate_equivalent_seconds": f"{serial_seconds:.3f}",
             "ideal_eight_worker_kernel_seconds": f"{serial_seconds / 8.0:.3f}",
             "note": note,
         }
@@ -456,9 +540,10 @@ The production probe is deliberately disabled and was not executed. This preregi
 - Exactly 32 unique timestamps are selected from 52,608 half-hourly profile rows.
 - All 32 timestamps are dense (`ALL_32_TIMESTAMPS_DENSE`).
 - The 32 slots are season x daypart x stress mode: four seasons, four dayparts, and one export plus one import selection per stratum.
-- `{ANCHOR}` is forced into the `SPRING/AFTERNOON/EXPORT` slot and removed from every ranking. The other 31 slots use only load, PV, season, daypart, and timestamp tie-breaking.
+- `{ANCHOR}` deterministically replaces the nominal ranked pick in the `SPRING/AFTERNOON/EXPORT` slot before any other slot is selected. Its natural rank is irrelevant. The other 31 slots exclude the anchor and use only load, PV, season, daypart, and timestamp tie-breaking; simple deduplication is not the replacement mechanism.
 - Export ranking is PV factor descending, load multiplier ascending, timestamp ascending. Import ranking is load multiplier descending, PV factor ascending, timestamp ascending.
 - The committed profile column `pv_profile` is the preregistered `pv_factor` input. No AC result, axis bound, binding bus, or boundary radius enters selection.
+- `semantic_category` separates the ranking label from scientific interpretation. In particular, a NIGHT export-ranked row with exactly zero PV is `LOW_LOAD_ZERO_PV`, not PV export stress.
 
 The anchor has load multiplier `{anchor['load_multiplier']}` and PV factor `{anchor['pv_factor']}` in the committed profile.
 
@@ -478,15 +563,20 @@ The historical 0.95 flag is evidence metadata only and is not the production vol
 - C1: signed-axis midpoint, then up to 20 dyadic contractions, then the same-timestamp S0 origin fallback.
 - S1: centered radial search with `delta_r=0.05`, `r_guard=2.0`, and a retained full coarse sweep before bisection.
 - Direction grid: 36 base directions at 10 degrees for every timestamp, one adaptive midpoint level, at most 36 adaptive and 72 total directions per timestamp.
-- B1/V1: nonconvergence is never infeasibility; boundary mechanisms and solver statuses remain separate; voltage band is exactly 0.90-1.05 p.u.
+- B1/V1: nonconvergence is never infeasibility. Bisection requires a converged-feasible lower endpoint and a converged-infeasible upper endpoint with an actual 0.90/1.05 voltage violation. A feasible-to-nonconverged transition is unresolved and cannot fabricate a bound.
+- Only `AXIS_CERTIFIED_BOUNDARY` is finite-valid. Guard-limited, unresolved, and re-entry-contaminated axes are finite-invalid and cannot enter a Tier-1 midpoint.
+- Retry changes initialization from flat start to the nearest accepted neighbor. If no accepted neighbor exists, an identical flat-start retry is forbidden and the failed search remains unresolved.
+- Both bracket endpoints retain coordinate/r, absolute P13/P30, voltage extrema and buses, and solver status. The official coordinate is the last converged-feasible endpoint; the violating endpoint supports binding classification.
+- `BINDING_VMIN` and `BINDING_VMAX` require a converged violating endpoint, an actual threshold violation, a non-null binding bus, and the stored violating voltage.
 - A1: every cross-time aggregation or intersection is performed in physical absolute `P_PCC` coordinates. Direction indices and normalized angles are not comparable across timestamps.
-- Absence of observed re-entry is reported only at the retained sweep resolution. Monotonicity, convexity, and star-shapedness remain unproven.
+- Absence of observed re-entry is reported only at the retained sweep resolution. Monotonicity, convexity, and star-shapedness remain unproven. Feasible sampled ray endpoints do not certify interpolated edges or polygons; later DOE construction requires independent conservative validation.
+- Mandatory near-axis refinement remains a candidate only. The four axes and their adjacent base-grid endpoints are sampled directly, while the existing mechanism/bus/radius/unresolved adaptive triggers remain active.
 
 ## Updated resource estimate
 
-The base-only plan is 66,304 fixed AC evaluations. Triggering all adaptive midpoints gives 125,056 evaluations; a planning allowance of 25% for deterministic retries gives 156,320. At the observed Phase-B orchestration rate of {OBSERVED_MS_PER_EVALUATION:.4f} ms/evaluation, those correspond to about 4.6, 8.7, and 10.8 minutes of serial evaluator kernel time, or ideal eight-worker kernels of about 35, 65, and 81 seconds.
+The base-only plan is 66,304 fixed AC evaluations. Triggering all adaptive midpoints gives 125,056 evaluations; a planning allowance of 25% for deterministic retries gives 156,320. The {OBSERVED_MS_PER_EVALUATION:.4f} ms/evaluation input is empirical aggregate throughput: 15.3498603 seconds divided by 3,691 evaluations from the serial, one-process, one-Julia-thread Phase-B orchestration benchmark. It is not a directly measured single-worker solve latency. Applying that aggregate rate gives equivalent elapsed times of about 4.6, 8.7, and 10.8 minutes; ideal eight-worker figures of about 35, 65, and 81 seconds are shown only as non-guaranteed scaling references.
 
-Allow 5-15 minutes end-to-end on the 12-CPU/32-GB VM for Julia startup, retained coarse samples, replay, atomic checkpoints, and deterministic merging. Use eight one-thread workers; expected RAM remains below 8 GB from the observed roughly 743 MiB worker footprint. The 31-core/126-GB cluster is not required. Plan for 20-50 MB of retained raw/checkpoint artifacts, with atomic direction- and timestamp-level resume points.
+The original 5-15 minute end-to-end estimate on the 12-CPU/32-GB VM is retained. It does not require an assumed parallel speedup because the hard-cap aggregate-rate extrapolation is about 8.7 minutes; eight one-thread workers are the execution plan but their speedup is uncertain. Expected RAM remains below 8 GB from the observed roughly 743 MiB process footprint. Plan for 20-50 MB of retained raw/checkpoint artifacts. The benchmark mixture may overrepresent feasible/easy evaluations and need not capture near-boundary, retry-heavy, or nonconvergent cost.
 
 These are estimates, not an executed benchmark of the production probe.
 
@@ -501,7 +591,7 @@ def build_artifacts() -> dict[Path, str]:
     evidence = extract_s0_evidence(selected)
     selected_fields = [
         "selection_index", "slot_index", "timestamp", "season", "daypart", "stress_mode",
-        "rank_within_slot", "load_multiplier", "pv_factor", "selection_basis", "mandatory_anchor",
+        "rank_within_slot", "load_multiplier", "pv_factor", "selection_basis", "semantic_category", "mandatory_anchor",
         "dense_probe", "profile_row_sha256",
     ]
     evidence_fields = [
@@ -513,7 +603,7 @@ def build_artifacts() -> dict[Path, str]:
     ]
     cost_fields = [
         "stage", "search_count", "estimated_evaluations_per_search", "estimated_ac_evaluations",
-        "observed_ms_per_evaluation", "estimated_serial_kernel_seconds",
+        "empirical_aggregate_ms_per_evaluation", "estimated_aggregate_equivalent_seconds",
         "ideal_eight_worker_kernel_seconds", "note",
     ]
     artifacts = {
@@ -528,6 +618,8 @@ def build_artifacts() -> dict[Path, str]:
         {"artifact": str(S0_PATH.relative_to(ROOT)).replace("\\", "/"), "role": "LOCKED_INPUT_NORMALIZED_TEXT", "sha256": sha256_normalized_text_file(S0_PATH)},
         {"artifact": str(Path(__file__).resolve().relative_to(ROOT)).replace("\\", "/"), "role": "DETERMINISTIC_GENERATOR_NORMALIZED_TEXT", "sha256": sha256_normalized_text_file(Path(__file__).resolve())},
         {"artifact": str(TEST_PATH.relative_to(ROOT)).replace("\\", "/"), "role": "FOCUSED_TEST_NORMALIZED_TEXT", "sha256": sha256_normalized_text_file(TEST_PATH)},
+        {"artifact": str(JULIA_CONTRACT_PATH.relative_to(ROOT)).replace("\\", "/"), "role": "PRODUCTION_BOUNDARY_CONTRACT_NORMALIZED_TEXT", "sha256": sha256_normalized_text_file(JULIA_CONTRACT_PATH)},
+        {"artifact": str(JULIA_CONTRACT_TEST_PATH.relative_to(ROOT)).replace("\\", "/"), "role": "PRODUCTION_BOUNDARY_CONTRACT_TEST_NORMALIZED_TEXT", "sha256": sha256_normalized_text_file(JULIA_CONTRACT_TEST_PATH)},
     ]
     for path, content in artifacts.items():
         manifest_rows.append(

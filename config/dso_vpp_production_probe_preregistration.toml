@@ -14,6 +14,9 @@ resource_capability_defines_network_boundary = false
 selected_timestamp_count = 32
 mandatory_anchor = "2012-10-15 13:00:00"
 mandatory_anchor_slot = "SPRING_AFTERNOON_EXPORT"
+mandatory_anchor_replaces_mode = "EXPORT"
+mandatory_anchor_replacement_rule = "REPLACE_SPRING_AFTERNOON_EXPORT_RANKED_PICK_BEFORE_OTHER_SLOT_SELECTION"
+anchor_natural_rank_irrelevant = true
 anchor_removed_from_rankings = true
 slot_count = 32
 slot_definition = "SEASON_X_DAYPART_X_EXPORT_IMPORT"
@@ -22,6 +25,8 @@ selector_inputs = ["LOAD_MULTIPLIER", "PV_FACTOR", "SEASON", "DAYPART", "TIMESTA
 forbidden_selector_inputs = ["AXIS_BOUND", "AC_RESULT", "BINDING_BUS", "BOUNDARY_RADIUS"]
 export_ranking = ["PV_FACTOR_DESC", "LOAD_MULTIPLIER_ASC", "TIMESTAMP_ASC"]
 import_ranking = ["LOAD_MULTIPLIER_DESC", "PV_FACTOR_ASC", "TIMESTAMP_ASC"]
+semantic_category_field = "SEMANTIC_CATEGORY"
+zero_pv_night_export_category = "LOW_LOAD_ZERO_PV"
 summer_months = [12, 1, 2]
 autumn_months = [3, 4, 5]
 winter_months = [6, 7, 8]
@@ -48,6 +53,8 @@ reentry_label = "AXIS_REENTRY_DETECTED"
 guard_label = "AXIS_UNBOUNDED_WITHIN_GUARD"
 unresolved_label = "AXIS_UNRESOLVED"
 monotonicity_proven = false
+finite_valid_statuses = ["AXIS_CERTIFIED_BOUNDARY"]
+finite_invalid_statuses = ["AXIS_UNBOUNDED_WITHIN_GUARD", "AXIS_UNRESOLVED", "AXIS_REENTRY_DETECTED"]
 
 [center_policy_c1]
 tier_1 = "CENTER_TIER_1_AXIS_MIDPOINT"
@@ -81,6 +88,7 @@ no_reentry_label = "NO_RE_ENTRY_DETECTED_AT_SWEEP_RESOLUTION_DELTA"
 reentry_label = "RAY_REENTRY_DETECTED"
 method_review_label = "CENTERED_RADIAL_METHOD_REVIEW_REQUIRED"
 star_shapedness = "NOT_PROVEN"
+unresolved_label = "RAY_UNRESOLVED"
 
 [direction_grid]
 base_direction_count_per_timestamp = 36
@@ -92,12 +100,36 @@ maximum_adaptive_directions_per_timestamp = 36
 maximum_total_directions_per_timestamp = 72
 adaptive_midpoint_triggers = ["BOUNDARY_MECHANISM_CHANGE", "BINDING_BUS_CHANGE", "NORMALIZED_RADIUS_DIFFERENCE_GT_10_PERCENT", "UNRESOLVED_NONCONVERGED_REENTRY_OR_GUARD_LIMITED_ENDPOINT"]
 manual_posthoc_angles_allowed = false
+near_axis_mandatory_refinement = false
+near_axis_refinement_status = "CANDIDATE_PREPRODUCTION_AMENDMENT"
+near_axis_intervals_degrees = ["350-0", "0-10", "80-90", "90-100", "170-180", "180-190", "260-270", "270-280"]
+near_axis_decision = "BASE_AXES_AND_EXISTING_ADAPTIVE_TRIGGERS_RETAINED_NO_CONCRETE_BLOCKER_FOUND"
 
 [boundary_policy_b1]
 mechanisms = ["BINDING_VMAX", "BINDING_VMIN", "SWEEP_NONCONVERGED", "UNRESOLVED", "AXIS_UNBOUNDED_WITHIN_GUARD"]
 solver_statuses = ["CONVERGED_FEASIBLE", "CONVERGED_INFEASIBLE", "NONCONVERGED_FIRST_ATTEMPT", "NONCONVERGED_AFTER_RETRY", "UNRESOLVED"]
 required_diagnostics = ["BINDING_BUS", "BINDING_VOLTAGE", "VOLTAGE_MARGIN"]
 nonconvergence_means_infeasible = false
+valid_bracket_lower_status = "CONVERGED_FEASIBLE"
+valid_bracket_upper_status = "CONVERGED_INFEASIBLE"
+upper_endpoint_requires_actual_registered_constraint_violation = true
+nonconverged_endpoint_allowed_in_bisection = false
+feasible_to_nonconverged_axis_outcome = "AXIS_UNRESOLVED"
+feasible_to_nonconverged_ray_outcome = "RAY_UNRESOLVED"
+official_boundary_endpoint = "LAST_CONVERGED_FEASIBLE"
+interpolated_region_requires_independent_conservative_validation = true
+convexity_claimed = false
+
+[boundary_endpoint_storage]
+store_both_sides = true
+safe_endpoint_status = "CONVERGED_FEASIBLE"
+violating_endpoint_status = "CONVERGED_INFEASIBLE"
+required_fields = ["COORDINATE_OR_R", "P13_ABS_KW", "P30_ABS_KW", "VMIN_PU", "VMIN_BUS", "VMAX_PU", "VMAX_BUS", "SOLVER_STATUS"]
+
+[binding_invariants]
+binding_vmin_requires = ["CONVERGED_INFEASIBLE", "VMIN_LT_0_90", "NON_NULL_VMIN_BUS", "STORED_VMIN"]
+binding_vmax_requires = ["CONVERGED_INFEASIBLE", "VMAX_GT_1_05", "NON_NULL_VMAX_BUS", "STORED_VMAX"]
+numerical_bisection_stop_alone_may_assign_binding = false
 
 [voltage_policy_v1]
 minimum_voltage_pu = 0.90
@@ -118,6 +150,17 @@ replay_voltage_agreement_pu = 2.0e-5
 residual_tolerance = 1.0e-5
 maximum_bisection_refinements = 60
 retry_order = ["FLAT_START", "NEAREST_ACCEPTED_NEIGHBOR_START"]
+retry_operational_difference = "INITIALIZATION_STRATEGY"
+retry_requires_nearest_accepted_neighbor = true
+identical_flat_start_retry_allowed = false
+retry_unavailable_without_neighbor_outcome = "UNRESOLVED_AFTER_FIRST_ATTEMPT"
+primary_maximum_iterations_each_attempt = 2000
+primary_damping_each_attempt = 0.70
+primary_convergence_tolerance_each_attempt = 1.0e-11
+independent_replay_initialization = "FLAT_START"
+independent_replay_maximum_iterations = 4000
+independent_replay_convergence_tolerance = 1.0e-12
+physical_voltage_limits_changed_by_retry = false
 unresolved_points_interpolated = false
 
 [distribution_output_contract]

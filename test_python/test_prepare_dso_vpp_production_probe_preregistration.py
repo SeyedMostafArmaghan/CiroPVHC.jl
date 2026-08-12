@@ -44,6 +44,13 @@ class ProductionProbePreregistrationTests(unittest.TestCase):
             MODULE.ANCHOR_SLOT,
         )
         self.assertEqual(anchor[0]["selection_basis"], "MANDATORY_REFERENCE_ANCHOR")
+        points = MODULE.load_profile()
+        anchor_point = next(point for point in points if point.timestamp_text == MODULE.ANCHOR)
+        stratum = [
+            point for point in points
+            if point.season == anchor_point.season and point.daypart == anchor_point.daypart
+        ]
+        self.assertNotEqual(MODULE.rank_points(stratum, "EXPORT")[0].timestamp_text, MODULE.ANCHOR)
 
     def test_export_and_import_ranking_rules(self):
         def point(timestamp, load, pv):
@@ -86,6 +93,12 @@ class ProductionProbePreregistrationTests(unittest.TestCase):
         self.assertEqual(config["direction_grid"]["maximum_total_directions_per_timestamp"], 72)
         self.assertEqual(config["voltage_policy_v1"]["minimum_voltage_pu"], 0.90)
         self.assertEqual(config["voltage_policy_v1"]["maximum_voltage_pu"], 1.05)
+        self.assertEqual(config["timestamp_policy_t1"]["mandatory_anchor_replaces_mode"], "EXPORT")
+        self.assertEqual(
+            config["boundary_policy_b1"]["official_boundary_endpoint"],
+            "LAST_CONVERGED_FEASIBLE",
+        )
+        self.assertFalse(config["direction_grid"]["near_axis_mandatory_refinement"])
 
     def test_transition_state_machine_detects_reentry(self):
         feasible = "CONVERGED_FEASIBLE"
@@ -103,6 +116,37 @@ class ProductionProbePreregistrationTests(unittest.TestCase):
             "UNRESOLVED",
         )
         self.assertEqual(MODULE.classify_transition([feasible, feasible]), "UNBOUNDED_WITHIN_GUARD")
+
+    def test_finite_valid_statuses_exclude_guards_unresolved_and_reentry(self):
+        self.assertTrue(MODULE.finite_valid_axis_status("AXIS_CERTIFIED_BOUNDARY"))
+        self.assertFalse(MODULE.finite_valid_axis_status("AXIS_UNBOUNDED_WITHIN_GUARD"))
+        self.assertFalse(MODULE.finite_valid_axis_status("AXIS_UNRESOLVED"))
+        self.assertFalse(MODULE.finite_valid_axis_status("AXIS_REENTRY_DETECTED"))
+
+    def test_valid_bracket_rejects_nonconvergence_and_nonviolating_upper(self):
+        safe = {"coordinate": 1, "solver_status": "CONVERGED_FEASIBLE",
+                "vmin_pu": 0.99, "vmax_pu": 1.04}
+        violating = {"coordinate": 2, "solver_status": "CONVERGED_INFEASIBLE",
+                     "vmin_pu": 0.99, "vmax_pu": 1.051, "vmax_bus": 13}
+        nonconverged = {"coordinate": 2, "solver_status": "NONCONVERGED_AFTER_RETRY",
+                        "vmin_pu": 0.0, "vmax_pu": 2.0}
+        mislabeled = {"coordinate": 2, "solver_status": "CONVERGED_INFEASIBLE",
+                      "vmin_pu": 0.99, "vmax_pu": 1.04}
+        self.assertTrue(MODULE.valid_voltage_bracket(safe, violating))
+        self.assertFalse(MODULE.valid_voltage_bracket(safe, nonconverged))
+        self.assertFalse(MODULE.valid_voltage_bracket(safe, mislabeled))
+        self.assertTrue(MODULE.binding_invariant("BINDING_VMAX", violating))
+        self.assertFalse(MODULE.binding_invariant("BINDING_VMAX", nonconverged))
+
+    def test_zero_pv_night_semantics_are_not_export_stress(self):
+        timestamp = datetime.strptime("2011-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+        zero_pv = MODULE.ProfilePoint(
+            timestamp, "2011-01-01 00:00:00", 0.2, 0.0,
+            "SUMMER", "NIGHT", "hash",
+        )
+        self.assertEqual(MODULE.semantic_category(zero_pv, "EXPORT"), "LOW_LOAD_ZERO_PV")
+        rows = self.rows("selected_32_timestamps.csv")
+        self.assertTrue(all(row["semantic_category"] for row in rows))
 
     def test_cost_model_reflects_all_32_dense_timestamps(self):
         rows = {row["stage"]: row for row in self.rows("production_probe_cost_estimate.csv")}

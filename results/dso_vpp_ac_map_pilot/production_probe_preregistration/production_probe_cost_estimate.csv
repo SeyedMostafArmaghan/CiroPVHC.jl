@@ -1,4 +1,4 @@
-stage,search_count,estimated_evaluations_per_search,estimated_ac_evaluations,observed_ms_per_evaluation,estimated_serial_kernel_seconds,ideal_eight_worker_kernel_seconds,note
+stage,search_count,estimated_evaluations_per_search,estimated_ac_evaluations,empirical_aggregate_ms_per_evaluation,estimated_aggregate_equivalent_seconds,ideal_eight_worker_kernel_seconds,note
 SIGNED_AXIS_PREPASS,128,59,7552,4.1587,31.407,3.926,10 expansion + 41 retained coarse-sweep + 8 typical refinement evaluations
 BASE_36_DIRECTIONS,1152,51,58752,4.1587,244.332,30.541,41 full coarse-sweep + 10 typical refinement evaluations
 MAXIMUM_36_ADAPTIVE_DIRECTIONS,1152,51,58752,4.1587,244.332,30.541,one preregistered midpoint level; no manual angles
