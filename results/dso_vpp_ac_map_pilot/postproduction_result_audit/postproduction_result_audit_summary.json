@@ -1,0 +1,332 @@
+{
+  "adaptive": {
+    "dominant_marginal_driver": "RADIUS_DIFF_GT_10PCT",
+    "interpretation_limit": "Trigger changes do not establish full scientific active sets.",
+    "marginal_trigger_counts": {
+      "BINDING_BUS_CHANGE": 162,
+      "MECHANISM_CHANGE": 98,
+      "PROBLEMATIC_ENDPOINT": 68,
+      "RADIUS_DIFF_GT_10PCT": 324
+    },
+    "trigger_combination_histogram": {
+      "BINDING_BUS_CHANGE": 64,
+      "BINDING_BUS_CHANGE + MECHANISM_CHANGE": 26,
+      "BINDING_BUS_CHANGE + MECHANISM_CHANGE + PROBLEMATIC_ENDPOINT": 68,
+      "BINDING_BUS_CHANGE + MECHANISM_CHANGE + RADIUS_DIFF_GT_10PCT": 4,
+      "RADIUS_DIFF_GT_10PCT": 320
+    },
+    "unique_refined_intervals": 482
+  },
+  "analytical_corner": {
+    "ac_validation_statement": "NO_NEW_AC_CORNER_VALIDATION_PERFORMED",
+    "center_p13_kw": -124.140625,
+    "center_p30_kw": -187.8125,
+    "classification": "ANALYTICAL_CORNER_GEOMETRIC_CONSISTENCY",
+    "corner_p13_abs_kw": 934.6080433530186,
+    "corner_p30_abs_kw": 1610.2756675516089,
+    "exact_historical_ac_evidence": false,
+    "historical_evidence_status": "Historical artifacts label this translated analytical corner as not a verified AC boundary point.",
+    "lower_neighbor": {
+      "euclidean_distance_from_corner_kw": 383.8188816869772,
+      "level": "BASE",
+      "normalized_angle_deg": 40.0,
+      "safe_p13_abs_kw": 1073.97703333,
+      "safe_p30_abs_kw": 1252.65405387,
+      "status": "RAY_CERTIFIED_BOUNDARY"
+    },
+    "normalized_angle_deg": 49.84671262653854,
+    "normalized_radius": 1.0370693505947575,
+    "normalized_x": 0.6687383644174014,
+    "normalized_y": 0.7926549299028997,
+    "upper_neighbor": {
+      "euclidean_distance_from_corner_kw": 52.84866985719011,
+      "level": "BASE",
+      "normalized_angle_deg": 50.0,
+      "safe_p13_abs_kw": 956.927924516,
+      "safe_p30_abs_kw": 1658.17978857,
+      "status": "RAY_CERTIFIED_BOUNDARY"
+    }
+  },
+  "anchor": {
+    "metrics_causing_near_extreme": [
+      "total_axis_width_kw"
+    ],
+    "near_extreme_dimension_count": 1,
+    "note": "Other tabulated metrics are postproduction descriptive context and did not enter the production classifier.",
+    "production_classification": "NEAR_EXTREME",
+    "production_classifier_metrics_only": [
+      "total_axis_width_kw",
+      "median_base_boundary_radius"
+    ],
+    "scope_interpretation": "Near-extreme in one classifier dimension"
+  },
+  "asymmetry": {
+    "a13": {
+      "count": 32,
+      "fraction_negative": 0.5625,
+      "fraction_positive": 0.4375,
+      "maximum": 0.10863124629666206,
+      "mean": -0.1734434776817283,
+      "median": -0.06422024473934783,
+      "minimum": -0.8466082409335206,
+      "q05": -0.690450246731473,
+      "q25": -0.39965795260200343,
+      "q75": 0.045380036565656215,
+      "q95": 0.0810297976788804,
+      "strongest_export_side": "2011-02-05 18:00:00",
+      "strongest_import_side": "2013-04-17 05:30:00"
+    },
+    "a30": {
+      "count": 32,
+      "fraction_negative": 0.5625,
+      "fraction_positive": 0.4375,
+      "maximum": 0.11221429310166511,
+      "mean": -0.16080661806074226,
+      "median": -0.05581448817859175,
+      "minimum": -0.8079058256972778,
+      "q05": -0.6588102114024785,
+      "q25": -0.37989516543314106,
+      "q75": 0.05061716805249934,
+      "q95": 0.08532643217155397,
+      "strongest_export_side": "2011-02-05 18:00:00",
+      "strongest_import_side": "2013-04-17 05:30:00"
+    },
+    "anchor": {
+      "a13": 0.07841105354058722,
+      "a30": 0.08279377324700372,
+      "p13_negative_magnitude_kw": 1707.34375,
+      "p13_positive_kw": 1459.0625,
+      "p30_negative_magnitude_kw": 2456.25,
+      "p30_positive_kw": 2080.625,
+      "timestamp": "2012-10-15 13:00:00"
+    },
+    "interpretation": "A>0 import side wider; A<0 export side wider. Center displacement is not treated as independent because every center is an axis midpoint."
+  },
+  "binding": {
+    "co_binding_status": "CO_BINDING_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+    "counts": {
+      "BINDING_VMAX": 851,
+      "BINDING_VMIN": 838
+    },
+    "fifth_primary_binding_bus_exists": false,
+    "primary_buses": [
+      13,
+      18,
+      30,
+      33
+    ]
+  },
+  "cardinal": {
+    "abs_r_minus_one": {
+      "count": 128,
+      "maximum": 0.38828125,
+      "mean": 0.07957534790039063,
+      "median": 0.034960937499999956,
+      "minimum": 0.003808593749999978,
+      "q05": 0.008017578125000008,
+      "q25": 0.016357421874999972,
+      "q75": 0.12910156250000004,
+      "q95": 0.26063964843749987
+    },
+    "comparison_count": 128,
+    "full_endpoint_pass_count": 0,
+    "guard_limited_cardinal_count": 0,
+    "invariant_verdict": "FAIL_MATERIAL",
+    "reason": "At r=1 the centered cardinal construction reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the certified origin-axis point. The AC boundary consequently need not occur at r=1.",
+    "required_classification": "POSTPRODUCTION_RESULT_AUDIT_BLOCKED",
+    "varying_coordinate_pass_count": 0
+  },
+  "classification": "POSTPRODUCTION_RESULT_AUDIT_BLOCKED",
+  "evaluation": {
+    "actual_minus_logical": 143,
+    "actual_total": 87372,
+    "difference_attributable_to_retries": true,
+    "embedded_replay_note": "Every AC attempt includes primary solve plus independent replay inside Stage0.evaluate_point; replay is not a separate logical record.",
+    "logical_total": 87229,
+    "separate_validation_replay_logical_evaluations": 0,
+    "stopping_rule": "<=1 kW physical bracket width AND safe/violating endpoint voltage distance <=1e-5 pu, maximum 60 refinements."
+  },
+  "guard": {
+    "angle_histogram_30deg": {
+      "120-150": 34,
+      "300-330": 39
+    },
+    "count": 73,
+    "guard_comparison": "RAY_GUARD_PHYSICALLY_TIGHTER_THAN_AXIS_NUMERICAL_GUARD",
+    "interpretation": "Feasible through r=2 only; not an AC boundary and not an unbounded direction.",
+    "level_histogram": {
+      "ADAPTIVE": 39,
+      "BASE": 34
+    },
+    "maximum_component_to_axis_guard_ratio": {
+      "count": 73,
+      "maximum": 0.17895516357900002,
+      "mean": 0.15264597848869177,
+      "median": 0.14859441695800002,
+      "minimum": 0.129982278822,
+      "q05": 0.1301444934081,
+      "q25": 0.1460734843015,
+      "q75": 0.161004899513,
+      "q95": 0.163542749945
+    },
+    "quadrant_histogram": {
+      "Q2": 34,
+      "Q4": 39
+    },
+    "timestamp_histogram": {
+      "2010-07-01 07:30:00": 4,
+      "2010-07-02 17:30:00": 2,
+      "2010-07-02 18:00:00": 2,
+      "2010-07-03 00:00:00": 2,
+      "2010-11-26 18:00:00": 2,
+      "2010-12-21 11:30:00": 2,
+      "2010-12-21 12:00:00": 2,
+      "2011-01-21 18:00:00": 2,
+      "2011-02-05 11:30:00": 2,
+      "2011-02-05 17:30:00": 2,
+      "2011-02-05 18:00:00": 2,
+      "2011-02-06 00:00:00": 4,
+      "2011-03-04 18:00:00": 2,
+      "2011-03-08 11:30:00": 2,
+      "2011-03-08 12:30:00": 2,
+      "2011-05-11 17:30:00": 2,
+      "2011-05-11 18:00:00": 2,
+      "2011-05-16 07:30:00": 2,
+      "2011-09-11 00:00:00": 2,
+      "2011-09-30 05:30:00": 3,
+      "2011-09-30 11:30:00": 2,
+      "2011-11-14 17:30:00": 2,
+      "2011-11-14 19:30:00": 2,
+      "2011-12-15 05:30:00": 3,
+      "2012-08-04 03:30:00": 3,
+      "2012-08-05 23:30:00": 2,
+      "2012-08-24 12:00:00": 2,
+      "2012-08-31 11:30:00": 2,
+      "2012-09-03 07:00:00": 2,
+      "2012-10-15 13:00:00": 3,
+      "2013-04-07 02:00:00": 2,
+      "2013-04-17 05:30:00": 3
+    }
+  },
+  "limitations": [
+    "CO_BINDING_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+    "Historical analytical corner lacks exact independent AC validation.",
+    "Timing rate difference cause cannot be isolated from stored timing scopes."
+  ],
+  "production_artifact_commit": "fed6d528611d9c55a04f49a8b353cf4ad015dc9c",
+  "production_artifact_config_sha256": "18530df3a6aad54c619e061b9c9f40136509cebe135fd42ee2e3c032383cb06d",
+  "production_commit_lineage": [
+    "972e934b44e9e8c7004517618c8f5bee727b0760",
+    "166a182",
+    "fed6d528611d9c55a04f49a8b353cf4ad015dc9c"
+  ],
+  "production_execution_base_commit": "972e934b44e9e8c7004517618c8f5bee727b0760",
+  "production_manifest_sha256": "d8dd586bec6e4fc855f9d131cd99ccd2102c81ad2c0a40ab7b48cbc4e5ebae47",
+  "retry": {
+    "after_certified_bracket_count": 143,
+    "before_certified_bracket_count": 0,
+    "beyond_final_certified_boundary_count": 143,
+    "interpretation": "Empirical numerical failure-location observation; nonconvergence is not a physical limit.",
+    "quadrant_histogram": {
+      "P13_NEGATIVE": 143
+    },
+    "r_bin_histogram": {
+      "NOT_APPLICABLE": 143
+    },
+    "ray_level_histogram": {
+      "AXIS": 143
+    },
+    "retry_attempts": 143,
+    "retry_failures": 143,
+    "retry_rescue_rate": 0.0,
+    "retry_rescues": 0,
+    "search_kind_histogram": {
+      "AXIS": 143
+    },
+    "search_stage_histogram": {
+      "coarse_sweep": 143
+    },
+    "timestamp_histogram": {
+      "2010-12-21 11:30:00": 10,
+      "2010-12-21 12:00:00": 10,
+      "2011-03-08 11:30:00": 10,
+      "2011-03-08 12:30:00": 10,
+      "2011-09-11 00:00:00": 11,
+      "2011-09-30 05:30:00": 10,
+      "2011-09-30 11:30:00": 11,
+      "2011-12-15 05:30:00": 10,
+      "2012-08-04 03:30:00": 10,
+      "2012-08-05 23:30:00": 11,
+      "2012-08-24 12:00:00": 10,
+      "2012-08-31 11:30:00": 10,
+      "2012-10-15 13:00:00": 10,
+      "2013-04-17 05:30:00": 10
+    }
+  },
+  "sensitivity": {
+    "absolute_discrepancy_kw": 7.028340009332226,
+    "c_30_13": 0.268450094711859,
+    "c_30_30": 0.625073311221421,
+    "classification": "FIRST_ORDER_COORDINATE_AND_SENSITIVITY_CONSISTENCY_CHECK",
+    "delta_p13_kw": -777.7133428167988,
+    "historical_evidence": "results/dso_vpp_ac_map_pilot/export_side_axis_capacity_bounds.csv",
+    "historical_primary_vmax_bus": 30,
+    "interpretation_limit": "Not proof of global LinDistFlow accuracy.",
+    "observed_delta_p30_kw": 341.0327148399999,
+    "predicted_delta_p30_kw": 334.0043748306677,
+    "production_primary_vmax_bus": 30,
+    "relative_discrepancy_vs_observed": 0.020608990585051834
+  },
+  "timing": {
+    "classification": "TIMING_RATE_DIFFERENCE_CAUSE_UNRESOLVED",
+    "interpretation": "Timer scopes and workloads differ; artifacts do not isolate a causal component.",
+    "preproduction": {
+      "aggregate_ms_per_evaluation": 4.1587,
+      "evaluations": 3691,
+      "processes": 1,
+      "threads": 1,
+      "wall_seconds": 15.3498603
+    },
+    "production": {
+      "actual_attempts": 87372,
+      "actual_ms_per_attempt": 0.6246967001973789,
+      "logical_evaluations": 87229,
+      "logical_ms_per_evaluation": 0.6257208048888029,
+      "processes": 1,
+      "threads": 1,
+      "wall_seconds": 54.581000089645386
+    },
+    "production_timer_scope": {
+      "excludes": [
+        "Julia process startup",
+        "top-level package/module loading before run_production_probe invocation",
+        "final artifact serialization",
+        "normal final validation and distribution post-processing in write_outputs",
+        "later independent post-run validation"
+      ],
+      "includes": [
+        "preregistration hash verification",
+        "locked configuration parsing/validation",
+        "canonical profile loading",
+        "AC probe execution including embedded independent replay",
+        "first-call compilation/JIT occurring after run_production_probe starts",
+        "per-direction and per-timestamp checkpoint I/O"
+      ],
+      "source_lines": "src/benchmark/dso_vpp_production_probe.jl:1469,1538-1540"
+    }
+  },
+  "validation": {
+    "actual_attempt_count": 87372,
+    "adaptive_count": 482,
+    "axis_count": 128,
+    "cardinal_comparison_count": 128,
+    "cardinal_invariant_pass": false,
+    "count_checks_pass": true,
+    "guard_limited_count": 73,
+    "logical_evaluation_count": 87229,
+    "new_ac_solves_performed": 0,
+    "ray_count": 1634,
+    "retry_count": 143,
+    "timestamp_count": 32
+  }
+}

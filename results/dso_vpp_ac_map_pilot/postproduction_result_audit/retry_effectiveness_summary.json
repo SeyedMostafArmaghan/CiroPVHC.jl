@@ -1,0 +1,41 @@
+{
+  "after_certified_bracket_count": 143,
+  "before_certified_bracket_count": 0,
+  "beyond_final_certified_boundary_count": 143,
+  "interpretation": "Empirical numerical failure-location observation; nonconvergence is not a physical limit.",
+  "quadrant_histogram": {
+    "P13_NEGATIVE": 143
+  },
+  "r_bin_histogram": {
+    "NOT_APPLICABLE": 143
+  },
+  "ray_level_histogram": {
+    "AXIS": 143
+  },
+  "retry_attempts": 143,
+  "retry_failures": 143,
+  "retry_rescue_rate": 0.0,
+  "retry_rescues": 0,
+  "search_kind_histogram": {
+    "AXIS": 143
+  },
+  "search_stage_histogram": {
+    "coarse_sweep": 143
+  },
+  "timestamp_histogram": {
+    "2010-12-21 11:30:00": 10,
+    "2010-12-21 12:00:00": 10,
+    "2011-03-08 11:30:00": 10,
+    "2011-03-08 12:30:00": 10,
+    "2011-09-11 00:00:00": 11,
+    "2011-09-30 05:30:00": 10,
+    "2011-09-30 11:30:00": 11,
+    "2011-12-15 05:30:00": 10,
+    "2012-08-04 03:30:00": 10,
+    "2012-08-05 23:30:00": 11,
+    "2012-08-24 12:00:00": 10,
+    "2012-08-31 11:30:00": 10,
+    "2012-10-15 13:00:00": 10,
+    "2013-04-17 05:30:00": 10
+  }
+}

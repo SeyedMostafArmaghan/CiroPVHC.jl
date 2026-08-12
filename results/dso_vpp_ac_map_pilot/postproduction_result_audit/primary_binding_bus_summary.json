@@ -1,0 +1,14 @@
+{
+  "co_binding_status": "CO_BINDING_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+  "counts": {
+    "BINDING_VMAX": 851,
+    "BINDING_VMIN": 838
+  },
+  "fifth_primary_binding_bus_exists": false,
+  "primary_buses": [
+    13,
+    18,
+    30,
+    33
+  ]
+}

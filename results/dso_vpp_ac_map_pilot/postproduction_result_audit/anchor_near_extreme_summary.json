@@ -1,0 +1,13 @@
+{
+  "metrics_causing_near_extreme": [
+    "total_axis_width_kw"
+  ],
+  "near_extreme_dimension_count": 1,
+  "note": "Other tabulated metrics are postproduction descriptive context and did not enter the production classifier.",
+  "production_classification": "NEAR_EXTREME",
+  "production_classifier_metrics_only": [
+    "total_axis_width_kw",
+    "median_base_boundary_radius"
+  ],
+  "scope_interpretation": "Near-extreme in one classifier dimension"
+}

@@ -1,0 +1,18 @@
+{
+  "dominant_marginal_driver": "RADIUS_DIFF_GT_10PCT",
+  "interpretation_limit": "Trigger changes do not establish full scientific active sets.",
+  "marginal_trigger_counts": {
+    "BINDING_BUS_CHANGE": 162,
+    "MECHANISM_CHANGE": 98,
+    "PROBLEMATIC_ENDPOINT": 68,
+    "RADIUS_DIFF_GT_10PCT": 324
+  },
+  "trigger_combination_histogram": {
+    "BINDING_BUS_CHANGE": 64,
+    "BINDING_BUS_CHANGE + MECHANISM_CHANGE": 26,
+    "BINDING_BUS_CHANGE + MECHANISM_CHANGE + PROBLEMATIC_ENDPOINT": 68,
+    "BINDING_BUS_CHANGE + MECHANISM_CHANGE + RADIUS_DIFF_GT_10PCT": 4,
+    "RADIUS_DIFF_GT_10PCT": 320
+  },
+  "unique_refined_intervals": 482
+}

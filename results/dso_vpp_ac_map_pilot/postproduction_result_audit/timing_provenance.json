@@ -1,0 +1,38 @@
+{
+  "classification": "TIMING_RATE_DIFFERENCE_CAUSE_UNRESOLVED",
+  "interpretation": "Timer scopes and workloads differ; artifacts do not isolate a causal component.",
+  "preproduction": {
+    "aggregate_ms_per_evaluation": 4.1587,
+    "evaluations": 3691,
+    "processes": 1,
+    "threads": 1,
+    "wall_seconds": 15.3498603
+  },
+  "production": {
+    "actual_attempts": 87372,
+    "actual_ms_per_attempt": 0.6246967001973789,
+    "logical_evaluations": 87229,
+    "logical_ms_per_evaluation": 0.6257208048888029,
+    "processes": 1,
+    "threads": 1,
+    "wall_seconds": 54.581000089645386
+  },
+  "production_timer_scope": {
+    "excludes": [
+      "Julia process startup",
+      "top-level package/module loading before run_production_probe invocation",
+      "final artifact serialization",
+      "normal final validation and distribution post-processing in write_outputs",
+      "later independent post-run validation"
+    ],
+    "includes": [
+      "preregistration hash verification",
+      "locked configuration parsing/validation",
+      "canonical profile loading",
+      "AC probe execution including embedded independent replay",
+      "first-call compilation/JIT occurring after run_production_probe starts",
+      "per-direction and per-timestamp checkpoint I/O"
+    ],
+    "source_lines": "src/benchmark/dso_vpp_production_probe.jl:1469,1538-1540"
+  }
+}

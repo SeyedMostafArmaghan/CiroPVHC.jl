@@ -1,0 +1,9 @@
+{
+  "actual_minus_logical": 143,
+  "actual_total": 87372,
+  "difference_attributable_to_retries": true,
+  "embedded_replay_note": "Every AC attempt includes primary solve plus independent replay inside Stage0.evaluate_point; replay is not a separate logical record.",
+  "logical_total": 87229,
+  "separate_validation_replay_logical_evaluations": 0,
+  "stopping_rule": "<=1 kW physical bracket width AND safe/violating endpoint voltage distance <=1e-5 pu, maximum 60 refinements."
+}

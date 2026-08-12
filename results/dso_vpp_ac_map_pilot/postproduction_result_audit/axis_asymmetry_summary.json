@@ -1,0 +1,42 @@
+{
+  "a13": {
+    "count": 32,
+    "fraction_negative": 0.5625,
+    "fraction_positive": 0.4375,
+    "maximum": 0.10863124629666206,
+    "mean": -0.1734434776817283,
+    "median": -0.06422024473934783,
+    "minimum": -0.8466082409335206,
+    "q05": -0.690450246731473,
+    "q25": -0.39965795260200343,
+    "q75": 0.045380036565656215,
+    "q95": 0.0810297976788804,
+    "strongest_export_side": "2011-02-05 18:00:00",
+    "strongest_import_side": "2013-04-17 05:30:00"
+  },
+  "a30": {
+    "count": 32,
+    "fraction_negative": 0.5625,
+    "fraction_positive": 0.4375,
+    "maximum": 0.11221429310166511,
+    "mean": -0.16080661806074226,
+    "median": -0.05581448817859175,
+    "minimum": -0.8079058256972778,
+    "q05": -0.6588102114024785,
+    "q25": -0.37989516543314106,
+    "q75": 0.05061716805249934,
+    "q95": 0.08532643217155397,
+    "strongest_export_side": "2011-02-05 18:00:00",
+    "strongest_import_side": "2013-04-17 05:30:00"
+  },
+  "anchor": {
+    "a13": 0.07841105354058722,
+    "a30": 0.08279377324700372,
+    "p13_negative_magnitude_kw": 1707.34375,
+    "p13_positive_kw": 1459.0625,
+    "p30_negative_magnitude_kw": 2456.25,
+    "p30_positive_kw": 2080.625,
+    "timestamp": "2012-10-15 13:00:00"
+  },
+  "interpretation": "A>0 import side wider; A<0 export side wider. Center displacement is not treated as independent because every center is an axis midpoint."
+}

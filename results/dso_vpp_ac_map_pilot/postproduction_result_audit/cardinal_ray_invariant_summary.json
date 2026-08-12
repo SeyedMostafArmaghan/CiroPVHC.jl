@@ -1,0 +1,20 @@
+{
+  "abs_r_minus_one": {
+    "count": 128,
+    "maximum": 0.38828125,
+    "mean": 0.07957534790039063,
+    "median": 0.034960937499999956,
+    "minimum": 0.003808593749999978,
+    "q05": 0.008017578125000008,
+    "q25": 0.016357421874999972,
+    "q75": 0.12910156250000004,
+    "q95": 0.26063964843749987
+  },
+  "comparison_count": 128,
+  "full_endpoint_pass_count": 0,
+  "guard_limited_cardinal_count": 0,
+  "invariant_verdict": "FAIL_MATERIAL",
+  "reason": "At r=1 the centered cardinal construction reaches the origin-axis coordinate but retains the nonzero orthogonal center coordinate; it is not the certified origin-axis point. The AC boundary consequently need not occur at r=1.",
+  "required_classification": "POSTPRODUCTION_RESULT_AUDIT_BLOCKED",
+  "varying_coordinate_pass_count": 0
+}

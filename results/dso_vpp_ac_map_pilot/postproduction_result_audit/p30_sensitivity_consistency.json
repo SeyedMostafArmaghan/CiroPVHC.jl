@@ -1,0 +1,14 @@
+{
+  "absolute_discrepancy_kw": 7.028340009332226,
+  "c_30_13": 0.268450094711859,
+  "c_30_30": 0.625073311221421,
+  "classification": "FIRST_ORDER_COORDINATE_AND_SENSITIVITY_CONSISTENCY_CHECK",
+  "delta_p13_kw": -777.7133428167988,
+  "historical_evidence": "results/dso_vpp_ac_map_pilot/export_side_axis_capacity_bounds.csv",
+  "historical_primary_vmax_bus": 30,
+  "interpretation_limit": "Not proof of global LinDistFlow accuracy.",
+  "observed_delta_p30_kw": 341.0327148399999,
+  "predicted_delta_p30_kw": 334.0043748306677,
+  "production_primary_vmax_bus": 30,
+  "relative_discrepancy_vs_observed": 0.020608990585051834
+}

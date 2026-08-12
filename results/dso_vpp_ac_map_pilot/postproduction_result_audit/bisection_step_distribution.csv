@@ -1,0 +1,12 @@
+search_type,bisection_steps,successful_search_count
+ADAPTIVE,7,51
+ADAPTIVE,8,257
+ADAPTIVE,9,135
+AXIS,6,1
+AXIS,7,3
+AXIS,8,18
+AXIS,9,70
+AXIS,10,36
+BASE,7,53
+BASE,8,514
+BASE,9,551
