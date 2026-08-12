@@ -1,0 +1,9 @@
+audit_item,source,evidence,classification,recommendation
+selection_logic,"src/benchmark/dso_vpp_ac_map_stage0.jl:8,46-67",literal dates 2012-10-15 and 2012-10-16; 48 contiguous half-hours per day; no ranking or clustering at runtime,EXPORT_PILOT_WINDOW_NOT_BALANCED_SELECTION,USE_ONLY_FOR_EXPORT_PILOT
+provenance_of_first_day,data_processed/ausgrid/ausgrid_daily_stress_ranking.csv,2012-10-15 is export-stress rank 1 using max pv_profile/load_multiplier during active PV,INTENTIONALLY_EXPORT_STRESSING,retain audited timestamp as one dense case
+provenance_of_second_day,same ranking plus literal source selection,2012-10-16 is rank 52 and is included as the adjacent calendar day,ADJACENCY_NOT_INDEPENDENT_CRITICAL_SELECTION,retain only for regression continuity
+load_coverage,data_processed/ausgrid/ausgrid_halfhour_normalized.csv,pilot load range 0.114754098361-0.307561130632; maximum is full-series percentile 81.837; top-decile threshold 0.364044755178; top-decile pilot count 0,HIGH_LOAD_NOT_REPRESENTED,add balanced night high-load/import strata
+pv_coverage,same canonical profile,pilot PV range 0.000000000000-0.928221145252; maximum is percentile 99.688; top-decile PV intervals 23,HIGH_PV_WELL_REPRESENTED,reuse audited export-stress case
+night_and_import_stress,same canonical profile,"23 intervals have pv<=1e-4, but 0 combine top-decile load with bottom-decile PV",NIGHT_PRESENT_IMPORT_STRESS_ABSENT,select seasonal high-load low-PV timestamps
+seasonal_coverage,literal dates,two consecutive Southern Hemisphere spring days only,SEASONAL_COVERAGE_ABSENT,four-season deterministic strata
+overall_suitability,combined audit,dense intraday export-stress coverage cannot substitute for seasonal and import-stress coverage,USE_ONLY_FOR_EXPORT_PILOT,HIERARCHICAL_CRITICAL_TIMESTAMP_PROBE with a new balanced 32-timestamp set

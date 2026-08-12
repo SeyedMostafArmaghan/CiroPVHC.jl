@@ -1,0 +1,13 @@
+existing_result,classification,permitted_use,prohibited_use
+Phase-B P13 command-axis bound,REUSABLE_AFTER_COORDINATE_TRANSLATION,"true physical-axis positive safe point (1459.0838872507989,0) and runtime/bracketing calibration",does not cover 0<P13_abs<reference PV or import
+Phase-B P30 command-axis bound,REUSABLE_AFTER_COORDINATE_TRANSLATION,"point (777.7133428167988,1739.59228516000) and evaluator calibration",must not be called a true P13_abs=0 intercept
+command-space linear quadrilateral,REUSABLE_AFTER_COORDINATE_TRANSLATION,translated linear diagnostic and candidate refinement cues,not a certified AC DOE
+linear translated corner,REUSABLE_AFTER_COORDINATE_TRANSLATION,"diagnostic active-set-change cue at (934.6080433530186,1610.2756675516089)",not a verified AC boundary point
+theta_star_command,COMMAND_SPACE_DIAGNOSTIC_ONLY,historical command-coordinate comparison,must not center or seed absolute-PCC direction grids
+Lambda_lin_command,COMMAND_SPACE_DIAGNOSTIC_ONLY,historical command-space analytical comparison,must not normalize absolute-PCC geometry
+LinDistFlow coefficient matrix,DIRECTLY_REUSABLE,local sensitivity and active-set diagnostic at the audited network state,does not prove AC convexity or boundary
+"linear active set {13,30}",DIRECTLY_REUSABLE,adaptive-refinement diagnostic,does not fix AC binding buses in other quadrants/timestamps
+operating-point provenance,DIRECTLY_REUSABLE,"timestamp, load, PV, coordinate, and ownership provenance",none within its stated scope
+S0 full-period baseline,DIRECTLY_REUSABLE,zero-TVPP origin evidence; audited Vmin=0.98730595284058 p.u. at bus 18,global minimum 0.913090479358158 must not be substituted for the audited timestamp
+existing 96-timestamp list,DIRECTLY_REUSABLE,export-pilot regression and runtime comparison only,not the final temporally balanced DOE set
+PV/EV/BESS capability or optimized H,NOT_RELEVANT_TO_FINAL_DOE,F_TVPP(H) only,must not bound A_t_AC
