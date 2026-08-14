@@ -1,0 +1,52 @@
+{
+  "aggregate_pocket_over_hull": 0.017456088523136255,
+  "aggregate_pocket_over_polygon": 0.017766217183004036,
+  "convex_hull_area_kw2": {
+    "count": 32,
+    "max": 16629488.44367946,
+    "median": 16490817.000164386,
+    "min": 15999508.395170484,
+    "q1": 16451154.766143812,
+    "q3": 16549006.66852298
+  },
+  "pocket_area_kw2": {
+    "count": 32,
+    "max": 340166.98037680425,
+    "median": 294664.5938911913,
+    "min": 198620.29656878114,
+    "q1": 258172.0928905788,
+    "q3": 323065.46472077956
+  },
+  "pocket_fraction_hull": {
+    "count": 32,
+    "max": 0.020542986560582992,
+    "median": 0.017868401877740924,
+    "min": 0.012414149964053612,
+    "q1": 0.0158382034199405,
+    "q3": 0.019508613513372765
+  },
+  "pocket_fraction_polygon": {
+    "count": 32,
+    "max": 0.020973852122866697,
+    "median": 0.018193493459096696,
+    "min": 0.012570198290712407,
+    "q1": 0.016093160366750882,
+    "q3": 0.019896772206413622
+  },
+  "polygon_area_kw2": {
+    "count": 32,
+    "max": 16300472.582080238,
+    "median": 16209109.285233958,
+    "min": 15800531.331115592,
+    "q1": 16196161.708397528,
+    "q3": 16218721.561855376
+  },
+  "prior_9187485_414_interpretation": "VMAX_ONLY_COMPONENT_NOT_ALL_POCKETS",
+  "sum_convex_hull_area_kw2": 526320697.0993295,
+  "sum_mixed_vmax_vmin_pocket_area_kw2": 0,
+  "sum_pocket_area_kw2": 9187500.680124678,
+  "sum_polygon_area_kw2": 517133196.41920483,
+  "sum_vmax_only_pocket_area_kw2": 9187485.413888177,
+  "sum_vmin_only_pocket_area_kw2": 15.26623650151423,
+  "timestamp_count": 32
+}

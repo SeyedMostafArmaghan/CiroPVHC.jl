@@ -1,0 +1,191 @@
+{
+  "ac_validation": {
+    "execute_in_this_task": false,
+    "failure_action": "next predeclared contraction; rerun screen; rerun full validation; never hand-tune facets",
+    "mandatory_domains": [
+      "all candidate vertices",
+      "deterministic samples on every physical facet",
+      "deterministic samples on every guard cap",
+      "deterministic interior samples",
+      "points between production rays",
+      "largest angular-gap oversampling",
+      "stored guard-sector oversampling",
+      "all four final Main Safe Box corners"
+    ],
+    "purpose": "AC_MESH_FALSIFICATION_AND_EMPIRICAL_VALIDATION_NOT_PROOF",
+    "sequence": [
+      "policy fixed",
+      "limited runtime benchmark",
+      "lock execution parameters",
+      "stored-infeasible endpoint screen",
+      "substantive full AC validation"
+    ]
+  },
+  "candidate_physical_facets": {
+    "authority": "CANDIDATE_FACET_GENERATOR_NOT_AC_FEASIBILITY_AUTHORITY",
+    "empty_class": "CONSTRUCTION_FAILURE_REQUIRING_POLICY_REVIEW",
+    "input": "only certified SAFE physical boundary endpoints of same timestamp and primary class; guard rows excluded",
+    "normal_scaling": "positive Euclidean unit normalization; geometry unchanged; residual units kW",
+    "offset": "b_jt=max_{k in B_jt} a_j^T P_in_k",
+    "orientation": "VMAX uses +c row; VMIN uses -c row; certified center must satisfy a_j^T c_t < b_j",
+    "topology_normals_raw": {
+      "VMAX_BUS_13": [
+        0.893822890071851,
+        0.268450094711859
+      ],
+      "VMAX_BUS_30": [
+        0.268450094711859,
+        0.625073311221421
+      ],
+      "VMIN_BUS_18": [
+        -0.893822890071851,
+        -0.268450094711859
+      ],
+      "VMIN_BUS_33": [
+        -0.268450094711859,
+        -0.625073311221421
+      ]
+    }
+  },
+  "classification": "DOE_CONSTRUCTION_POLICY_PREREGISTERED_ARTIFACT_ONLY_AC_VALIDATION_NOT_EXECUTED",
+  "contraction": {
+    "ac_feasibility_monotone_in_alpha_claimed": false,
+    "alpha_levels": null,
+    "family": "P_prime=c_t+alpha*(P-c_t)",
+    "number_of_levels_m": null,
+    "post_hoc_alpha_tuning": false,
+    "range": "0<alpha<=1",
+    "schedule": "PREDECLARED_DESCENDING_CONTRACTION_SCHEDULE"
+  },
+  "coordinates": {
+    "active_power": "ABSOLUTE_PHYSICAL_P_PCC_KW",
+    "dimension": 2,
+    "interfaces": [
+      13,
+      30
+    ],
+    "pooling_across_timestamps": false,
+    "positive_sign": "EXPORT",
+    "production_ray_transform": "P=c_t+r*[cos(theta)*s13_sign,sin(theta)*s30_sign]",
+    "reactive_policy": "Q_PCC_EQUALS_ZERO"
+  },
+  "fitted_normal_diagnostic": {
+    "bracket_policy": "fit inward endpoints only; report paired radial-bracket length, do not convert it into facet margin",
+    "duplicate_policy": "remove exact duplicate physical coordinates before fit",
+    "materiality_threshold": null,
+    "method": "per-timestamp/class orthogonal total least squares via 2D PCA",
+    "role": "DIAGNOSTIC_FALSIFICATION_ONLY_CANNOT_REPLACE_TOPOLOGY_NORMAL"
+  },
+  "forbidden_actions_confirmed_not_part_of_generator": [
+    "new AC solve",
+    "production probe",
+    "annual TVPP optimization",
+    "HC optimization",
+    "historical artifact regeneration",
+    "post-hoc facet or alpha tuning"
+  ],
+  "guard_caps": {
+    "normalized_halfspace": "cos(theta)*z13+sin(theta)*z30<=2",
+    "physical_conversion": "z_i=(P_i-c_i)/s_i_sign in the fixed sign sector of the stored ray",
+    "rule": "ONLY_STORED_GUARD_LIMITED_TRAJECTORIES_CREATE_CAPS",
+    "semantic_class": "ARTIFICIAL_CONSERVATIVE_GUARD_TRUNCATION_NOT_PHYSICAL_AC_BOUNDARY"
+  },
+  "infeasible_endpoint_screen": {
+    "action_on_failure": "contract; rerun screen; only then run full AC validation",
+    "membership_rule": "outward endpoint is inside beyond tau iff max_j(a_j^T P-b_j)<=-tau_membership_kw",
+    "membership_tolerance_kw": null,
+    "role": "NECESSARY_FALSIFICATION_SCREEN_NOT_POLYTOPE_CERTIFICATION"
+  },
+  "locked_evidence": {
+    "angular_interior": "ANGULAR_INTERIOR_BETWEEN_SAMPLED_DIRECTIONS_NOT_DIRECTLY_EVALUATED",
+    "binding_mechanism_counts": {
+      "VMAX": 851,
+      "VMIN": 838
+    },
+    "boundary_interpretations": [
+      "INWARD_ENDPOINT_HAS_NEGLIGIBLE_VOLTAGE_MARGIN_BUT_NONZERO_BOUNDARY_LOCATION_BRACKETING",
+      "FINAL_BOUNDARY_WIDTHS_CONSISTENT_WITH_1_KW_STOPPING_RULE",
+      "BOUNDARY_LOCATION_BRACKETING_IS_A_LOCAL_RADIAL_UNCERTAINTY",
+      "FACET_INTERIOR_VALIDATION_RISK_IS_AN_INTER_DIRECTIONAL_GEOMETRIC_AND_AC_FEASIBILITY_UNCERTAINTY",
+      "THE_TWO_ARE_NOT_INTERCHANGEABLE"
+    ],
+    "boundary_semantics": "LAST_CONVERGED_FEASIBLE_INWARD_ENDPOINT_WITH_LOCAL_RADIAL_BRACKET",
+    "co_binding_status": "CO_BINDING_STATUS_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+    "guard_semantics": "GUARD_TRUNCATION_NO_PHYSICAL_BOUNDARY_BRACKET",
+    "guard_truncations": 73,
+    "monotonicity": "NO_MONOTONICITY_COUNTEREXAMPLE_OBSERVED_IN_STORED_EVALUATIONS",
+    "monotonicity_domain": "SAMPLED_RADIAL_AXIS_SKELETON",
+    "physical_ray_boundaries": 1561,
+    "primary_classes": [
+      "VMAX_BUS_13",
+      "VMAX_BUS_30",
+      "VMIN_BUS_18",
+      "VMIN_BUS_33"
+    ],
+    "signed_axis_boundaries": 128,
+    "source_spelling_of_co_binding_status": "CO_BINDING_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+    "total_physical_boundaries": 1689
+  },
+  "m_conditional_box": {
+    "assumption": "componentwise voltage monotonicity (M), empirical/conditional and not AC authority",
+    "authority": "DIAGNOSTIC_ONLY_MUST_NOT_ENLARGE_AUTHORITATIVE_COUPLED_DOE",
+    "construction": "choose stored certified VMIN lower diagonal and VMAX upper diagonal with componentwise order; maximize area over all such stored pairs",
+    "tie_break": [
+      "minimize L13",
+      "minimize L30",
+      "minimize U13",
+      "minimize U30"
+    ]
+  },
+  "main_safe_box": {
+    "center_or_no_control_containment_required": false,
+    "containment": "a13^+*U13+a13^-*L13+a30^+*U30+a30^-*L30<=b for every final halfspace",
+    "continuous_optimization": true,
+    "coordinates": "axis-aligned absolute physical P_PCC",
+    "grid_allowed": false,
+    "later_checks": [
+      "independent AC check of all four corners",
+      "post-construction no-control membership diagnostic"
+    ],
+    "lexicographic_tie_break": [
+      "minimize L13",
+      "minimize L30",
+      "minimize U13",
+      "minimize U30"
+    ],
+    "numerical_tolerances": {
+      "halfspace_feasibility_absolute_kw": 1e-08,
+      "lexicographic_coordinate_absolute_kw": 1e-08,
+      "relative_primary_objective": 1e-10
+    },
+    "objective": "maximize (U13-L13)*(U30-L30)",
+    "solver_form": "maximize log(U13-L13)+log(U30-L30) with strictly positive widths and exact linear whole-box containment",
+    "timing": "only after final Coupled DOE is fixed"
+  },
+  "optional_box_diagnostics": {
+    "hc_oriented_box": "separate diagnostic only; exact objective must be preregistered before viewing HC results",
+    "no_control_anchored_box": "separate diagnostic only; cannot alter Main Safe Box"
+  },
+  "policy_date": "2026-08-14",
+  "schema_version": 1,
+  "source_repository": {
+    "branch": "codex/dso-vpp-ac-map-pilot",
+    "head": "c18021d9b981f2629e54f60e8c2fc5f33b00c1a2"
+  },
+  "unresolved_execution_parameters": [
+    "AC mesh density",
+    "physical-facet sampling density",
+    "guard-cap sampling density",
+    "interior sampling density",
+    "angular-gap oversampling density",
+    "guard-sector oversampling density",
+    "candidate membership tolerance tau_membership_kw",
+    "fitted-normal materiality threshold (if used)",
+    "descending alpha schedule",
+    "number of alpha levels m",
+    "contraction stopping/numerical policy",
+    "AC validation numerical tolerance",
+    "checkpoint/resume batching",
+    "parallel worker count"
+  ]
+}

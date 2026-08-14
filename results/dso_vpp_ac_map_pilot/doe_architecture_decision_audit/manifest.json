@@ -1,0 +1,96 @@
+{
+  "audit": "DSO_VPP_DOE_ARCHITECTURE_DECISION_ARTIFACT_AUDIT",
+  "files": [
+    {
+      "bytes": 5328,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/audit_report.md",
+      "sha256": "1c8bfa3d31e1b3bf9c518bf431f753b822d0451be0c6e951dbb5034d63a0e507"
+    },
+    {
+      "bytes": 6364,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/audit_summary.json",
+      "sha256": "9d01f0042d974cebbf963d7e434dcd55c03c759c52f175082f43b2a860e49974"
+    },
+    {
+      "bytes": 301192,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/kernel_radial_loss.csv",
+      "sha256": "8927fdd85b342d04c95816c5f220b05ee291f7c42041353139c872ff8a7ab2f6"
+    },
+    {
+      "bytes": 12449,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/kernel_radial_loss_summary.csv",
+      "sha256": "6a35e34414753bc568ed10ed37b8b88b6f15847ca182204074cc3115bcefe639"
+    },
+    {
+      "bytes": 401,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/kernel_retention_by_class.csv",
+      "sha256": "0a6b077c2ae9af1ed0c6619d8e619a5aaa2b647e4cd374c10d59bc4e25e8b36c"
+    },
+    {
+      "bytes": 343866,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/kernel_retention_points.csv",
+      "sha256": "eac0f7428158c31dc19ab4fe626af722c7cc9efc71a9f2334d95bf9d306a02b6"
+    },
+    {
+      "bytes": 12661,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/piecewise_complexity_check.csv",
+      "sha256": "92712bcac978eddd9d55cdabfc8f9832c2f117e174d2d750fa28989ac636e676"
+    },
+    {
+      "bytes": 7103,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/pocket_area_normalized.csv",
+      "sha256": "0dc65727e3f806eb0d1b763b6845456f3d5e26d3212667498ad3244f0b8df628"
+    },
+    {
+      "bytes": 1540,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/pocket_area_normalized_summary.json",
+      "sha256": "63a9084256cdd206cf8e32b4d04801575dc6b7f198f61ed1d2958f9b099da1a2"
+    },
+    {
+      "bytes": 9678,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/vmax_concavity_summary.csv",
+      "sha256": "4dc8ec973dcba70cd7db83c4ab35e4b22df798021ea46e5b1ac875e1bed93ca4"
+    },
+    {
+      "bytes": 32728,
+      "path": "scripts/audit_dso_vpp_doe_architecture_decision.py",
+      "sha256": "c77dfbe25ad7d45c917dacf9e59861adbe5c65eecb65b09f0530ea58b18290e9"
+    }
+  ],
+  "manifest_self_reference": "OMITTED_BY_DESIGN",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "c18021d9b981f2629e54f60e8c2fc5f33b00c1a2",
+  "source_manifests": [
+    {
+      "entry_count": 16,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "sha256": "c114d5f58c2fc3daa70a2590a5d47408935dfca3f50436ce8e04c114ddd61a26",
+      "status": "PASS"
+    },
+    {
+      "entry_count": 14,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/artifact_manifest.csv",
+      "sha256": "2be51c9e7c0a6406f75ec790eb28ffb9dda7a8fcac98d7d70c658afd76299b40",
+      "status": "PASS"
+    },
+    {
+      "entry_count": 19,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/geometric_contraction_threshold_audit/artifact_manifest.csv",
+      "sha256": "53f9e985dd15794881376e8e4f15afc73f47d1469e8b87bb0e151da735ea846f",
+      "status": "PASS"
+    },
+    {
+      "entry_count": 14,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/nonconvexity_resolvability_audit/artifact_manifest.csv",
+      "sha256": "ca4f09d8c3fded8010f6a3c16cdfbbf8cfb076e1622d6b1b378afec2dffdeb62",
+      "status": "PASS"
+    },
+    {
+      "entry_count": 18,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "sha256": "cd8b4b9b25174019670e783340b7a07e2dc1626839df852153ab7eac952332bd",
+      "status": "PASS"
+    }
+  ],
+  "verification_status": "PASS"
+}

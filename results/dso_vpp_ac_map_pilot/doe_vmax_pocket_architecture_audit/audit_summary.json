@@ -1,0 +1,405 @@
+{
+  "architecture_classification": "POCKET_TOPOLOGY_PRECLUDES_SIMPLE_COMPACT_DIFFERENCE_REPRESENTATION",
+  "audit": "DSO_VPP_DOE_VMAX_POCKET_ARCHITECTURE_ARTIFACT_AUDIT",
+  "convexity": {
+    "all_components_convex": false,
+    "all_vmax_pockets_convex": false,
+    "timestamps_with_all_components_convex": 19,
+    "timestamps_with_nonconvex_component": 13,
+    "vmax_component_count": 64,
+    "vmax_convex_component_count": 50,
+    "vmin_component_count": 2
+  },
+  "exact_vmax_pocket_facets": {
+    "count": 50,
+    "max": 17.0,
+    "median": 13.0,
+    "min": 12.0,
+    "q1": 13.0,
+    "q3": 13.0
+  },
+  "generated_manifest_verification": "PASS",
+  "historical_pocket_area_reporting_correction": {
+    "correction": "THE_PREVIOUSLY_QUOTED_9187485.414_KW2_IS_VMAX_ONLY_NOT_TOTAL",
+    "mixed_kw2": 0,
+    "total_kw2": 9187500.680124681,
+    "vmax_only_kw2": 9187485.413888179,
+    "vmin_only_kw2": 15.266236501514186
+  },
+  "locked_guardrails": [
+    "FOUR_FACET_PLUS_GLOBAL_HOMOTHETIC_CONTRACTION_IS_NOT_ACCEPTABLE",
+    "NAIVE_CONVEX_HULL_IS_NOT_ACCEPTABLE",
+    "UNIFORM_CONVEX_HULL_EROSION_IS_NOT_ACCEPTABLE",
+    "NONCONVEXITY_IS_RESOLVABLY_LARGER_THAN_BOUNDARY_SEARCH_RESOLUTION",
+    "VMAX_NONCONVEXITY_RESOLVABLY_STRUCTURAL",
+    "VMIN_NONCONVEXITY_NOT_RESOLVABLE_ABOVE_BOUNDARY_SEARCH_RESOLUTION",
+    "KERNEL_IS_NOT_CREDIBLE_AS_MAIN_COUPLED_DOE",
+    "FULL_EXACT_CONVEX_PARTITION_REQUIRES_21_TO_28_CELLS_PER_TIMESTAMP",
+    "ANGULAR_POLYGON_AND_ALL_DERIVED_REPRESENTATIONS_ARE_GEOMETRIC_REFERENCES_NOT_YET_AC_CERTIFIED"
+  ],
+  "outer_approximation_area_cost": {
+    "3": {
+      "additional_removed_area_kw2": {
+        "count": 19,
+        "max": 112026.96104605259,
+        "median": 100997.1780158134,
+        "min": 66545.08652020972,
+        "q1": 90488.49268910648,
+        "q3": 108658.69608221676
+      },
+      "additional_removed_area_over_polygon_area": {
+        "count": 19,
+        "max": 0.00690913655294753,
+        "median": 0.0062091396863031304,
+        "min": 0.004211477614736011,
+        "q1": 0.00558652845404878,
+        "q3": 0.006702600054812344
+      },
+      "additional_removed_area_over_true_pocket_area": {
+        "count": 19,
+        "max": 0.3363850753750715,
+        "median": 0.329385665283779,
+        "min": 0.3127567881510227,
+        "q1": 0.3257311987592747,
+        "q3": 0.33414351211031074
+      },
+      "component_count_approximated": 50,
+      "timestamp_count_full_vmax_coverage": 19
+    },
+    "4": {
+      "additional_removed_area_kw2": {
+        "count": 19,
+        "max": 28813.642712270972,
+        "median": 25053.523500055177,
+        "min": 16630.43427691233,
+        "q1": 23221.9233655398,
+        "q3": 27520.70104090954
+      },
+      "additional_removed_area_over_polygon_area": {
+        "count": 19,
+        "max": 0.0017765777286756787,
+        "median": 0.0015402492436131642,
+        "min": 0.0010524999717189338,
+        "q1": 0.0014336622285340628,
+        "q3": 0.0016977354800770416
+      },
+      "additional_removed_area_over_true_pocket_area": {
+        "count": 19,
+        "max": 0.0858396928566492,
+        "median": 0.08393751693045187,
+        "min": 0.07768617077147921,
+        "q1": 0.08337161024575186,
+        "q3": 0.08458902873162864
+      },
+      "component_count_approximated": 50,
+      "timestamp_count_full_vmax_coverage": 19
+    },
+    "5": {
+      "additional_removed_area_kw2": {
+        "count": 19,
+        "max": 15200.035204568601,
+        "median": 13317.823422143556,
+        "min": 8260.645076131244,
+        "q1": 11725.84516687498,
+        "q3": 14741.757452755555
+      },
+      "additional_removed_area_over_polygon_area": {
+        "count": 19,
+        "max": 0.0009371964624251597,
+        "median": 0.0008222841071168985,
+        "min": 0.000522796251994359,
+        "q1": 0.0007223972066944322,
+        "q3": 0.0009094102729388004
+      },
+      "additional_removed_area_over_true_pocket_area": {
+        "count": 19,
+        "max": 0.04657582761645378,
+        "median": 0.04464440003528377,
+        "min": 0.03696984214417343,
+        "q1": 0.041188544333983834,
+        "q3": 0.045366939829782335
+      },
+      "component_count_approximated": 50,
+      "timestamp_count_full_vmax_coverage": 19
+    },
+    "8": {
+      "additional_removed_area_kw2": {
+        "count": 19,
+        "max": 3451.422561750227,
+        "median": 3086.581755502295,
+        "min": 2151.125989799304,
+        "q1": 2760.2464080791615,
+        "q3": 3204.1998651539107
+      },
+      "additional_removed_area_over_polygon_area": {
+        "count": 19,
+        "max": 0.00021217017445274516,
+        "median": 0.00019047835104381186,
+        "min": 0.00013613956230660654,
+        "q1": 0.00017031941146299344,
+        "q3": 0.0001976505422333399
+      },
+      "additional_removed_area_over_true_pocket_area": {
+        "count": 19,
+        "max": 0.010830343257766582,
+        "median": 0.009950175436614743,
+        "min": 0.009445469947169037,
+        "q1": 0.009679311477293787,
+        "q3": 0.010344737372960728
+      },
+      "component_count_approximated": 50,
+      "timestamp_count_full_vmax_coverage": 19
+    }
+  },
+  "outer_approximation_boundary_fidelity_classification": {
+    "3": "POOR_WIDESPREAD_SAMPLED_BOUNDARY_FIDELITY_RELATIVE_TO_BEST_TESTED_BUDGET",
+    "4": "POOR_WIDESPREAD_SAMPLED_BOUNDARY_FIDELITY_RELATIVE_TO_BEST_TESTED_BUDGET",
+    "5": "POOR_WIDESPREAD_SAMPLED_BOUNDARY_FIDELITY_RELATIVE_TO_BEST_TESTED_BUDGET",
+    "8": "BEST_TESTED_BUDGET_WITH_LOCALIZED_NONZERO_BOUNDARY_LOSS"
+  },
+  "outer_approximation_boundary_loss": {
+    "3": {
+      "complete_representation_timestamp_count": 19,
+      "delta_r_kw": {
+        "count": 467,
+        "max": 71.52870372532676,
+        "median": 22.23497471473352,
+        "min": 0.6160915520815202,
+        "q1": 10.98266824723025,
+        "q3": 37.56081881321823
+      },
+      "delta_r_over_paired_boundary_bracket": {
+        "count": 467,
+        "max": 387.2458953645483,
+        "median": 68.29458924859098,
+        "min": 1.526445253398601,
+        "q1": 31.996028955637232,
+        "q3": 110.66300220247868
+      },
+      "delta_r_over_r_in": {
+        "count": 467,
+        "max": 0.0461185585784516,
+        "median": 0.01116714642271499,
+        "min": 0.0004615800556078131,
+        "q1": 0.005247580245588246,
+        "q3": 0.018047685648356293
+      },
+      "newly_excluded_count": 467,
+      "newly_excluded_fraction_of_all_inward_points": 0.2764949674363529
+    },
+    "4": {
+      "complete_representation_timestamp_count": 19,
+      "delta_r_kw": {
+        "count": 367,
+        "max": 32.87231759680627,
+        "median": 4.379159658027554,
+        "min": 0.09327075329006156,
+        "q1": 2.2971237392455426,
+        "q3": 9.029639185564474
+      },
+      "delta_r_over_paired_boundary_bracket": {
+        "count": 367,
+        "max": 89.4975416899204,
+        "median": 13.953395383008221,
+        "min": 0.298466410528197,
+        "q1": 6.3522070634583505,
+        "q3": 27.48433938492748
+      },
+      "delta_r_over_r_in": {
+        "count": 367,
+        "max": 0.01528044090754699,
+        "median": 0.0025776231505152403,
+        "min": 4.103496859209077e-05,
+        "q1": 0.0011607377288954113,
+        "q3": 0.004945605470981607
+      },
+      "newly_excluded_count": 367,
+      "newly_excluded_fraction_of_all_inward_points": 0.2172883362936649
+    },
+    "5": {
+      "complete_representation_timestamp_count": 19,
+      "delta_r_kw": {
+        "count": 267,
+        "max": 19.66256650752453,
+        "median": 2.7005271927864345,
+        "min": 0.09960462771310342,
+        "q1": 1.6349363311023133,
+        "q3": 3.873001430551593
+      },
+      "delta_r_over_paired_boundary_bracket": {
+        "count": 267,
+        "max": 53.53292661996485,
+        "median": 8.148943623899612,
+        "min": 0.31873480868193094,
+        "q1": 4.529950300697452,
+        "q3": 14.278650556861656
+      },
+      "delta_r_over_r_in": {
+        "count": 267,
+        "max": 0.009139990958171196,
+        "median": 0.0014224901746824337,
+        "min": 6.270975842070925e-05,
+        "q1": 0.0009089081973819302,
+        "q3": 0.0019850988041894
+      },
+      "newly_excluded_count": 267,
+      "newly_excluded_fraction_of_all_inward_points": 0.15808170515097691
+    },
+    "8": {
+      "complete_representation_timestamp_count": 19,
+      "delta_r_kw": {
+        "count": 9,
+        "max": 7.104194393591303,
+        "median": 1.7095132960937922,
+        "min": 0.9044086075910611,
+        "q1": 1.1955153366488172,
+        "q3": 1.8790139189823762
+      },
+      "delta_r_over_paired_boundary_bracket": {
+        "count": 9,
+        "max": 40.208943523846656,
+        "median": 5.2658294342940435,
+        "min": 2.5445337030359596,
+        "q1": 3.793603506937972,
+        "q3": 5.7918945454809005
+      },
+      "delta_r_over_r_in": {
+        "count": 9,
+        "max": 0.002923330161693105,
+        "median": 0.001211239942793929,
+        "min": 0.0008596397619582419,
+        "q1": 0.0011593549196264874,
+        "q3": 0.0012791286403085467
+      },
+      "newly_excluded_count": 9,
+      "newly_excluded_fraction_of_all_inward_points": 0.0053285968028419185
+    }
+  },
+  "outer_approximation_fidelity_classification_rule": "DESCRIPTIVE_RELATIVE_COMPARISON_ACROSS_TESTED_BUDGETS;NO_PREREGISTERED_ACCEPTANCE_OR_MATERIALITY_THRESHOLD",
+  "reproducibility_protocol": "TWO_INDEPENDENT_GENERATIONS_FROM_PREVIOUSLY_NONEXISTENT_OUTPUT_DIRECTORIES;COMPARE_EVERY_GENERATED_FILE_BYTE_FOR_BYTE_INCLUDING_MANIFEST",
+  "scientific_scope": "GEOMETRIC_ONLY;NOT_AC_INTERIOR_CERTIFIED",
+  "script_sha256": "e9892d2bae905fa2d3f79fbe2c953bc1b8c3281381a7080f743f83cfe4a0a79a",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "c18021d9b981f2629e54f60e8c2fc5f33b00c1a2",
+  "source_manifest_verification": "PASS",
+  "source_manifests": [
+    {
+      "file_count": 16,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "sha256": "c114d5f58c2fc3daa70a2590a5d47408935dfca3f50436ce8e04c114ddd61a26",
+      "status": "PASS"
+    },
+    {
+      "file_count": 14,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/nonconvexity_resolvability_audit/artifact_manifest.csv",
+      "sha256": "ca4f09d8c3fded8010f6a3c16cdfbbf8cfb076e1622d6b1b378afec2dffdeb62",
+      "status": "PASS"
+    },
+    {
+      "file_count": 18,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "sha256": "cd8b4b9b25174019670e783340b7a07e2dc1626839df852153ab7eac952332bd",
+      "status": "PASS"
+    },
+    {
+      "file_count": 11,
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/manifest.json",
+      "sha256": "cfb242f401a60279f3e4930c3bf4ec9346e0e6b2199812b879a43bc544c2e8ca",
+      "status": "PASS"
+    }
+  ],
+  "tolerances": {
+    "area_absolute_kw2": 1e-06,
+    "distance_kw": 1e-08,
+    "orientation_relative": 1e-12
+  },
+  "topology": {
+    "component_counts_per_timestamp_by_class": {
+      "VMAX / bus 13": {
+        "count": 32,
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "q1": 1.0,
+        "q3": 1.0
+      },
+      "VMAX / bus 30": {
+        "count": 32,
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "q1": 1.0,
+        "q3": 1.0
+      },
+      "VMIN / bus 18": {
+        "count": 32,
+        "max": 1.0,
+        "median": 0.0,
+        "min": 0.0,
+        "q1": 0.0,
+        "q3": 0.0
+      },
+      "VMIN / bus 33": {
+        "count": 32,
+        "max": 1.0,
+        "median": 0.0,
+        "min": 0.0,
+        "q1": 0.0,
+        "q3": 0.0
+      },
+      "mixed": {
+        "count": 32,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "q1": 0.0,
+        "q3": 0.0
+      }
+    },
+    "positive_area_component_count": {
+      "count": 32,
+      "max": 3.0,
+      "median": 2.0,
+      "min": 2.0,
+      "q1": 2.0,
+      "q3": 2.0
+    },
+    "positive_area_component_vertex_touch_pair_count": 8,
+    "timestamp_count": 32,
+    "vmax_bus13_and_bus30_geometrically_distinct_at_all_timestamps": true,
+    "vmax_components_per_timestamp": {
+      "count": 32,
+      "max": 2.0,
+      "median": 2.0,
+      "min": 2.0,
+      "q1": 2.0,
+      "q3": 2.0
+    },
+    "zero_area_boundary_run_count": 0,
+    "zero_area_or_vertex_only_contacts_are_not_merged": true
+  },
+  "two_clean_directory_byte_identity_verification": "PASS",
+  "unresolved_scientific_blind_spot": "INTER_RAY_EDGE_AND_ANGULAR_INTERIOR_AC_FEASIBILITY",
+  "vmin_pocket_diagnosis": {
+    "aggregate_area_kw2": 15.266236501514186,
+    "classification": "VMIN_POCKET_GEOMETRIC_EFFECT_NOT_RESOLVABLE_ABOVE_BOUNDARY_SEARCH_RESOLUTION",
+    "component_count": 2,
+    "local_depth_over_bracket": {
+      "count": 2,
+      "max": 0.342032089762666,
+      "median": 0.230178101952418,
+      "min": 0.11832411414217,
+      "q1": 0.17425110804729402,
+      "q3": 0.286105095857542
+    },
+    "qualification": "GEOMETRIC_RESOLUTION_DIAGNOSTIC_ONLY;NOT_A_MATHEMATICAL_CONVEXITY_OR_EXACT_OMISSION_CLAIM",
+    "radial_hull_depth_over_bracket": {
+      "count": 2,
+      "max": 0.3554652731475494,
+      "median": 0.23691090894899802,
+      "min": 0.11835654475044668,
+      "q1": 0.17763372684972237,
+      "q3": 0.2961880910482737
+    }
+  }
+}
