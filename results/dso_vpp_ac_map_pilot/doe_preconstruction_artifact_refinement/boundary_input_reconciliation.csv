@@ -1,0 +1,5 @@
+inventory_item,distinct_search_outcomes,distinct_physical_coordinates,VMAX_count,VMIN_count,guard_truncations,purpose
+physical_ray_boundaries,1561,1561,787,774,0,COMPLETE_DOE_FACET_INPUT_BOUNDARY_SET
+signed_axis_boundaries,128,128,64,64,0,COMPLETE_DOE_FACET_INPUT_BOUNDARY_SET
+total_physical_boundaries,1689,1689,851,838,0,COMPLETE_DOE_FACET_INPUT_BOUNDARY_SET
+guard_truncations,73,NOT_PHYSICAL_BOUNDARIES,0,0,73,TRUNCATED_SECTORS_EXCLUDED_FROM_FACET_BOUNDARY_INPUT

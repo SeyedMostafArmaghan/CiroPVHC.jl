@@ -1,0 +1,23 @@
+voltage_statistic,record_type,category,bus_a,bus_b,value_a,value_b,count,criterion
+Vmax,SUMMARY_CATEGORY,zero_pairs_total,,,,,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,both_endpoints_bus_1,,,,,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,both_endpoints_value_exactly_1pu,,,,,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,both_bus_1_and_value_exactly_1pu,,,,,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,one_endpoint_bus_1_only,,,,,0,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,neither_endpoint_bus_1,,,,,0,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,same_non_slack_bus,,,,,0,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,different_non_slack_buses,,,,,0,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,same_bus,,,,,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,SUMMARY_CATEGORY,different_buses,,,,,0,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmax,DOMINANT_BUS_VALUE_COMBINATION,zero_delta_exact_stored_value,1,1,1.0,1.0,9255817,parsed IEEE-754 float Vmax_a == Vmax_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,zero_pairs_total,,,,,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,both_endpoints_bus_1,,,,,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,both_endpoints_value_exactly_1pu,,,,,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,both_bus_1_and_value_exactly_1pu,,,,,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,one_endpoint_bus_1_only,,,,,0,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,neither_endpoint_bus_1,,,,,0,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,same_non_slack_bus,,,,,0,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,different_non_slack_buses,,,,,0,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,same_bus,,,,,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,SUMMARY_CATEGORY,different_buses,,,,,0,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0
+Vmin,DOMINANT_BUS_VALUE_COMBINATION,zero_delta_exact_stored_value,1,1,1.0,1.0,56751,parsed IEEE-754 float Vmin_a == Vmin_b; exactly 1 p.u. means parsed value == 1.0

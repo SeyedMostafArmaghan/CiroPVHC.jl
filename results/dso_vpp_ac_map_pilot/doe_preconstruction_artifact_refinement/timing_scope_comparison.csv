@@ -1,0 +1,11 @@
+category,benchmark,production
+module loading,excluded (include occurs before run_scan),top-level module loading excluded
+first-call compilation,included for first timed scan evaluation; no warmup in run_scan,included for calls first reached after run_production_probe timer starts
+profile/network loading,excluded (load_canonical_data before timer),included
+configuration/hashing,validation before timer; git/hash after timer,preregistration hashes and locked-config validation included
+probe setup,data/path/output-policy setup excluded,included
+AC evaluations,included,included
+independent replay,included,included
+checkpoint I/O,none,included per direction/timestamp
+serialization/artifact I/O,excluded,final artifact serialization excluded; checkpoint serialization included
+post-processing,excluded,final validation/distributions excluded

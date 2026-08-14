@@ -1,0 +1,4 @@
+region,informative_comparable_pairs,scalar_Vmin_violations,scalar_Vmax_violations,logical_VMIN_violations,logical_VMAX_violations
+NEAR_CENTER,17089194,0,0,0,0
+STRADDLING,22673415,0,0,0,0
+BOTH_FARTHER,10878910,0,0,0,0

@@ -1,0 +1,11 @@
+statistic,threshold_pu,negative_delta_count
+Vmin,0.0,0
+Vmin,1e-07,0
+Vmin,1e-06,0
+Vmin,1e-05,0
+Vmin,2e-05,0
+Vmax,0.0,0
+Vmax,1e-07,0
+Vmax,1e-06,0
+Vmax,1e-05,0
+Vmax,2e-05,0

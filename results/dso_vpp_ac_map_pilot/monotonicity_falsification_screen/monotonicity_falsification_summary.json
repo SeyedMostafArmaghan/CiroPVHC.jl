@@ -1,0 +1,77 @@
+{
+  "classification": "NO_MONOTONICITY_COUNTEREXAMPLE_OBSERVED_IN_STORED_EVALUATIONS",
+  "co_binding_classification": "CO_BINDING_NOT_RESOLVABLE_FROM_STORED_ARTIFACTS",
+  "comparability": {
+    "Vmax_negative_beyond_0e+00": 0,
+    "Vmax_negative_beyond_1e-05": 0,
+    "Vmax_negative_beyond_1e-06": 0,
+    "Vmax_negative_beyond_1e-07": 0,
+    "Vmax_negative_beyond_2e-05": 0,
+    "Vmin_negative_beyond_0e+00": 0,
+    "Vmin_negative_beyond_1e-05": 0,
+    "Vmin_negative_beyond_1e-06": 0,
+    "Vmin_negative_beyond_1e-07": 0,
+    "Vmin_negative_beyond_2e-05": 0,
+    "cross_trajectory_comparable_pairs": 50641519,
+    "logical_VMAX_violations": 0,
+    "logical_VMIN_violations": 0,
+    "same_trajectory_comparable_pairs": 1041398,
+    "scalar_Vmax_violations": 0,
+    "scalar_Vmin_violations": 0,
+    "total_comparable_pairs": 51682917
+  },
+  "coordinate_equality_tolerance_kw": 1e-09,
+  "full_bus_classification": "FULL_BUS_MONOTONICITY_NOT_TESTABLE_FROM_STORED_ARTIFACTS",
+  "full_bus_voltage_vectors_stored": false,
+  "parallelization": "NONE",
+  "population": {
+    "converged_usable_evaluations": 87086,
+    "duplicate_coordinate_groups": 448,
+    "duplicate_coordinates_deduplicated": 0,
+    "duplicate_coordinates_detected": 2114,
+    "duplicate_rows_participating": 2562,
+    "excluded_status_counts": {
+      "NONCONVERGED_AFTER_RETRY": 143,
+      "NONCONVERGED_FIRST_ATTEMPT": 143
+    },
+    "nonconverged_excluded": 286,
+    "number_of_timestamps": 32,
+    "total_stored_evaluations": 87372
+  },
+  "production_classification_preserved": "POSTPRODUCTION_RESULT_AUDIT_COMPLETE_WITH_DOCUMENTED_LIMITATIONS",
+  "purpose": "artifact-only falsification screen; finite observations do not prove monotonicity",
+  "regions": {
+    "BOTH_FARTHER": {
+      "informative_comparable_pairs": 10878910,
+      "logical_VMAX_violations": 0,
+      "logical_VMIN_violations": 0,
+      "region": "BOTH_FARTHER",
+      "scalar_Vmax_violations": 0,
+      "scalar_Vmin_violations": 0
+    },
+    "NEAR_CENTER": {
+      "informative_comparable_pairs": 17089194,
+      "logical_VMAX_violations": 0,
+      "logical_VMIN_violations": 0,
+      "region": "NEAR_CENTER",
+      "scalar_Vmax_violations": 0,
+      "scalar_Vmin_violations": 0
+    },
+    "STRADDLING": {
+      "informative_comparable_pairs": 22673415,
+      "logical_VMAX_violations": 0,
+      "logical_VMIN_violations": 0,
+      "region": "STRADDLING",
+      "scalar_Vmax_violations": 0,
+      "scalar_Vmin_violations": 0
+    }
+  },
+  "repository": {
+    "branch": "codex/dso-vpp-ac-map-pilot",
+    "head": "44cdad078b9503dfef6617c3585b99e7b014cdd9",
+    "preanalysis_git_status_short": "CLEAN"
+  },
+  "runtime_seconds": 22.898135600000387,
+  "voltage_numerical_tolerance_pu": 2e-05,
+  "voltage_tolerance_source": "src/benchmark/dso_vpp_ac_map_stage0.jl:21 REPLAY_VOLTAGE_MATCH_TOLERANCE_PU; config/dso_vpp_production_probe_preregistration.toml [stopping_and_replay] replay_voltage_agreement_pu"
+}
