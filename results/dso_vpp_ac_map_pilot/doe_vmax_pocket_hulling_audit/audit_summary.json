@@ -1,0 +1,259 @@
+{
+  "architecture_interpretation": {
+    "evidence_label": "POCKET_DIFFERENCE_REMAINS_CREDIBLE_COMPACT_GEOMETRIC_FALLBACK_WITH_NONZERO_LOCALIZED_SAMPLED_BOUNDARY_FIDELITY_COST",
+    "main_candidate": "FULL_EXACT_CONVEX_PARTITION",
+    "materiality_threshold": "NONE_PREREGISTERED;NO_THRESHOLD_INVENTED",
+    "retained_fallback": "POCKET_DIFFERENCE_AFTER_GEOMETRIC_CONSERVATIVE_VMAX_HULLING"
+  },
+  "audit": "DSO_VPP_DOE_VMAX_POCKET_CONVEX_HULLING_ARTIFACT_AUDIT",
+  "complexity_after_vmax_hulling": {
+    "cartesian_expansion_count": "NOT_REPORTED;NOT_A_DIRECT_SOLVER_COMPLEXITY_METRIC",
+    "no_binary_count_claim": true,
+    "outer_hull_irredundant_facets": {
+      "count": 32,
+      "max": 31.0,
+      "median": 30.0,
+      "min": 26.0,
+      "q1": 29.0,
+      "q3": 31.0
+    },
+    "timestamp_count": 32,
+    "total_geometric_inequalities_outer_plus_vmax_pockets": {
+      "count": 32,
+      "max": 58.0,
+      "median": 57.0,
+      "min": 53.0,
+      "q1": 55.0,
+      "q3": 57.0
+    },
+    "total_vmax_pocket_facets": {
+      "count": 32,
+      "max": 31.0,
+      "median": 26.0,
+      "min": 23.0,
+      "q1": 25.0,
+      "q3": 26.25
+    },
+    "vmax_bus13_pocket_hull_facets": {
+      "count": 32,
+      "max": 17.0,
+      "median": 13.0,
+      "min": 12.0,
+      "q1": 12.75,
+      "q3": 13.0
+    },
+    "vmax_bus30_pocket_hull_facets": {
+      "count": 32,
+      "max": 14.0,
+      "median": 13.0,
+      "min": 11.0,
+      "q1": 12.75,
+      "q3": 13.0
+    },
+    "vmax_forbidden_pocket_disjunction_groups_per_timestamp": 2,
+    "vmin_classification": "VMIN_NONCONVEXITY_NOT_RESOLVABLE_ABOVE_BOUNDARY_SEARCH_RESOLUTION",
+    "vmin_positive_area_pocket_count_resolution_qualified": 2
+  },
+  "conservative_hulling": {
+    "added_forbidden_area_kw2": {
+      "count": 14,
+      "max": 2402.543605977902,
+      "median": 249.451238032314,
+      "min": 1.2152284078038065,
+      "q1": 7.529158044308133,
+      "q3": 813.9724838233669
+    },
+    "added_forbidden_area_over_polygon_area": {
+      "count": 14,
+      "max": 0.00014773527801930774,
+      "median": 1.5370508039465657e-05,
+      "min": 7.691060397511364e-08,
+      "q1": 4.6436622058663196e-07,
+      "q3": 5.090663727923667e-05
+    },
+    "added_forbidden_area_over_true_pocket_area": {
+      "count": 14,
+      "max": 0.013441857921086424,
+      "median": 0.0013489969954824375,
+      "min": 1.4828383323137632e-05,
+      "q1": 7.351767005853305e-05,
+      "q3": 0.005960783512791887
+    },
+    "all_true_pockets_contained_within_hulls": true,
+    "label": "GEOMETRIC_CONSERVATIVE_FORBIDDEN_REGION_APPROXIMATION",
+    "not_ac_safe_claim": true,
+    "total_added_forbidden_area_kw2": 7499.407640637641,
+    "total_added_forbidden_area_over_total_true_nonconvex_pocket_area": 0.004124754400990831
+  },
+  "full_exact_partition_comparison": {
+    "conceptual_cell_alternatives": {
+      "count": 32,
+      "max": 28.0,
+      "median": 23.0,
+      "min": 21.0,
+      "q1": 22.0,
+      "q3": 24.25
+    },
+    "convex_cells": {
+      "count": 32,
+      "max": 28.0,
+      "median": 23.0,
+      "min": 21.0,
+      "q1": 22.0,
+      "q3": 24.25
+    },
+    "geometric_inequalities": {
+      "count": 32,
+      "max": 109.0,
+      "median": 98.5,
+      "min": 93.0,
+      "q1": 97.0,
+      "q3": 100.5
+    },
+    "locked_range": "21-28 cells;93-109 inequalities;21-28 conceptual cell alternatives"
+  },
+  "generated_manifest_verification": "PASS",
+  "historical_pocket_area_reporting_correction": {
+    "correction": "VMAX_ONLY_VALUE_IS_NOT_THE_TOTAL",
+    "mixed_kw2": 0,
+    "rounded_6_decimal_authoritative_values": {
+      "mixed_kw2": "0.000000",
+      "total_kw2": "9187500.680125",
+      "vmax_only_kw2": "9187485.413888",
+      "vmin_only_kw2": "15.266237"
+    },
+    "total_kw2": 9187500.68012468,
+    "vmax_only_kw2": 9187485.413888179,
+    "vmin_only_kw2": 15.266236501514186
+  },
+  "inventory": {
+    "affected_timestamp_count": 13,
+    "nonconvex_vmax_pocket_count": 14,
+    "vmax_bus13_count": 5,
+    "vmax_bus30_count": 9
+  },
+  "locked_guardrails": [
+    "VMAX_NONCONVEXITY_RESOLVABLY_STRUCTURAL",
+    "VMIN_NONCONVEXITY_NOT_RESOLVABLE_ABOVE_BOUNDARY_SEARCH_RESOLUTION",
+    "KERNEL_IS_NOT_CREDIBLE_AS_MAIN_COUPLED_DOE",
+    "FULL_EXACT_CONVEX_PARTITION_REQUIRES_21_TO_28_CELLS_PER_TIMESTAMP",
+    "ANGULAR_POLYGON_AND_DERIVED_GEOMETRIC_REPRESENTATIONS_ARE_NOT_AC_INTERIOR_CERTIFIED"
+  ],
+  "reproducibility_protocol": "TWO_INDEPENDENT_GENERATIONS_FROM_PREVIOUSLY_NONEXISTENT_OUTPUT_DIRECTORIES;COMPARE_EVERY_GENERATED_FILE_BYTE_FOR_BYTE_INCLUDING_MANIFEST",
+  "sampled_boundary_loss": {
+    "affected_pocket_count": 14,
+    "affected_timestamp_count": 13,
+    "all_inward_points": 1689,
+    "bracket_normalization_status": "DIAGNOSTIC_ONLY;NOT_AN_ACCEPTANCE_OR_SAFETY_THRESHOLD",
+    "delta_r_kw": {
+      "count": 23,
+      "max": 8.682275174487131,
+      "median": 1.37728988917911,
+      "min": 0.014938679710212455,
+      "q1": 0.11636565496633011,
+      "q3": 2.5238161902320826
+    },
+    "delta_r_over_paired_boundary_bracket": {
+      "count": 23,
+      "max": 21.76726502872572,
+      "median": 5.891784690542333,
+      "min": 0.033924241332185134,
+      "q1": 0.45263616204551493,
+      "q3": 10.027389020515347
+    },
+    "delta_r_over_r_original": {
+      "count": 23,
+      "max": 0.005062154689549688,
+      "median": 0.0007217517112174356,
+      "min": 6.436016190306062e-06,
+      "q1": 5.6432494474723975e-05,
+      "q3": 0.0015353609909590118
+    },
+    "newly_excluded_by_pocket_bus_class": {
+      "VMAX / bus 13": 8,
+      "VMAX / bus 30": 15
+    },
+    "newly_excluded_by_primary_class": {
+      "VMAX_BUS_13": 8,
+      "VMAX_BUS_30": 15,
+      "VMIN_BUS_18": 0,
+      "VMIN_BUS_33": 0
+    },
+    "newly_excluded_by_search_kind": {
+      "AXIS": 3,
+      "RAY": 20
+    },
+    "newly_excluded_count": 23,
+    "newly_excluded_fraction_of_all_inward_points": 0.013617525162818236,
+    "newly_excluded_signed_axis_points": 3,
+    "newly_excluded_vmax_points": 23,
+    "signed_axis_point_denominator": 128,
+    "vmax_point_denominator": 851
+  },
+  "scientific_scope": "GEOMETRIC_ONLY;NOT_AC_INTERIOR_CERTIFIED",
+  "script_sha256": "b3d48ef42eed03c9db775fb32ecf5c67eb5903187da143295f37e2f9741793d7",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "aaa6a745dd428c3efd267214337f6cb583489ed3",
+  "source_manifest_verification": "PASS",
+  "source_manifests": [
+    {
+      "file_count": 16,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 15,
+        "RAW_BYTES": 1
+      },
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "sha256": "c114d5f58c2fc3daa70a2590a5d47408935dfca3f50436ce8e04c114ddd61a26",
+      "status": "PASS",
+      "working_tree_sha256": "bbdb73f0d7e7f1a8374b5defa26110ec3d7792f5c3d8154a9f3f03ab2dceace1"
+    },
+    {
+      "file_count": 14,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 14
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/nonconvexity_resolvability_audit/artifact_manifest.csv",
+      "sha256": "ca4f09d8c3fded8010f6a3c16cdfbbf8cfb076e1622d6b1b378afec2dffdeb62",
+      "status": "PASS",
+      "working_tree_sha256": "8dcf657781eb520db02545cbb27c2bffb35c422b385032aaa33c396757fba8f3"
+    },
+    {
+      "file_count": 18,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 18
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "sha256": "cd8b4b9b25174019670e783340b7a07e2dc1626839df852153ab7eac952332bd",
+      "status": "PASS",
+      "working_tree_sha256": "a02f043ca1cae08ec2f14d3e14ab5bb7e55d0e04cbd0c24ae6f6abcd2d47e52b"
+    },
+    {
+      "file_count": 11,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 11
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/manifest.json",
+      "sha256": "cfb242f401a60279f3e4930c3bf4ec9346e0e6b2199812b879a43bc544c2e8ca",
+      "status": "PASS",
+      "working_tree_sha256": "913346b7cb2eb5267d40262b622f5e343e11c5a9198a5a74c8da32098d8f7b5b"
+    },
+    {
+      "file_count": 11,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 10,
+        "RAW_BYTES": 1
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_architecture_audit/manifest.json",
+      "sha256": "21689bd4e69cba0db58bd9fc439f5748c4d8422460ab12d48a17e0146deac46d",
+      "status": "PASS",
+      "working_tree_sha256": "e8ced090b882015fa4a259a98147cc09365cc0502de0c877aa09479a34b72af7"
+    }
+  ],
+  "tolerances": {
+    "area_absolute_kw2": 1e-06,
+    "distance_kw": 1e-08,
+    "orientation_relative": 1e-12
+  },
+  "two_clean_directory_byte_identity_verification": "PASS",
+  "unresolved_scientific_blind_spot": "INTER_RAY_EDGE_AND_ANGULAR_INTERIOR_AC_FEASIBILITY"
+}

@@ -1,0 +1,102 @@
+{
+  "audit": "DSO_VPP_DOE_VMAX_POCKET_CONVEX_HULLING_ARTIFACT_AUDIT",
+  "files": [
+    {
+      "bytes": 4156,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/audit_report.md",
+      "sha256": "97682c923c21aeefb5a07b81b1a8138016aa8f68988ed969ed5e73ca45a680ba"
+    },
+    {
+      "bytes": 9274,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/audit_summary.json",
+      "sha256": "ed59a2116d241520e517a4a888e9c631d92429aeec6d553dd909b3afd8a0dfe1"
+    },
+    {
+      "bytes": 11427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/hulled_pocket_boundary_loss.csv",
+      "sha256": "a25a11e742fa158535d5afe1600dc1b53453d627914e7bedf825ba0ebfb583f1"
+    },
+    {
+      "bytes": 15712,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/hulled_pocket_boundary_loss_summary.csv",
+      "sha256": "df5457b8950b8b48951ea8b306e458491683bb747286fb79f4922e59c1206300"
+    },
+    {
+      "bytes": 12787,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/hulled_pocket_complexity.csv",
+      "sha256": "75c78c897746f7cb1353bac3b559820650481d82280e919cffbf583d170dc066"
+    },
+    {
+      "bytes": 19133,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/hulled_pocket_geometry.csv",
+      "sha256": "3f08e429b7d6beb676cccf78a01aa0e0a319a2c5ab9c6710094aa4e04432182d"
+    },
+    {
+      "bytes": 2055,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/nonconvex_vmax_pockets.csv",
+      "sha256": "28086c6edacd8a3fc8cf09c6fb98ec6a0bb5188d5a964af846f290dd4b7a6822"
+    },
+    {
+      "bytes": 36128,
+      "path": "scripts/audit_dso_vpp_doe_vmax_pocket_hulling.py",
+      "sha256": "b3d48ef42eed03c9db775fb32ecf5c67eb5903187da143295f37e2f9741793d7"
+    }
+  ],
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "aaa6a745dd428c3efd267214337f6cb583489ed3",
+  "source_manifests": [
+    {
+      "file_count": 16,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 15,
+        "RAW_BYTES": 1
+      },
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "sha256": "c114d5f58c2fc3daa70a2590a5d47408935dfca3f50436ce8e04c114ddd61a26",
+      "status": "PASS",
+      "working_tree_sha256": "bbdb73f0d7e7f1a8374b5defa26110ec3d7792f5c3d8154a9f3f03ab2dceace1"
+    },
+    {
+      "file_count": 14,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 14
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/nonconvexity_resolvability_audit/artifact_manifest.csv",
+      "sha256": "ca4f09d8c3fded8010f6a3c16cdfbbf8cfb076e1622d6b1b378afec2dffdeb62",
+      "status": "PASS",
+      "working_tree_sha256": "8dcf657781eb520db02545cbb27c2bffb35c422b385032aaa33c396757fba8f3"
+    },
+    {
+      "file_count": 18,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 18
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "sha256": "cd8b4b9b25174019670e783340b7a07e2dc1626839df852153ab7eac952332bd",
+      "status": "PASS",
+      "working_tree_sha256": "a02f043ca1cae08ec2f14d3e14ab5bb7e55d0e04cbd0c24ae6f6abcd2d47e52b"
+    },
+    {
+      "file_count": 11,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 11
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_architecture_decision_audit/manifest.json",
+      "sha256": "cfb242f401a60279f3e4930c3bf4ec9346e0e6b2199812b879a43bc544c2e8ca",
+      "status": "PASS",
+      "working_tree_sha256": "913346b7cb2eb5267d40262b622f5e343e11c5a9198a5a74c8da32098d8f7b5b"
+    },
+    {
+      "file_count": 11,
+      "file_verification_modes": {
+        "CANONICAL_LF_AFTER_WINDOWS_CHECKOUT_CRLF_NORMALIZATION": 10,
+        "RAW_BYTES": 1
+      },
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_architecture_audit/manifest.json",
+      "sha256": "21689bd4e69cba0db58bd9fc439f5748c4d8422460ab12d48a17e0146deac46d",
+      "status": "PASS",
+      "working_tree_sha256": "e8ced090b882015fa4a259a98147cc09365cc0502de0c877aa09479a34b72af7"
+    }
+  ],
+  "verification": "PASS"
+}
