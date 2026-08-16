@@ -1,0 +1,7 @@
+future_output,status,locked_content
+validation_attempts.csv,FUTURE_RESULT_NOT_CREATED,attempt_id;validation_point_id;control_id;attempt_index;initialization;retry_seed_id;solver/replay/voltage statuses;V extrema;residuals;iterations;runtime
+validation_point_results.csv,FUTURE_RESULT_NOT_CREATED,validation_point_id;primary status;attempt count;V extrema;mechanism;violation magnitude;all mesh provenance
+validation_timestamp_summary.csv,FUTURE_RESULT_NOT_CREATED,timestamp;control outcome;status counts;failure distributions;checkpoint completion
+validation_failure_summary.csv,FUTURE_RESULT_NOT_CREATED,decision classification;counterexamples by timestamp/category/class/guard/fallback membership
+validation_checkpoint_manifest.csv,FUTURE_RESULT_NOT_CREATED,point/attempt completion keys;retry state;row hashes;timestamp completion hashes
+validation_report.md,FUTURE_RESULT_NOT_CREATED,controls;full-mesh outcomes;decision rule;finite-mesh qualification

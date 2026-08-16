@@ -1,0 +1,114 @@
+{
+  "artifact": "DSO_VPP_AC_INTERIOR_VALIDATION_PREREGISTRATION",
+  "files": [
+    {
+      "bytes": 3248,
+      "path": "execution_and_retry_policy.md",
+      "sha256": "71d8d7e4d5da296b37ef2f8b201d0ced7cdb0f3d9b9bebaf9050be3d27406ba5"
+    },
+    {
+      "bytes": 956,
+      "path": "future_output_schemas.csv",
+      "sha256": "9eca79dd8cf2673670b9c5e12dbb25af2509a4ec9916b76d92515c4f704822d3"
+    },
+    {
+      "bytes": 2231,
+      "path": "preregistration_report.md",
+      "sha256": "bb895d64e65d8c719d4c2e312e21a3e96c15ecbe33ec7583953b1d210fdce41f"
+    },
+    {
+      "bytes": 830,
+      "path": "runtime_budget.csv",
+      "sha256": "1732ed3e44b8bf2d87727be7bfbf4fc06b247efa6fbb6723e70fbf5f64a2414d"
+    },
+    {
+      "bytes": 27566,
+      "path": "source_manifest_verification.csv",
+      "sha256": "a7ccf4db6421ea8488e76fa551c337fbc11ed043b120f880b3462060d12dd4a7"
+    },
+    {
+      "bytes": 77548,
+      "path": "validation_cell_centroids.csv",
+      "sha256": "86852b9aa6d30e9719d4e489e4f68afaf16c9a968f50259f4a27de5cbe9a8726"
+    },
+    {
+      "bytes": 5394,
+      "path": "validation_config.json",
+      "sha256": "72688bcf504d87f8e76cd698ce4cd7cc12456c4594ed51db1863e751127377cb"
+    },
+    {
+      "bytes": 23145,
+      "path": "validation_controls.csv",
+      "sha256": "5ac123533777773eb30481ec8bd42e2af4706846e48b790e316a5ee01922bd76"
+    },
+    {
+      "bytes": 1766,
+      "path": "validation_decision_rules.md",
+      "sha256": "ca66563ebba5bcb87c9492d57f7511ea6405f7e315ed1ee50183ad3bd723e9a4"
+    },
+    {
+      "bytes": 2096,
+      "path": "validation_integrity_checks.csv",
+      "sha256": "713244ae8f62e0f9ae04764e598ac0092ddb2a5a6f16280413e0acd70f3485e5"
+    },
+    {
+      "bytes": 2236,
+      "path": "validation_mesh_summary.csv",
+      "sha256": "0d0192b386455d6ac7f6f09e83e1f0a341066ff77b729241b73f81bd4547f171"
+    },
+    {
+      "bytes": 15936036,
+      "path": "validation_point_provenance.csv",
+      "sha256": "1fcde52f4de94ae5fcd59ffbef188335ddff08d9ad5f75ab5a5aa08338051274"
+    },
+    {
+      "bytes": 18548673,
+      "path": "validation_points.csv",
+      "sha256": "ee7f5ec7ea461becfcf01d9eab1620d4e8d9c0e0ae7329439e4677410acdb344"
+    },
+    {
+      "bytes": 360427,
+      "path": "validation_polygon_edges.csv",
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85"
+    }
+  ],
+  "generator_path": "scripts/prepare_dso_vpp_ac_interior_validation_preregistration.jl",
+  "generator_sha256": "1edbc5c1ff03a1375a832f48f469f23c019dd4c1ca1d9bc9eadd6f02977219fe",
+  "no_new_ac_evaluations_performed": true,
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "62695e514c97bff04689aac1e9301a3728200144",
+  "source_manifests": [
+    {
+      "file_count": 16,
+      "manifest_working_tree_sha256": "bbdb73f0d7e7f1a8374b5defa26110ec3d7792f5c3d8154a9f3f03ab2dceace1",
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "status": "PASS"
+    },
+    {
+      "file_count": 18,
+      "manifest_working_tree_sha256": "a02f043ca1cae08ec2f14d3e14ab5bb7e55d0e04cbd0c24ae6f6abcd2d47e52b",
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "status": "PASS"
+    },
+    {
+      "file_count": 11,
+      "manifest_working_tree_sha256": "e8ced090b882015fa4a259a98147cc09365cc0502de0c877aa09479a34b72af7",
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_architecture_audit/manifest.json",
+      "status": "PASS"
+    },
+    {
+      "file_count": 8,
+      "manifest_working_tree_sha256": "1be779681f3425a1e9886e2145710f4dcc79e777cb7ec09ef3075fb5f8ebbb1a",
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/manifest.json",
+      "status": "PASS"
+    },
+    {
+      "file_count": 13,
+      "manifest_working_tree_sha256": "e009cbdb0783efa09723fb7e9f0825a500542ab41905906c60d06f71a2da34e7",
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_runtime_benchmark/manifest.json",
+      "status": "PASS"
+    }
+  ],
+  "validation_started": false,
+  "verification": "PASS"
+}

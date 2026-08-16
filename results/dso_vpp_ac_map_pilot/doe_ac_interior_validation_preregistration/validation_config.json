@@ -1,0 +1,147 @@
+{
+  "ac_contract": {
+    "N_P": 2,
+    "call_path": [
+      "DSOVPPProductionProbe.evaluate_physical!",
+      "DSOVPPACMapStage0.evaluate_point",
+      "DSOVPPACMapStage0.primary_power_flow",
+      "CiroPVHC.replay_s1b_interval"
+    ],
+    "coordinate_space": "ABSOLUTE_PHYSICAL_P_PCC_P13_P30",
+    "entry_function": "DSOVPPProductionProbe.evaluate_physical!",
+    "interface_buses": [
+      13,
+      30
+    ],
+    "nonconvergence_semantics": "UNRESOLVED_NOT_INFEASIBLE",
+    "positive_p_semantics": "INJECTION_EXPORT",
+    "q13_kvar": 0,
+    "q30_kvar": 0,
+    "reference_pv_capacity_kw": 0,
+    "units": "kW",
+    "vmax_pu": 1.05,
+    "vmin_pu": 0.9
+  },
+  "architecture": {
+    "certification": "GEOMETRIC_ONLY;NOT_AC_INTERIOR_CERTIFIED",
+    "compact_fallback": "CONVEX-HULLED VMAX POCKET-DIFFERENCE",
+    "geometry_inventory": {
+      "angular_polygon_edges_total": 1689,
+      "cells_per_timestamp_max": 28,
+      "cells_per_timestamp_min": 21,
+      "convex_cells_total": 749,
+      "timestamps": 32,
+      "unique_geometric_facets": 2452
+    },
+    "main_candidate": "FULL EXACT CONVEX PARTITION",
+    "unresolved_issue": "INTER_RAY_EDGE_AND_ANGULAR_INTERIOR_AC_FEASIBILITY"
+  },
+  "boundary_mesh": {
+    "directions_per_timestamp": 720,
+    "ray_coordinate_convention": "PRODUCTION_CENTERED_SIGN_NORMALIZED_ANGLE_USING_COMMITTED_TIMESTAMP_SCALES",
+    "test_geometric_boundary_without_inward_perturbation": true,
+    "theta_start_deg": 0,
+    "theta_step_deg": 0.5,
+    "theta_stop_inclusive_deg": 359.5
+  },
+  "canonicalization": {
+    "coordinate_tolerance_kw": 1.0e-8,
+    "metric": "L_INFINITY",
+    "provenance": "ALL_MEMBERSHIPS_PRESERVED",
+    "representative": "FIRST_IN_BOUNDARY_THEN_CELL_STABLE_SOURCE_ORDER",
+    "scope": "WITHIN_TIMESTAMP_ONLY_BECAUSE_AC_STATE_DIFFERS_BY_TIMESTAMP"
+  },
+  "cell_mesh": {
+    "barycentric_coordinates": "ALL_NONNEGATIVE_INTEGER_I_J_K_WITH_I+J+K=5",
+    "barycentric_denominator": 5,
+    "cell_count": 749,
+    "centroid": "ARITHMETIC_MEAN_OF_ORDERED_CELL_VERTICES",
+    "triangulation": "DETERMINISTIC_CENTROID_FAN_TO_EACH_CONSECUTIVE_CELL_EDGE"
+  },
+  "checkpoint": {
+    "completed_timestamp_checkpoint": "ATOMIC",
+    "resume": "HASH_VERIFIED_ID_KEYED_NO_DUPLICATE_ROWS",
+    "substantive_point_interval_within_timestamp": 250
+  },
+  "counts": {
+    "controls": 128,
+    "duplicates_removed": 24179,
+    "expected_total_ac_first_attempts": 65622,
+    "hard_cap": 120000,
+    "raw_boundary_points": 23040,
+    "raw_cell_lattice_points": 66633,
+    "raw_substantive_points": 89673,
+    "timestamps": 32,
+    "unique_substantive_points": 65494
+  },
+  "execution": {
+    "adaptive_points_prohibited": true,
+    "complete_after_counterexample": true,
+    "julia_processes": 1,
+    "julia_threads": 1,
+    "mode": "SERIAL",
+    "order": [
+      "TIMESTAMP_CHRONOLOGICAL",
+      "CONTROLS",
+      "BOUNDARY_THETA_ASCENDING",
+      "REMAINING_CELL_POINTS_CANONICAL_ID"
+    ]
+  },
+  "generator_sha256": "1edbc5c1ff03a1375a832f48f469f23c019dd4c1ca1d9bc9eadd6f02977219fe",
+  "no_new_ac_evaluations_performed": true,
+  "permitted_success_conclusion": "NO_AC_COUNTEREXAMPLE_DETECTED_AT_PREREGISTERED_MESH_RESOLUTION",
+  "retry": {
+    "failed_retry_status": "UNRESOLVED_NONCONVERGENCE",
+    "first_attempt": "FLAT_START",
+    "maximum_retries": 1,
+    "retry_seed": "NEAREST_PREVIOUSLY_CONVERGED_SAME_TIMESTAMP_POINT_EUCLIDEAN_PHYSICAL_KW_TIE_LOWEST_EXECUTION_ORDER_THEN_ID",
+    "solver_tolerance_changes": "PROHIBITED"
+  },
+  "runtime": {
+    "fixed_setup_seconds": 22.382838,
+    "future_checkpoint_io_overhead": "NOT_MEASURED",
+    "safe_on_personal_laptop_with_checkpointing": true,
+    "supporting_interval_ms_per_evaluation": [
+      0.469620290043398,
+      0.625720804888803
+    ],
+    "validation_planning_rate_ms_per_evaluation": 0.625720804888803
+  },
+  "schema_version": 1,
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "62695e514c97bff04689aac1e9301a3728200144",
+  "source_manifests": [
+    {
+      "file_count": 16,
+      "manifest_working_tree_sha256": "bbdb73f0d7e7f1a8374b5defa26110ec3d7792f5c3d8154a9f3f03ab2dceace1",
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/artifact_manifest.csv",
+      "status": "PASS"
+    },
+    {
+      "file_count": 18,
+      "manifest_working_tree_sha256": "a02f043ca1cae08ec2f14d3e14ab5bb7e55d0e04cbd0c24ae6f6abcd2d47e52b",
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "status": "PASS"
+    },
+    {
+      "file_count": 11,
+      "manifest_working_tree_sha256": "e8ced090b882015fa4a259a98147cc09365cc0502de0c877aa09479a34b72af7",
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_architecture_audit/manifest.json",
+      "status": "PASS"
+    },
+    {
+      "file_count": 8,
+      "manifest_working_tree_sha256": "1be779681f3425a1e9886e2145710f4dcc79e777cb7ec09ef3075fb5f8ebbb1a",
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/manifest.json",
+      "status": "PASS"
+    },
+    {
+      "file_count": 13,
+      "manifest_working_tree_sha256": "e009cbdb0783efa09723fb7e9f0825a500542ab41905906c60d06f71a2da34e7",
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_runtime_benchmark/manifest.json",
+      "status": "PASS"
+    }
+  ],
+  "task_type": "ARTIFACT_ONLY_PREREGISTRATION_NO_AC_EXECUTION",
+  "validation_started": false
+}

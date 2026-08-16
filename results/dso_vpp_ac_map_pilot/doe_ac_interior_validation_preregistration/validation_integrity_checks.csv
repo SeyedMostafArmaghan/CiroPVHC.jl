@@ -1,0 +1,21 @@
+check_id,timestamp,status,observed,expected,tolerance,detail
+TIMESTAMP_COUNT,ALL,PASS,32,32,exact,All timestamps represented
+CELL_COUNT,ALL,PASS,749,749,exact,All exact convex cells represented
+CELLS_PER_TIMESTAMP_RANGE,ALL,PASS,21-28,21-28,inclusive,Locked per-timestamp exact-cell inventory
+UNIQUE_GEOMETRIC_FACET_COUNT,ALL,PASS,2452,2452,exact,Committed shared-facet-deduplicated inventory
+CELL_CENTROID_FAN_TRIANGLE_COUNT,ALL,PASS,3173,3173,exact,One centroid-fan triangle per consecutive cell edge
+BOUNDARY_RAW_COUNT,ALL,PASS,23040,23040,exact,720 directions x 32 timestamps
+CELL_RAW_COUNT,ALL,PASS,66633,66633,exact,21 barycentric lattice points x 3173 cell edges
+UNIQUE_ID_COUNT,ALL,PASS,65494,65494,exact,Canonical IDs unique
+SUBSTANTIVE_CAP,ALL,PASS,65494,120000,upper bound,Hard cap not exceeded
+BOUNDARY_ON_POLYGON,ALL,PASS,4.547473508864641e-13,<=1e-8 kW,1.0e-8,Ray intersections lie on source polygon edges
+CELL_CENTROIDS_INSIDE,ALL,PASS,-3.4727629205360167,<=1e-8 kW,1.0e-8,Arithmetic means lie inside/on convex cells
+CELL_POINTS_INSIDE,ALL,PASS,6.465881158106669e-13,<=1e-8 kW,1.0e-8,All lattice points lie inside/on source cells
+ALL_SUBSTANTIVE_INSIDE_MAIN,ALL,PASS,true,true,1.0e-8,All canonical points inside/on angular polygon
+FINITE_COORDINATES,ALL,PASS,true,true,exact,No NaN/Inf P coordinates
+PRODUCTION_CENTERS_UNCHANGED,ALL,PASS,true,true,1.0e-8,Fan centers match committed production centers and lie inside/on every timestamp cell
+PHYSICAL_COORDINATE_CONTRACT,ALL,PASS,ABSOLUTE_PHYSICAL_P_PCC_P13_P30,kW,exact,No command/reference-PV coordinate conversion
+Q_POLICY,ALL,PASS,Q13=Q30=0,Q13=Q30=0,exact,Unity-power-factor interface policy unchanged
+REFERENCE_PV_POLICY,ALL,PASS,reference_pv_capacity_kw=0,reference_pv_capacity_kw=0,exact,Production validation contract
+BOUNDARY_DIRECTIONS_EACH_TIMESTAMP,ALL,PASS,720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720;720,720,exact,All theta=0:0.5:359.5 directions
+SOURCE_MANIFESTS,ALL,PASS,PASS,PASS,exact,All entries in five required manifests verified
