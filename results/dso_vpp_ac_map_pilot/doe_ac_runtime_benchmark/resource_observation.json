@@ -1,0 +1,42 @@
+{
+  "observation_scope": "COARSE_PROCESS_LEVEL_OBSERVATION_DURING_BOUNDED_BENCHMARK",
+  "logical_cpu_count": 12,
+  "julia_process_count": 1,
+  "julia_thread_count": 1,
+  "ac_path_threading_observation": "NO_THREADING_CONSTRUCT_FOUND;SERIAL_SINGLE_JULIA_THREAD_EXECUTION",
+  "exact_cpu_utilization_claimed": false,
+  "in_script_setup_seconds": 22.3828378,
+  "baseline_process_rss_bytes": 764047360,
+  "peak_process_rss_bytes": 800485376,
+  "approximate_incremental_peak_rss_bytes": 36438016,
+  "total_physical_memory_bytes": 16849256448,
+  "timed_loop_wall_seconds": 0.0241198,
+  "timed_loop_process_cpu_seconds": 0.0309999999999988,
+  "average_process_cores": 1.2852511214852,
+  "warmup_wall_seconds": 0.207014,
+  "timed_logical_evaluation_count": 15,
+  "actual_ac_attempt_count": 16,
+  "retry_attempt_count": 0,
+  "maximum_ac_attempt_count": 20,
+  "laptop_safety_classification": "SAFE_ON_PERSONAL_LAPTOP_WITH_CHECKPOINTING",
+  "historical_production_probe": {
+    "source": "production_probe/run_manifest.toml",
+    "wall_seconds": 54.5810000896454,
+    "actual_ac_evaluation_count": 87372,
+    "julia_thread_count": 1,
+    "peak_rss_bytes": 996311040,
+    "historical_not_new_benchmark": true
+  },
+  "parallelization": {
+    "technically_parallelizable": true,
+    "current_implementation_already_supports_parallel_execution": false,
+    "safe_deterministic_condition": "WORKER_OWNED_NETWORK_AND_EVALUATION_STATE;DETERMINISTIC_STATIC_PARTITION;ORDERED_MERGE",
+    "shared_state_hazard": "EvaluationState mutates logical IDs, attempt IDs, accepted-neighbor warm starts, and attempt rows"
+  },
+  "checkpoint_recommendation": {
+    "within_timestamp_batch_size": 250,
+    "atomic_completion_unit": "PER_TIMESTAMP",
+    "ordering": "PREREGISTERED_TIMESTAMP_THEN_POINT_ID",
+    "production_infrastructure_reuse": "REUSE_ATOMIC_WRITE_AND_PROVENANCE_HASH_PATTERN;DO_NOT_REUSE_SCHEMA_SPECIFIC_SERIALIZED_TIMESTAMPWORK"
+  }
+}

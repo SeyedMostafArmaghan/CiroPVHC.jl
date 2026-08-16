@@ -1,0 +1,18 @@
+operation,benchmark_timer_scope,production_full_run_scope,evidence,detail
+coordinate assignment,INSIDE_TIMER,INSIDE_TIMER,benchmark:505-512;production:285-288,Scalar P13/P30 argument access and Float64 normalization are inside; geometric point selection/derivation happened earlier.
+physical-injection assembly,INSIDE_TIMER,INSIDE_TIMER,stage0:308-318,Allocates injection and net-demand arrays per call.
+network state preparation,INSIDE_TIMER,INSIDE_TIMER,stage0:310-317,Per-call assembled inputs are inside; static network construction and profile loading are outside the benchmark point timer.
+radial AC power-flow solve,INSIDE_TIMER,INSIDE_TIMER,stage0:320-332,Primary flat-start radial BFS.
+replay_s1b_interval,INSIDE_TIMER,INSIDE_TIMER,stage0:334-360,Independent replay and residual solution path.
+voltage-limit classification,INSIDE_TIMER,INSIDE_TIMER,stage0:369-375;production:296,Stage0 classification and production attempt_class both occur before evaluate_physical! returns.
+primary binding classification,OUTSIDE_TIMER,INSIDE_TIMER,"benchmark:512-531;production:534-536,747-749",Benchmark binding_mechanism is computed after the point timer; production search-level binding analysis remains inside the full run timer.
+evaluation ID allocation,INSIDE_TIMER,INSIDE_TIMER,"production:287-288,303",Logical and attempt counters mutate inside evaluate_physical!.
+attempt-row construction,INSIDE_TIMER,INSIDE_TIMER,"production:250-279,299-303",In-memory NamedTuple construction and push are included.
+provenance capture,INSIDE_TIMER,INSIDE_TIMER,production:253-278,Per-attempt timestamp/search/phase/initialization provenance fields are captured inside; file hashing is outside.
+neighbor/warm-start state update,INSIDE_TIMER,INSIDE_TIMER,"production:304-309,321-350",Accepted-neighbor voltage copy/push is included; nearest-neighbor search occurs only after first-attempt nonconvergence.
+accepted-endpoint storage,INSIDE_TIMER,INSIDE_TIMER,production:304-309;471-560;698-763,Numerically accepted neighbor storage is inside the point timer; production safe/violating search-vector storage is outside the point wrapper but inside the production run.
+re-entry bookkeeping,NOT_APPLICABLE,INSIDE_TIMER,"production:399-410,510-512,723-725",The bounded benchmark does not run a ray/axis sweep.
+adaptive-trigger bookkeeping,NOT_APPLICABLE,INSIDE_TIMER,"production:784-801,1444-1455",The bounded benchmark uses committed points and creates no adaptive plan.
+CSV/dataframe row materialization,OUTSIDE_TIMER,OUTSIDE_TIMER,"benchmark:512-531,551,557-570;production:1216-1281",Benchmark timing-row merge and CSV writes are outside. Production final CSVs are after finished_at; in-memory attempt rows are a separate inside-timer item. No DataFrame is used.
+checkpoint write,NOT_APPLICABLE,INSIDE_TIMER,"production:815-834,867-874,1421-1455","Production writes 1,794 current-work checkpoints and 32 completed-timestamp checkpoints; the benchmark writes none."
+manifest/provenance hashing,OUTSIDE_TIMER,MIXED,"benchmark:615-637;production:1470-1486,1265-1404","Benchmark package hashes are after all timings. Production preregistration/provenance hashes are inside run wall, while final output-manifest hashing is after finished_at."

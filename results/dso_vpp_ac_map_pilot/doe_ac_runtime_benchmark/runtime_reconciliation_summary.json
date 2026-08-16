@@ -1,0 +1,132 @@
+{
+  "ac_core_rate": "NOT_SEPARATELY_IDENTIFIABLE_FROM_CURRENT_ARTIFACTS",
+  "architecture": {
+    "compact_fallback": "CONVEX_HULLED_POCKET_DIFFERENCE",
+    "main_candidate": "FULL_EXACT_CONVEX_PARTITION",
+    "unresolved_issue": "INTER_RAY_EDGE_AND_ANGULAR_INTERIOR_AC_FEASIBILITY"
+  },
+  "benchmark_state_reuse": "PARTIAL",
+  "benchmark_timer_label": "FULL_PRODUCTION_IN_MEMORY_LOGICAL_EVALUATION_NO_RETRY_EXCLUDING_SEARCH_ORCHESTRATION_AND_IO",
+  "benchmark_timing_order": {
+    "descriptive_interpretation": "The maximum is call 2, not call 1. The anchor block is slower on average; calls 6-15 are comparatively stable. Timestamp and category are confounded by fixed execution order; no significance claim.",
+    "first_five_mean_seconds": 9.821999999999999e-05,
+    "first_timed_call_is_maximum": false,
+    "first_timed_call_seconds": 0.0001147,
+    "later_ten_mean_seconds": 6.461e-05,
+    "maximum_execution_index": 2,
+    "maximum_seconds": 0.0001545
+  },
+  "classification": "MICROBENCHMARK_AND_PRODUCTION_TIMING_RECONCILED",
+  "full_in_memory_evaluation_rate": {
+    "mean_ms": 0.0758133333333,
+    "median_ms": 0.0659,
+    "scope": "CURRENT_LAPTOP_CONVERGED_NO_RETRY_IN_MEMORY_WRAPPER"
+  },
+  "interior_centroid_result": {
+    "classification": "DOE_BENCHMARK_CELL_CENTROIDS_3_OF_3_AC_FEASIBLE",
+    "first_ever_claim": false,
+    "qualifier": "CELL_CENTROID_POINTS_ONLY;SMALL_N;NO_INTERIOR_SAFETY_INFERENCE",
+    "secondary_note": "Prior committed Stage0 two-dimensional non-axis AC points exist under a different reference-PV context."
+  },
+  "no_new_ac_evaluations_performed": true,
+  "production": {
+    "actual_ac_attempts": 87372,
+    "adaptive_ray_searches": 482,
+    "aggregate_rates_ms": {
+      "production_per_actual_attempt": 0.6246967001973789,
+      "production_per_logical_evaluation": 0.6257208048888029,
+      "stage0_internal_per_actual_attempt_mean": 0.2216980829098567,
+      "timestamp_sum_per_actual_attempt": 0.5348051980002747
+    },
+    "all_ray_searches": 1634,
+    "all_search_units_axis_center_ray": 1794,
+    "axis_searches": 128,
+    "base_ray_searches": 1152,
+    "boundary_searches_axis_plus_ray": 1762,
+    "broad_layer_reconciliation_seconds": {
+      "run_scope_minus_timestamp_sum": 7.854000329965386,
+      "stage0_evaluate_point_internal_sum": 19.3702049,
+      "sum": 54.581000089645386,
+      "timestamp_scope_minus_stage0_sum": 27.35679485968
+    },
+    "center_search_units": 32,
+    "converged_attempts_added_to_accepted_neighbors": 87086,
+    "logical_evaluations_first_attempts": 87229,
+    "nonconverged_attempt_rows": 286,
+    "production_wall_seconds": 54.581000089645386,
+    "retry_attempts": 143,
+    "retry_runtime_seconds": {
+      "all_nonconverged_attempts": 4.4765435,
+      "nonconverged_first_attempts": 2.0157791,
+      "retry_attempts": 2.4607644
+    },
+    "search_kind_attempt_counts": {
+      "AXIS": 7276,
+      "CENTER": 32,
+      "RAY": 80064
+    },
+    "stage0_runtime_ms": {
+      "max": 364.2478,
+      "mean": 0.2216980829098567,
+      "median": 0.1377,
+      "min": 0.1065,
+      "q1": 0.1273,
+      "q3": 0.1551
+    },
+    "stage0_runtime_sum_seconds": 19.3702049,
+    "status_counts": {
+      "CONVERGED_FEASIBLE": 50777,
+      "CONVERGED_INFEASIBLE": 36309,
+      "NONCONVERGED_AFTER_RETRY": 143,
+      "NONCONVERGED_FIRST_ATTEMPT": 143
+    },
+    "stored_evaluation_attempt_rows": 87372,
+    "timestamp_count": 32,
+    "timestamp_runtime_sum_seconds": 46.72699975968,
+    "two_point_affine_fit": {
+      "F_seconds": 13.616491809449817,
+      "c_ms_per_logical_evaluation": 0.46962029004339806,
+      "c_seconds_per_logical_evaluation": 0.00046962029004339806,
+      "delta_N": 83538,
+      "delta_T_seconds": 39.23113978964538,
+      "equation": "T = F + cN",
+      "evidence_limit": "DESCRIPTIVE_TWO_POINT_FIT_WITH_NON_EQUIVALENT_SCOPES_AND_WORKLOADS",
+      "phase_b": {
+        "N": 3691,
+        "T_seconds": 15.3498603
+      },
+      "production": {
+        "N_logical": 87229,
+        "T_seconds": 54.581000089645386
+      }
+    }
+  },
+  "production_state_reuse": "PARTIAL",
+  "provenance_chain": [
+    {
+      "commit": "c18021d9b981f2629e54f60e8c2fc5f33b00c1a2",
+      "subject": "audit: finalize DOE preconstruction artifact analysis"
+    },
+    {
+      "commit": "aaa6a745dd428c3efd267214337f6cb583489ed3",
+      "subject": "checkpoint: preserve DOE architecture audits"
+    },
+    {
+      "commit": "29e20ac5115806738c47b587c795c422a1297eee",
+      "subject": "checkpoint: preserve VMAX pocket hulling audit"
+    },
+    {
+      "commit": "UNCOMMITTED",
+      "subject": "current runtime benchmark and reconciliation"
+    }
+  ],
+  "validation_planning_rate": {
+    "fixed_setup_seconds_reported_separately": 22.3828378,
+    "future_checkpoint_io_overhead": "NOT_MEASURED_REQUIRES_PREREGISTERED_ALLOWANCE",
+    "selected_ms_per_evaluation": 0.6257208048888029,
+    "supporting_interval_ms_per_evaluation": [
+      0.46962029004339806,
+      0.6257208048888029
+    ]
+  }
+}

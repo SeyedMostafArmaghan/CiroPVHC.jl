@@ -1,0 +1,77 @@
+{
+  "byte_identical_original_timing_outputs_expected": false,
+  "deterministic_reconciliation_outputs": true,
+  "files": [
+    {
+      "bytes": 4134,
+      "path": "benchmark_config.json",
+      "sha256": "ea1f02c5af3dd45ce781881a325afdb60d116691c32d11e95f28bdb0bfdd837f"
+    },
+    {
+      "bytes": 3188,
+      "path": "benchmark_points.csv",
+      "sha256": "4f72a3bf1d6de505d76284e1baae9ab3f3b15d7bfe844045d47598c49252e249"
+    },
+    {
+      "bytes": 5079,
+      "path": "benchmark_report.md",
+      "sha256": "f63447d4613380f1b707edbb30671cef8fd0fbe134e84741eba2be0d07750b84"
+    },
+    {
+      "bytes": 1267,
+      "path": "benchmark_runtime_summary.csv",
+      "sha256": "a3c64238bb0cf386ee41b10789cac0f5f52398a328a58feabaf009cc7e58bc88"
+    },
+    {
+      "bytes": 1545,
+      "path": "benchmark_timing_order.csv",
+      "sha256": "bff8fd9406e19a440686c4bd8e59009a9a6bed4818773467de603f2e6fcd2734"
+    },
+    {
+      "bytes": 4950,
+      "path": "benchmark_timings.csv",
+      "sha256": "f35e1e0889d6ee4bd52b8c7c8dddd7be2e7bf1816812bef8bb6a5e47bbea7f58"
+    },
+    {
+      "bytes": 7886,
+      "path": "production_timing_reconstruction.csv",
+      "sha256": "43b925afb51cf555ef75cc4fef4d5c77de7986827a2874c459252cd474ecfe17"
+    },
+    {
+      "bytes": 36406,
+      "path": "reconstruct_runtime_reconciliation.py",
+      "sha256": "749ea2a0fb669a0ba7b02e7b40ba26988eb6e200da02c29cc9e9bc365819c6f0"
+    },
+    {
+      "bytes": 1920,
+      "path": "resource_observation.json",
+      "sha256": "50ea81f6f5e509a0d66855282ce94bae36952e43cd2e3b5bcfe4ea562f55f506"
+    },
+    {
+      "bytes": 2037,
+      "path": "runtime_projection.csv",
+      "sha256": "bd66d4d0cd2d2a41de9c6aa683cadc6c876347fc53b8db0450a9ea07a8ac3c49"
+    },
+    {
+      "bytes": 8755,
+      "path": "runtime_reconciliation_report.md",
+      "sha256": "d39f78b3fdc8dc4bff86eced4c9a5bc0723c36fff973d4580f7ab9ef0e87b7ed"
+    },
+    {
+      "bytes": 5101,
+      "path": "runtime_reconciliation_summary.json",
+      "sha256": "7ef6a1c8b5fa3c8d8b2484b9b7c085ddba29edf7f82acda883bf41e2e7034ade"
+    },
+    {
+      "bytes": 3240,
+      "path": "timer_scope_inventory.csv",
+      "sha256": "a6a1e352863b1a7465dd3244a05dee5db751af9b8504ea1f4ab9f30205300e67"
+    }
+  ],
+  "no_new_ac_evaluations_performed": true,
+  "package_classification": "RUNTIME_BENCHMARK_WITH_RECONCILIATION_AUDIT_NOT_VALIDATION",
+  "reconciliation_decision": "MICROBENCHMARK_AND_PRODUCTION_TIMING_RECONCILED",
+  "schema_version": 2,
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "29e20ac5115806738c47b587c795c422a1297eee"
+}

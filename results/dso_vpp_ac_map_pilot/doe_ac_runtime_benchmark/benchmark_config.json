@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "purpose": "RESOURCE_PLANNING_BENCHMARK_ONLY_NOT_VALIDATION",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "29e20ac5115806738c47b587c795c422a1297eee",
+  "starting_state": {
+    "working_tree_clean": true,
+    "behind": 0,
+    "ahead": 0
+  },
+  "authoritative_entry_function": "DSOVPPProductionProbe.evaluate_physical!",
+  "authoritative_call_path": [
+    "DSOVPPProductionProbe.evaluate_physical!",
+    "DSOVPPACMapStage0.evaluate_point",
+    "DSOVPPACMapStage0.primary_power_flow",
+    "CiroPVHC.replay_s1b_interval",
+    "DSOVPPProductionProbe.attempt_class"
+  ],
+  "coordinate_contract": {
+    "active_power": "ABSOLUTE_PHYSICAL_PCC_ACTIVE_POWER_KW",
+    "interface_buses": [
+      13,
+      30
+    ],
+    "n_p": 2,
+    "q_pcc_kvar": 0,
+    "reference_pv_capacity_kw": 0,
+    "positive_p": "INJECTION_EXPORT_SUBTRACTED_FROM_BUS_DEMAND"
+  },
+  "voltage_policy": {
+    "vmin_pu": 0.9,
+    "vmax_pu": 1.05
+  },
+  "convergence_policy": {
+    "primary_tolerance_pu": 1e-11,
+    "primary_maximum_iterations": 2000,
+    "replay_tolerance_pu": 1e-12,
+    "replay_maximum_iterations": 4000,
+    "residual_tolerance_pu": 1e-05,
+    "nonconvergence_classification": "UNRESOLVED_NOT_INFEASIBLE"
+  },
+  "warmup": {
+    "count": 1,
+    "point_id": "T01_CENTER",
+    "included_in_steady_state": false
+  },
+  "timed_logical_evaluation_count": 15,
+  "maximum_underlying_ac_attempt_count": 20,
+  "execution": {
+    "process_count": 1,
+    "julia_thread_count": 1,
+    "parallel": false
+  },
+  "timestamp_selections": [
+    {
+      "selection_role": "MANDATORY_ANCHOR",
+      "timestamp": "2012-10-15 13:00:00",
+      "production_selection_index": 1,
+      "historical_runtime_seconds": 6.72000002861,
+      "historical_actual_evaluations": 2731,
+      "selection_provenance": "MANDATORY_ANCHOR_FROM_COMMITTED_32_TIMESTAMP_SET"
+    },
+    {
+      "selection_role": "LOW_HISTORICAL_PRODUCTION_RUNTIME",
+      "timestamp": "2010-07-02 17:30:00",
+      "production_selection_index": 23,
+      "historical_runtime_seconds": 1.10299992561,
+      "historical_actual_evaluations": 2717,
+      "selection_provenance": "MINIMUM_TIMESTAMP_RUNTIME_EXCLUDING_MANDATORY_ANCHOR"
+    },
+    {
+      "selection_role": "HIGH_HISTORICAL_PRODUCTION_RUNTIME",
+      "timestamp": "2012-08-31 11:30:00",
+      "production_selection_index": 20,
+      "historical_runtime_seconds": 1.94899988174,
+      "historical_actual_evaluations": 2732,
+      "selection_provenance": "MAXIMUM_TIMESTAMP_RUNTIME_EXCLUDING_MANDATORY_ANCHOR"
+    }
+  ],
+  "source_artifacts": [
+    {
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/timestamp_runtime_evaluation_summary.csv",
+      "sha256": "2d7374ca38a727e267ba869cb11a616e4617c673c77b90883acf9345c39941cb"
+    },
+    {
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/center_results.csv",
+      "sha256": "bcc2b5719d08a3a26b0bc49d8c4463db9d366d3f350c0118dee84f70d948501e"
+    },
+    {
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/base_ray_results.csv",
+      "sha256": "1446ff5f2da0bde29f8c8082a1c2c8cd0b69fd17d26e50fcecb69693deb2dc92"
+    },
+    {
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/adaptive_ray_results.csv",
+      "sha256": "5e421aaf1cad5004e039c05f08e14ccdad7b00b841b82dbda96f6cacb0e90ea1"
+    },
+    {
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/merged_convex_cells.csv",
+      "sha256": "1c60af63a380be44f0f7dad79942496c1f3fa1ff840a97767106f887f10e1776"
+    },
+    {
+      "path": "config/dso_vpp_production_probe_preregistration.toml",
+      "sha256": "8860aaa940b10532ba437f4e6283d1ab497900ce12b5ade7fa2783bc6809f000"
+    }
+  ],
+  "script": {
+    "path": "scripts/benchmark_dso_vpp_ac_evaluation_runtime.jl",
+    "sha256": "8369dd6b9005d224737c2e580d0b9eed523da3e24bcc929628e1e39f9a09c7f3"
+  },
+  "reproducibility": {
+    "deterministic_structural_inputs": true,
+    "byte_identical_timing_outputs_expected": false,
+    "nondeterministic_fields": [
+      "wall_time_seconds",
+      "CPU observations",
+      "RSS observations"
+    ]
+  }
+}
