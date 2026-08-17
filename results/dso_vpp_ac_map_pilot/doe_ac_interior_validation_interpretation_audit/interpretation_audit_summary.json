@@ -1,0 +1,79 @@
+{
+  "A_fallback": {
+    "classification": "POCKET_FALLBACK_FALSIFIED_BY_AC_COUNTEREXAMPLES",
+    "inside_count": 64923,
+    "inside_feasible": 55767,
+    "inside_infeasible": 9156,
+    "outside_count": 571,
+    "outside_infeasible": 264,
+    "semantic": "inside main validation domain and not in strict interior of any convex-hulled VMAX pocket"
+  },
+  "B_both": {
+    "all_cell_vertex": true,
+    "all_outer_boundary": true,
+    "all_prior_committed_duplicate": true,
+    "all_validation_feasible": true,
+    "classification": "PRODUCTION_BOUNDARY_POINT_REPRODUCTION_1554_OF_1554_FEASIBLE",
+    "count": 1554,
+    "prior_phase": {
+      "bisection": 1552,
+      "coarse_sweep": 2
+    },
+    "prior_search_kind": {
+      "RAY": 1554
+    },
+    "prior_unique_matches": 1554
+  },
+  "C_failure_localization": {
+    "all_counterexamples_on_outer_polygon_boundary_within_tolerance": true,
+    "boundary_inter_ray_counterexamples": 7060,
+    "cell_edge_counterexamples": 2360,
+    "cell_edge_distance_kw": {
+      "max": 9.71340767287e-13,
+      "mean": 9.879191847530424e-14,
+      "median": 0.0,
+      "min": 0.0,
+      "q1": 0.0,
+      "q3": 1.13686837722e-13
+    },
+    "strict_cell_interior_counterexamples": 0,
+    "total_counterexamples": 9420,
+    "wording_caveat": "7060 are direct 0.5-degree angular samples; 2360 are cell-mesh edge points geometrically coincident with the outer polygon boundary."
+  },
+  "D_guard": {
+    "adjacent_edges": 128,
+    "adjacent_failure_class_counts": {
+      "VMAX13": 288,
+      "VMAX30": 288
+    },
+    "adjacent_failures": 576,
+    "boundary_only_violation_pu": {
+      "guard_adjacent_max": 0.000142248109239,
+      "guard_adjacent_median": 4.61135857205e-05,
+      "nonguard_max": 4.33223324872e-05,
+      "nonguard_median": 5.08027073676e-06
+    },
+    "causal_interpretation": "ASSOCIATION_OBSERVED_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+    "crossing_boundary_points": 1371,
+    "crossing_edges": 64,
+    "crossing_failures": 0,
+    "edge_relation_counts": {
+      "ADJACENT_TO_GUARD_LIMITED_EDGE": 128,
+      "CROSSES_GUARD_LIMITED_RAY": 64,
+      "NONE": 1497
+    },
+    "nonguard_failures": 6484
+  },
+  "artifact": "DSO_VPP_AC_INTERIOR_VALIDATION_INTERPRETATION_AUDIT",
+  "caveats": [
+    "Finite-mesh validation is not a continuous AC-safety proof.",
+    "The pocket fallback is not AC-safe or AC-certified.",
+    "VMAX concentration does not establish a physical loss/voltage mechanism.",
+    "Boundary coincidence is established only at the locked numerical tolerance.",
+    "Guard adjacency association does not establish guard causality.",
+    "Raw-byte checkpoint compatibility across LF/CRLF working trees is not claimed."
+  ],
+  "coordinate_tolerance_kw": 1e-08,
+  "schema_version": 1,
+  "source_validation_commit": "4612cac821f63c9bdcc838f4cc097387dfd617ad"
+}

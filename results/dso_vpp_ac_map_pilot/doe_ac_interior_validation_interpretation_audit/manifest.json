@@ -1,0 +1,27 @@
+{
+  "artifact": "DSO_VPP_AC_INTERIOR_VALIDATION_INTERPRETATION_AUDIT",
+  "files": [
+    {
+      "bytes": 2057,
+      "path": "interpretation_audit_checks.csv",
+      "sha256": "6265d6d037b0c8a0a0b2bdafa652f9a3d673c240722b57f090ab2a40662c8176"
+    },
+    {
+      "bytes": 3317,
+      "path": "interpretation_audit_report.md",
+      "sha256": "b25286a1630ed853e9ac7621e8fb815041d17c112b299aef2f6769c757b854ab"
+    },
+    {
+      "bytes": 2812,
+      "path": "interpretation_audit_summary.json",
+      "sha256": "3f23252c4566fdd0aed42aa663c97d7786c70da29abe58952f8849defd64da09"
+    },
+    {
+      "bytes": 2300,
+      "path": "source_files.json",
+      "sha256": "67247c4bd7ad1c801e658465b36a88650b68133939295178dbe25e86131d0b89"
+    }
+  ],
+  "schema_version": 1,
+  "source_validation_commit": "4612cac821f63c9bdcc838f4cc097387dfd617ad"
+}

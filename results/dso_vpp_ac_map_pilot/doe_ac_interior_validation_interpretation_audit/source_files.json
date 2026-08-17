@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "bytes": 175,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_fallback_membership_summary.csv",
+      "sha256": "96c0ebc7bdf46e1f4921262c64843472afccddfb748e85ea51c2d8852ce393f6"
+    },
+    {
+      "bytes": 229,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_guard_summary.csv",
+      "sha256": "3b70f88683bf52518a837732b73fa53a69b215805dcbfb0925388d403647696f"
+    },
+    {
+      "bytes": 27358183,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_point_results.csv",
+      "sha256": "f759a042880f7f00d6d941fe3ee519f19c9cff7ebea60afa8edb294dd92de51c"
+    },
+    {
+      "bytes": 15936036,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_point_provenance.csv",
+      "sha256": "1fcde52f4de94ae5fcd59ffbef188335ddff08d9ad5f75ab5a5aa08338051274"
+    },
+    {
+      "bytes": 360427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_polygon_edges.csv",
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85"
+    },
+    {
+      "bytes": 117006,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_architecture_audit/pocket_exact_facets.csv",
+      "sha256": "52097f6b6effb473f4edf4d1b17ab99e9e6a69a85c9dbadd307ce7b4f91de89d"
+    },
+    {
+      "bytes": 19133,
+      "path": "results/dso_vpp_ac_map_pilot/doe_vmax_pocket_hulling_audit/hulled_pocket_geometry.csv",
+      "sha256": "3f08e429b7d6beb676cccf78a01aa0e0a319a2c5ab9c6710094aa4e04432182d"
+    },
+    {
+      "bytes": 585582,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/boundary_endpoints.csv",
+      "sha256": "b7116ae87b3888ce3d916e977d8718cae73786fe7646953d9f37d9d255ae49b8"
+    },
+    {
+      "bytes": 20976171,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/evaluation_attempts.csv",
+      "sha256": "c476cee0a3a10c6ad47dbd910d81445223b4f1b59475c44c953f28395359c25d"
+    },
+    {
+      "bytes": 4778,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/unresolved_guard_cases.csv",
+      "sha256": "191618228785ddab9b252dbf6fa1d7b503d37a67caa1493ad12e1bf9afdc2a38"
+    }
+  ],
+  "source_commit": "4612cac821f63c9bdcc838f4cc097387dfd617ad"
+}
