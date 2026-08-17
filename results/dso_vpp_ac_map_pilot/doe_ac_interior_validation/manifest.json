@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "artifact": "DSO_VPP_AC_INTERIOR_VALIDATION",
+  "source_head": "b800a86d9b2c1dbeb80356657fe34fbf960649ac",
+  "preregistration_manifest_sha256": "b2a4c0448b5b658ec56fcca6bd8bb1c35228908476b49b125daafd3bcf43c01b",
+  "campaign_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "files": [
+    {
+      "path": "checkpoint_state.bin",
+      "bytes": 72554426,
+      "sha256": "71627d9b5cdd417cc890897bd911bd53d675da1a76ba952e5ecdac5f54d95b84",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_01.csv",
+      "bytes": 153,
+      "sha256": "d25c7590e39b666d54e43216ea42a9407cd4cc6a0de3b8a8ccad4c4cd8cd0da5",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_02.csv",
+      "bytes": 153,
+      "sha256": "bd040995c2d2fabef7a05471a5dcfba5b87f2f9404781670efe17879e7dd868a",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_03.csv",
+      "bytes": 153,
+      "sha256": "c26fd7d74073d2d8d270a206bc5cf439a139fc91c9a286c9f9485b3213fc379e",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_04.csv",
+      "bytes": 153,
+      "sha256": "b841b4a135176aa58bae645a116270e7bdcf853891382455d19d7fa16678a623",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_05.csv",
+      "bytes": 153,
+      "sha256": "8a157b69ff0a230042a6e2c9645f0c9411210c8d76184725712d07bf3681c1b8",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_06.csv",
+      "bytes": 153,
+      "sha256": "231478cd41b63063217f3f4c1b9a6d1e143d7df2ad19dc952dc96180a0e27f7e",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_07.csv",
+      "bytes": 153,
+      "sha256": "8b686da8f619e5026c85233283e7d1d8076121f1ad599e41aab0e06a192833b7",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_08.csv",
+      "bytes": 153,
+      "sha256": "67ba700cb761cd48009820d25a99f6b98dc7722ab512ed99de48f38b0a0eb9d7",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_09.csv",
+      "bytes": 153,
+      "sha256": "9b7fe52aded34da49ab58e65f74f96d0065146f778cbe12ec166639a7db5f4e0",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_10.csv",
+      "bytes": 153,
+      "sha256": "befa79fd677651957a3f4375b8afe709bd61120dd42cb3a816088c5c99242140",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_11.csv",
+      "bytes": 153,
+      "sha256": "de9c185fccf5338f5d1b1a825b7e35c5f0ac6a948d5db19798f439e795f32a0f",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_12.csv",
+      "bytes": 153,
+      "sha256": "85cbb5673514cd5c85dc0650079711fa048529d4b59f84fef00794b5be77285f",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_13.csv",
+      "bytes": 153,
+      "sha256": "cf9371f271f8a2698b2db102b8059397dd5c0e3ca7dfb4b9e9f6b7525d9ac21f",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_14.csv",
+      "bytes": 153,
+      "sha256": "dfe27e78cf47063e137d234c1f691c9793ca51ca78ac45d73d3ab3d4fd270a34",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_15.csv",
+      "bytes": 153,
+      "sha256": "981130975c776c8711c0242ae7d81a2e6f26f29d5ec0f28a8bb90ed3cad5fbd9",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_16.csv",
+      "bytes": 153,
+      "sha256": "0729307e79f24a9fd04b9cbd2fcd05829c034e87066852ef4d0a0629050e5aac",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_17.csv",
+      "bytes": 153,
+      "sha256": "577b75a1b6ac99b6da4b004316add1206b0b7af3ccc8872ce3c47f3582b11485",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_18.csv",
+      "bytes": 153,
+      "sha256": "1013cac11695bea0d4bb85bb0a7a4727084f8a4c5e1561057dc2dfd421e582c3",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_19.csv",
+      "bytes": 153,
+      "sha256": "76fd37f64a6797a3a20b656af65fef3bf0aa8c9a40d9fefad99071af196ce054",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_20.csv",
+      "bytes": 153,
+      "sha256": "51c05eb58fb14ba36e8a0a6d146bb26d4d5e50e80d2bf8ec62cbe09646e82b0b",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_21.csv",
+      "bytes": 153,
+      "sha256": "3d214d5a5e9954c495c2cae22c3c7864332a07b07240cf2b5df02b99ed3d0881",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_22.csv",
+      "bytes": 153,
+      "sha256": "ac0d791b630d226395579e8b9f13895ab7124018bdf438bc2b94580ff40a7ee3",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_23.csv",
+      "bytes": 153,
+      "sha256": "3ff840efa546bad547c5d67c4933e283a5787142ec497ca5f80c4935b38970ad",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_24.csv",
+      "bytes": 153,
+      "sha256": "605643d2661e3965f24fab76700c81c2a99bab41902076cc593368c7e4366fdc",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_25.csv",
+      "bytes": 153,
+      "sha256": "7b6381cb09f39b8db3c99b8c92dcf1f9d1379bf818d7f0d24141d4e18f067f2f",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_26.csv",
+      "bytes": 153,
+      "sha256": "c71372d9599cbe2dff5b34a8c8676173a3f734371112da808acc24d0d787daaa",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_27.csv",
+      "bytes": 153,
+      "sha256": "dd3ae2bf635242e2058410b642fc814b882570ab478994b51b3de47770df60d4",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_28.csv",
+      "bytes": 153,
+      "sha256": "7f9dd0172c1dd0b4d5f02758552c62415e54218f13934474772e4f26ede6bb66",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_29.csv",
+      "bytes": 153,
+      "sha256": "0fbb3978dab48b42699b572587fa8538d431aae5f3ebb0041a7d2cf4b5e59513",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_30.csv",
+      "bytes": 153,
+      "sha256": "43d9272911c8cbbb2cdc2d22f31fddb2d866d65c5ff0d629e7c1faa3ae445b94",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_31.csv",
+      "bytes": 153,
+      "sha256": "bd21705942236760a1431e3f245c2d425452e5eb693fe8497e006afc1a219c6a",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "completed_timestamp_32.csv",
+      "bytes": 153,
+      "sha256": "6b0277b270c69f23510b43c404fbaadc430e4e0e7df65d9f816ef8bc9b41368b",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_attempts.csv",
+      "bytes": 18908503,
+      "sha256": "cc9bc29f677e2054047e953d352574d608f117b8897381f3f836768789aa3e26",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_category_summary.csv",
+      "bytes": 880,
+      "sha256": "b8704cf0cf45b663a37fac8ff52bf00cfd74ebcf17593555e85db64d4aa150b5",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_checkpoint_manifest.csv",
+      "bytes": 1089,
+      "sha256": "7c6a60a0103fab82126bc3f7a2c1e337ebb1ca0e6bb14ff03f031ff8ba2bccf4",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_controls_results.csv",
+      "bytes": 33698,
+      "sha256": "05d6660e1ff01961ed2835374f1ad110241a6a71b2de4ed5f90b76895695ef46",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_failure_summary.csv",
+      "bytes": 1826,
+      "sha256": "ace74585a92f378076970956f363b3c7154d9417be6e75ec546f1bd7adf0d886",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_fallback_membership_summary.csv",
+      "bytes": 175,
+      "sha256": "96c0ebc7bdf46e1f4921262c64843472afccddfb748e85ea51c2d8852ce393f6",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_guard_summary.csv",
+      "bytes": 229,
+      "sha256": "3b70f88683bf52518a837732b73fa53a69b215805dcbfb0925388d403647696f",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_hypothesis_assessment.csv",
+      "bytes": 1036,
+      "sha256": "7f247d9f732ceac73effbb78adfe5c2dc7012bf5d36b5a8ecdd533498cadf2a4",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_integrity_checks.csv",
+      "bytes": 776,
+      "sha256": "fcd641789230e16230d3dff8a96de1c145e5ba5e4afd05500f56280d0756f771",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_point_results.csv",
+      "bytes": 27358183,
+      "sha256": "f759a042880f7f00d6d941fe3ee519f19c9cff7ebea60afa8edb294dd92de51c",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_report.md",
+      "bytes": 2043,
+      "sha256": "363b8bb512b0576f35f9f7d372a135d06f03814d9371967eaffc8458795aa76c",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_run_config.json",
+      "bytes": 1153,
+      "sha256": "4634feb9bc205cd25c990dc204e8e7b7427ed863ce00f6cd0783d827c30d67d8",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_runtime_summary.json",
+      "bytes": 998,
+      "sha256": "b4c202d1cfa14c9c67db0886963c8e6a2c78bd45c732ff38b2fbcae99331a43d",
+      "reproducibility_class": "RAW_RUNTIME_OR_CHECKPOINT_OUTPUT"
+    },
+    {
+      "path": "validation_timestamp_summary.csv",
+      "bytes": 2638,
+      "sha256": "9c07c49a3ccc283c9330596a88001d57f5e8cad16879d144a8efb235b1f55649",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    },
+    {
+      "path": "validation_violation_statistics.csv",
+      "bytes": 1056,
+      "sha256": "3640923a91e94c2a153fcc49a23a9b8a2b0e2d5efa1af0f4b85592752470d92a",
+      "reproducibility_class": "DETERMINISTIC_DERIVED_OUTPUT"
+    }
+  ],
+  "integrity": "PASS",
+  "full_mesh_completed": true
+}

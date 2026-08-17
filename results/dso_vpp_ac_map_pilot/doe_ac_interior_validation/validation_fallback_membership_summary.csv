@@ -1,0 +1,3 @@
+category,expected_count,point_count,feasible_count,infeasible_count,unresolved_count
+INSIDE_POCKET_FALLBACK,64923,64923,55767,9156,0
+OUTSIDE_POCKET_FALLBACK,571,571,307,264,0

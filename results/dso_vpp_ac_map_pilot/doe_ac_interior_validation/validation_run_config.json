@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "campaign": "SUBSTANTIVE_AC_INTERIOR_VALIDATION",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "b800a86d9b2c1dbeb80356657fe34fbf960649ac",
+  "preregistration_manifest_sha256": "b2a4c0448b5b658ec56fcca6bd8bb1c35228908476b49b125daafd3bcf43c01b",
+  "validation_config_sha256": "72688bcf504d87f8e76cd698ce4cd7cc12456c4594ed51db1863e751127377cb",
+  "execution_script_sha256": "d166eb39d62235f67d8f6a13f93cb81308750b5cb620d3356cbcc68df70f5fe4",
+  "coordinate_contract": "ABSOLUTE_PHYSICAL_P_PCC_P13_P30_KW",
+  "interface_buses": [
+    13,
+    30
+  ],
+  "n_p": 2,
+  "q13_kvar": 0,
+  "q30_kvar": 0,
+  "reference_pv_capacity_kw": 0,
+  "vmin_pu": 0.9,
+  "vmax_pu": 1.05,
+  "execution": {
+    "mode": "SERIAL",
+    "julia_processes": 1,
+    "julia_threads": 1
+  },
+  "retry": {
+    "first_attempt": "FLAT_START",
+    "maximum_retries": 1,
+    "failed_retry_status": "UNRESOLVED_NONCONVERGENCE"
+  },
+  "checkpoint": {
+    "substantive_interval": 250,
+    "completed_timestamp": "ATOMIC"
+  },
+  "expected_substantive_points": 65494,
+  "expected_controls": 128,
+  "planning_rate_ms_per_evaluation": 0.625720804888803
+}

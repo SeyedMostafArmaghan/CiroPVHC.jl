@@ -1,0 +1,9 @@
+hypothesis_id,assessment,observed_metric,interpretation
+H1,SUPPORTED_BY_OBSERVED_MESH,VMAX boundary failures=7060/10406; VMIN boundary failures=0/10636,Diagnostic concentration only; no mechanism inferred
+H2,SUPPORTED_BY_OBSERVED_MESH,boundary/edge-like failure fraction=0.2853248523398455; strict-interior failure fraction=0.0,No post-hoc distance cutoff used
+H3,SUPPORTED_BY_OBSERVED_MESH,strict-interior failures=0,Continuous boundary distance retained; material-separation threshold remains undefined
+H4,SUPPORTED_BY_OBSERVED_MESH,quantitative forecasts did not alter execution or decision semantics,Procedural hypothesis
+H5,SUPPORTED_BY_OBSERVED_MESH,no physical-mechanism inference made,VMAX concentration alone is not causal evidence
+E1,MIXED,VMAX failure median violation=5.7652001633767824e-6,Heuristic forecast only
+E2,SUPPORTED_BY_OBSERVED_MESH,total converged-infeasible=9420,Order-of-thousands interpreted descriptively as 1000-9999
+E3,SUPPORTED_BY_OBSERVED_MESH,VMAX failures=9420; VMIN failures=0,Heuristic forecast only

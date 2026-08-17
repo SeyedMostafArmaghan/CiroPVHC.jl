@@ -1,0 +1,11 @@
+check_id,status,observed,expected,detail
+ALL_EXPECTED_SUBSTANTIVE_IDS_EXACTLY_ONCE,PASS,65494,65494,ID-keyed final rows
+ALL_CONTROLS_PRESENT_AND_MATCH,PASS,128,128,Configuration gate passed
+NO_DUPLICATE_ATTEMPT_KEYS,PASS,65622,65622,External ID plus attempt index
+MAXIMUM_RETRIES,PASS,0,1,At most one retry
+RETRY_ONLY_AFTER_NONCONVERGENCE,PASS,0,0,Every retry has nonconverged first attempt
+ALL_TIMESTAMPS_COMPLETE,PASS,32,32,Atomic completed-timestamp checkpoints
+FINITE_CONVERGED_VOLTAGE_METRICS,PASS,65494,65494,No NaN/Inf in converged extrema
+COMMITTED_COORDINATES_UNCHANGED,PASS,65494,65494,Textual committed coordinates preserved
+GUARD_COUNTS,PASS,1371;1274;2645,1371;1274;2645,Committed labels
+FALLBACK_MEMBERSHIP_COUNTS,PASS,64923;571,64923;571,Descriptive reuse only
