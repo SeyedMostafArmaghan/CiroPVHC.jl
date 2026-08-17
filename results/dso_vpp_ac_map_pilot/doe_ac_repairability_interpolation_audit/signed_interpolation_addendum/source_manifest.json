@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 27358183,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_point_results.csv",
+      "sha256": "f759a042880f7f00d6d941fe3ee519f19c9cff7ebea60afa8edb294dd92de51c"
+    },
+    {
+      "bytes": 360427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_polygon_edges.csv",
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85"
+    },
+    {
+      "bytes": 674298,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/edge_interpolation_fits.csv",
+      "sha256": "b7bd2ea4b97ffc161b8332384a46923abfb3d49e74f77d67ea8c9e2d1a14caa0"
+    },
+    {
+      "bytes": 1311072,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/edge_repairability_sampling.csv",
+      "sha256": "642b27c3cece5874f95efd21f2ab4cb354219ce6e47202eb9e3a5d062ce7173b"
+    },
+    {
+      "bytes": 2745,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/manifest.json",
+      "sha256": "00659a2ae8450701beadeb41fc04a53cf6ed376e0ba6305acd1df542a023247a"
+    },
+    {
+      "bytes": 6233,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/summary.json",
+      "sha256": "1e110c8313d9625027dcea8a9e8bbdaf313775616db979b8f45fcdbbeaaea101"
+    }
+  ],
+  "read_semantics": "DIRECT_GIT_OBJECT_BYTES_NOT_WORKING_TREE",
+  "source_commit": "07a31791134aec7e941e7674953e887edd697d3d"
+}

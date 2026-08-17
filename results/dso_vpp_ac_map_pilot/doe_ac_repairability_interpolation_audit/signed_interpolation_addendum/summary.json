@@ -1,0 +1,60 @@
+{
+  "artifact": "ZERO_AC_SIGNED_INTERPOLATION_ADDENDUM",
+  "blockers": [],
+  "cap_policy": "GEOMETRY_BOUND_ONLY_NOT_PRIMARY_FALSIFICATION_PATH",
+  "failure_edges": {
+    "exact_unique_edge_count": 655,
+    "mapped_failure_points": 9420
+  },
+  "fit_population": {
+    "all_edge_channel_rows": 1817,
+    "insufficient_fit_rows": 41,
+    "n_distribution": {
+      "count": 1776,
+      "max": 31.0,
+      "mean": 13.57882882882883,
+      "median": 10.0,
+      "min": 3.0,
+      "q1": 9.0,
+      "q3": 19.0
+    },
+    "predicted_midpoint_margin_distribution_pu": {
+      "count": 1776,
+      "max": 0.1,
+      "mean": 0.003624862055089554,
+      "median": 1.4737395539258286e-05,
+      "min": -0.00014243617138128863,
+      "q1": -5.291560574226746e-06,
+      "q3": 3.2404456255853346e-05
+    },
+    "signed_s_e_distribution_pu": {
+      "count": 1776,
+      "max": 0.00626479516293093,
+      "mean": 0.00012358607524331103,
+      "median": 2.8540389522154953e-06,
+      "min": -0.00137010050112312,
+      "q1": -4.4531923691364876e-05,
+      "q3": 8.857394440793684e-05
+    },
+    "sufficient_fit_rows": 1776
+  },
+  "interpretation": [
+    "Signed interpolation is diagnostic association, not mechanism proof.",
+    "Endpoint margins are stored values and are not set to zero.",
+    "Predicted midpoint margin is chord midpoint plus 0.25*s_e.",
+    "No AC calibration, replay, probing, or repair was performed."
+  ],
+  "locked_campaign_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "low_sample_correction": {
+    "committed_artifact_exact_edge_count": 41,
+    "enrichment_new_coordinate_count": 130,
+    "post_enrichment_maximum_g_e": 0.25,
+    "post_enrichment_minimum_interior_count": 3,
+    "prompt_expected_edge_count": 44,
+    "resolution": "USE_RECONSTRUCTED_TRUE_SET;NO_SCIENTIFIC_BLOCKER"
+  },
+  "overall_status": "NO_ADDENDUM_BLOCKER",
+  "schema_version": 1,
+  "source_commit": "07a31791134aec7e941e7674953e887edd697d3d",
+  "zero_ac": true
+}
