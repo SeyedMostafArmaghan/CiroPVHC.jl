@@ -1,0 +1,76 @@
+{
+  "files": [
+    {
+      "bytes": 360427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_polygon_edges.csv",
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85"
+    },
+    {
+      "bytes": 1311072,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/edge_repairability_sampling.csv",
+      "sha256": "642b27c3cece5874f95efd21f2ab4cb354219ce6e47202eb9e3a5d062ce7173b"
+    },
+    {
+      "bytes": 560629,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/holdout_geometric_capability.csv",
+      "sha256": "2119ee40c92a1e3eb066670915a220a1d1dcb0269cb0501e7f6c772656cb3d96"
+    },
+    {
+      "bytes": 3200,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/numerical_replay_diagnostics.csv",
+      "sha256": "442f01fcddc9620790f957c52785a2cceba9cc9f754484e3d16ae05f2e3e7966"
+    },
+    {
+      "bytes": 1190,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_boundary_margin_summary.csv",
+      "sha256": "5c2057bf34db58d4b7765a6559d8a843017762c1776ea3843fa1888223335f50"
+    },
+    {
+      "bytes": 500406,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/edge_signed_interpolation_diagnostics.csv",
+      "sha256": "8177eec82f28e436d2fea5d67c52f236bb7da0477f3594bff33880902dc953af"
+    },
+    {
+      "bytes": 42513,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/failing_edges.csv",
+      "sha256": "547fdcbab92c2b1657ef2a7cf246d2b51f1fd7feafb9c47bc1b7bdeaa42e9ef6"
+    },
+    {
+      "bytes": 9607,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/low_sample_edges.csv",
+      "sha256": "0038ceb4f024bad8bf05567de03cca1d09fb718af4f32b762d6d722345cf6efd"
+    },
+    {
+      "bytes": 26971,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/low_sample_enrichment_points.csv",
+      "sha256": "8834ffcecd6c230c09220e471c96f3389d7aea2c34f1be9ababca6bfbdca2089"
+    },
+    {
+      "bytes": 1906,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/manifest.json",
+      "sha256": "10cc94a9f24fc25b25524bbc834e91fc350456152dfac71332762c20f569416c"
+    },
+    {
+      "bytes": 1991,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_repairability_interpolation_audit/signed_interpolation_addendum/summary.json",
+      "sha256": "443b981e7b1c8e1dbdc6a57647365f51edc98355a6e4f24c1f27014e142e31ae"
+    },
+    {
+      "bytes": 1506,
+      "path": "results/dso_vpp_ac_map_pilot/doe_preconstruction_artifact_refinement/axis_boundary_resolution_distribution.csv",
+      "sha256": "40dc4baee7bdf17b9ed4144c8b69478beaae8425d82d6b7e5539870b8bf32faa"
+    },
+    {
+      "bytes": 8562,
+      "path": "results/dso_vpp_ac_map_pilot/doe_preconstruction_artifact_refinement/boundary_bisection_termination_audit.csv",
+      "sha256": "7a696615c43d89b2e68af3d9fa67786e58353a046937f474e8c70cc2d4257b7e"
+    },
+    {
+      "bytes": 3604,
+      "path": "results/dso_vpp_ac_map_pilot/doe_preconstruction_artifact_refinement/ray_boundary_resolution_distribution.csv",
+      "sha256": "dc1020f936784ac3996a1ac1d79dfbca01b7e107232c12a84c67ae2ff408f0e5"
+    }
+  ],
+  "read_semantics": "DIRECT_GIT_OBJECT_BYTES_NOT_WORKING_TREE",
+  "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b"
+}

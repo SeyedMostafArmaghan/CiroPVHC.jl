@@ -1,0 +1,67 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR_PREREGISTRATION",
+  "files": [
+    {
+      "bytes": 733,
+      "path": "ac_call_budget.csv",
+      "sha256": "b8e19b7cde356d77de0ec390f2d092f1fcfee4e69c9d8892a8a8e09e82011564"
+    },
+    {
+      "bytes": 4539451,
+      "path": "calibration_fraction_inventory.csv",
+      "sha256": "fa50aaa5b4c5b8c878a18e585f97f21f1f939cbbf0fa6d7c505cb2e4b9ff452c"
+    },
+    {
+      "bytes": 1934,
+      "path": "decision_rules.md",
+      "sha256": "b0f68ae3c36dce076e1995b2fb391adc6714ab3924cea58116d5b20aafff3484"
+    },
+    {
+      "bytes": 569928,
+      "path": "edge_repair_policy.csv",
+      "sha256": "92fc0dc6ceece4b49a67b59d6278465bac25d135033eb63e0534d8a03190a1ef"
+    },
+    {
+      "bytes": 1767,
+      "path": "execution_and_checkpoint_policy.md",
+      "sha256": "4444f0969f8c69f1cad3a1ff656408c82c78380a2c79cd7aee9f6ff89117e3f9"
+    },
+    {
+      "bytes": 1978,
+      "path": "future_output_schemas.csv",
+      "sha256": "f4e6b0633cad1fe1518685674887f0d19434b22e2affae01d5f572f5c1b362ae"
+    },
+    {
+      "bytes": 598412,
+      "path": "holdout_design.csv",
+      "sha256": "d5cfcbd57f4ba47f6c95f2492c38495e816ee1969fb957c09065a0b80baaced7"
+    },
+    {
+      "bytes": 1414,
+      "path": "preregistration_checks.csv",
+      "sha256": "3ea11edea4a78b802bc4c07f259a5cf97497f73011336bc5fdf8fb9967797fba"
+    },
+    {
+      "bytes": 3315,
+      "path": "preregistration_report.md",
+      "sha256": "a8deb1d52c3edbbc56b187cefb000e0bb7ab35f026719c192e3c78e345b9c725"
+    },
+    {
+      "bytes": 1163,
+      "path": "preregistration_summary.json",
+      "sha256": "b4f5fd0a71ab1a90f8d81c3f5a4a5229542f0ff10e74ae0a27a96dce6fa1d81d"
+    },
+    {
+      "bytes": 4251,
+      "path": "repair_config.json",
+      "sha256": "d38b2499617ef99842fefb165bd169eca987527231c5b1d5ebf00a34ac8cd4e8"
+    },
+    {
+      "bytes": 3620,
+      "path": "source_manifest.json",
+      "sha256": "ce6f1202954ad5294193f8d6779adb99c9b842efa18ca0a981314904255f86d0"
+    }
+  ],
+  "schema_version": 1,
+  "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b"
+}

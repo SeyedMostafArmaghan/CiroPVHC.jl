@@ -1,0 +1,9 @@
+phase,budget_item,unit_count,calls_per_unit_cap,primary_logical_call_cap,retry_call_cap,wall_time_budget
+CALIBRATION,edge_anchor_bracket_and_bisection,1689,32,54048,IN_GLOBAL_RETRY_CAP,NOT_USED
+CALIBRATION,anchor_screen_all_interior_memberships,22315,1,22315,IN_GLOBAL_RETRY_CAP,NOT_USED
+CALIBRATION,verify_escalate_interior_memberships,22315,8,178520,IN_GLOBAL_RETRY_CAP,NOT_USED
+CALIBRATION,combined_repaired_geometry_final_verification,24004,1,24004,IN_GLOBAL_RETRY_CAP,NOT_USED
+CALIBRATION,configuration_controls,128,1,128,IN_GLOBAL_RETRY_CAP,NOT_USED
+CALIBRATION,phase_total,,,279015,2791,NOT_USED
+HOLDOUT,H1_plus_targeted_H2_plus_controls_pre_repair_count,23288,1,23288,233,NOT_USED
+TOTAL,study_hard_cap,,,302303,3024,NOT_USED

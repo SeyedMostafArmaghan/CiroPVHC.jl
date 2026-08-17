@@ -1,0 +1,28 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR_PREREGISTRATION",
+  "calibration_interior_membership_count": 22315,
+  "calibration_total_membership_count": 24004,
+  "calibration_vertex_membership_count": 1689,
+  "design_voltage_limits_pu": {
+    "vmax": 1.04985,
+    "vmin": 0.90015
+  },
+  "edge_count": 1689,
+  "enrichment_coordinate_count": 130,
+  "failure_edge_count": 655,
+  "h_design_pu": 0.00015,
+  "locked_campaign_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "mixed_sign_edge_count": 65,
+  "next_authorized_action": "IMPLEMENT_EXECUTION_SCRIPT_SEPARATELY;DO_NOT_RUN_WITHOUT_EXPLICIT_EXECUTION_AUTHORIZATION",
+  "pre_repair_H1_candidate_count": 23040,
+  "pre_repair_H2_target_edge_count": 120,
+  "primary_logical_call_hard_cap": 302303,
+  "prompt_expected_low_sample_edge_count_not_confirmed": 44,
+  "retry_call_hard_cap": 3024,
+  "safe_box_policy": "SAFE_BOX_EXTRACTION_STRICTLY_AFTER_FINAL_REPAIRED_COUPLED_DOE_FREEZE",
+  "schema_version": 1,
+  "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "true_low_sample_edge_count": 41,
+  "zero_ac": true
+}

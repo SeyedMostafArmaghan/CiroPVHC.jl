@@ -1,0 +1,97 @@
+{
+  "boundary_headroom_policy": {
+    "assessment_tracks": {
+      "headroom_claim": {
+        "vmax_pu": 1.04985,
+        "vmin_pu": 0.90015
+      },
+      "original_limits": {
+        "vmax_pu": 1.05,
+        "vmin_pu": 0.9
+      }
+    },
+    "evidence": {
+      "maximum_diagnostic_predicted_midpoint_deficit_pu": 0.00014243617138128863,
+      "maximum_observed_negative_signed_margin_pu": 0.000142248109999965,
+      "maximum_primary_replay_voltage_difference_pu": 1.49313894582e-12
+    },
+    "evidence_envelope_pu": 0.00014243617138128863,
+    "h_design_pu": 0.00015,
+    "policy_name": "BOUNDARY_HEADROOM_POLICY",
+    "replay_tolerance_is_mandatory_floor": false,
+    "rounding_quantum_pu": 1e-05,
+    "symmetric_design_limits": {
+      "vmax_pu": 1.04985,
+      "vmin_pu": 0.90015
+    }
+  },
+  "budget": {
+    "budget_exhaustion_action": "STOP_INCONCLUSIVE_NO_REPAIR_FREEZE",
+    "maximum_retries_per_logical_call": 1,
+    "primary_logical_call_cap": 302303,
+    "retry_call_cap": 3024,
+    "unit": "AC_LOGICAL_CALLS_AND_RETRY_CALLS_NOT_WALL_TIME"
+  },
+  "calibration": {
+    "anchor_search": {
+      "bracket_rule": "VERIFY_PREDICTED_OR_NEAREST_T_ANCHOR_THEN_DOUBLE_OUTWARD_WITHOUT_EXCEEDING_CAP",
+      "initial_step_kw": 0.5,
+      "locked_retreat_resolution_kw": 0.25,
+      "maximum_bisection_calls_per_edge": 16,
+      "maximum_bracket_calls_per_edge": 16
+    },
+    "d_e_star": "MAX_D_I_STAR_OVER_EDGE_INTERIOR_MEMBERSHIPS;FUTURE_AC_ONLY",
+    "d_i_star": "SMALLEST_AC_EVALUATED_RETREAT_GRID_VALUE_MEETING_BOTH_HEADROOM_LIMITS;FUTURE_AC_ONLY",
+    "enrichment_coordinates": 130,
+    "interior_memberships": 22315,
+    "low_sample_enrichment_before_ac": true,
+    "reentry_detection": {
+      "classification": "LOCAL_GRID_DIAGNOSTIC_NOT_GLOBAL_MONOTONICITY_PROOF",
+      "resolution_kw": 0.25,
+      "stencil": "D_ACCEPTED_MINUS_DELTA,D_ACCEPTED,D_ACCEPTED_PLUS_DELTA_WHERE_GEOMETRICALLY_VALID",
+      "trigger": "ANY_PASS_TO_FAIL_TRANSITION_WITH_INCREASING_RETREAT",
+      "trigger_action": "REENTRY_BLOCKER_STOP_BEFORE_REPAIR_FREEZE"
+    },
+    "total_memberships": 24004,
+    "true_low_sample_edges": 41,
+    "verify_escalate": {
+      "final_common_edge_retreat_reverification": true,
+      "maximum_extra_calls_per_interior_membership": 8,
+      "vertex_failure_escalation": "INCREMENT_INCIDENT_EDGE_WITH_SMALLER_D_E_OVER_CAP_E;TIE_LOWEST_EDGE_ID"
+    },
+    "vertex_verification_memberships": 1689
+  },
+  "checkpoint": {
+    "architecture": "APPEND_ONLY_IMMUTABLE_SHARDS_PLUS_COMPACT_CURSOR_AND_SOLVER_STATE",
+    "chunk_rows": 2000,
+    "final_concatenation_and_hash": "ONCE_AFTER_PHASE_COMPLETION",
+    "growing_full_state_serialization": "FORBIDDEN",
+    "shard_seal": "AT_2000_ROWS_OR_TIMESTAMP_COMPLETION_WHICHEVER_FIRST"
+  },
+  "execution_authorized_by_this_artifact": false,
+  "holdout": {
+    "H1": "INTERLACED_0.25_PLUS_0.5K_DEGREE_POST_REPAIR_RAY_INTERSECTIONS",
+    "H2": "TARGETED_LARGEST_REMAINING_T_GAP_MIDPOINT_ON_H1_REDUNDANT_EDGES",
+    "calibration_holdout_overlap_required": 0,
+    "coordinate_tolerance_kw_componentwise": 1e-08,
+    "generation_time": "STRICTLY_AFTER_FINAL_REPAIRED_GEOMETRY_FREEZE_BEFORE_ANY_HOLDOUT_AC",
+    "overlap_action": "REJECT_HOLDOUT_CANDIDATE_AND_USE_NEXT_LARGEST_GAP_MIDPOINT",
+    "pre_repair_H1_candidate_count": 23040,
+    "pre_repair_H2_target_edge_count": 120
+  },
+  "locked_campaign_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "new_ac_calls_in_preregistration": 0,
+  "repair_geometry": {
+    "cap_role": "GEOMETRY_BOUND_ONLY",
+    "cap_rule": "EACH_D_E_STAR_STRICTLY_LESS_THAN_CAP_E_AND_COMBINED_CELL_MUST_REMAIN_NONDEGENERATE",
+    "combined_cell_rebuild": "INTERSECT_ALL_TIGHTENED_ORIGINAL_HALFSPACES_AND_RECOMPUTE_VERTICES",
+    "halfspace_semantics": "n_in_dot_x_minus_a_ge_d_e",
+    "normal_projection": "FORBIDDEN_INCLUDING_65_MIXED_SIGN_NORMALS",
+    "operation": "PARALLEL_FACET_TIGHTENING_IN_ORIGINAL_INWARD_NORMAL",
+    "owner_cell_scope": "ONE_COMMITTED_CONVEX_OWNER_PER_OUTER_EDGE"
+  },
+  "safe_box_policy": "SAFE_BOX_EXTRACTION_STRICTLY_AFTER_FINAL_REPAIRED_COUPLED_DOE_FREEZE",
+  "schema_version": 1,
+  "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "study": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR"
+}

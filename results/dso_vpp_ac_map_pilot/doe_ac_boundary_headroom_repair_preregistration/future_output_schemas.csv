@@ -1,0 +1,12 @@
+artifact,required_fields,purpose
+future_ac_attempts.csv,attempt_id;phase;timestamp;edge_id;calibration_id;d_kw;attempt_index;solver_status;vmin_pu;vmax_pu;maximum_residual;primary_replay_voltage_difference_pu;primary_iterations;replay_iterations,append-only AC attempt provenance
+future_d_i_star.csv,timestamp;edge_id;calibration_id;t;d_i_star_kw;lower_tested_fail_kw;upper_tested_pass_kw;resolution_kw;headroom_pass;reentry_flag,future AC-only point retreat estimates
+future_d_e_star.csv,timestamp;edge_id;d_e_star_kw;cap_e_kw;cap_pass;limiting_calibration_id;future_ac_status,future AC-only authoritative edge retreats
+future_reentry_checks.csv,timestamp;edge_id;calibration_id;d_minus_kw;status_minus;d_accept_kw;status_accept;d_plus_kw;status_plus;reentry_detected,locked-resolution local re-entry diagnostic
+future_combined_geometry_checks.csv,timestamp;cell_id;convex;nondegenerate;area_before_kw2;area_after_kw2;area_loss_kw2;facet_count_before;facet_count_after,combined multi-facet geometry gate
+future_calibration_assessment.csv,calibration_id;original_limit_pass;headroom_pass;final_status;vmin_margin_original_pu;vmax_margin_original_pu;vmin_margin_headroom_pu;vmax_margin_headroom_pu,separate original-limit and headroom tracks
+future_holdout_points.csv,holdout_id;tier;timestamp;edge_id;t;p13_abs_kw;p30_abs_kw;distance_to_calibration_kw;overlap_pass,post-freeze H1/H2 mesh and zero-overlap proof
+future_holdout_assessment.csv,holdout_id;original_limit_pass;headroom_pass;solver_status;vmin_pu;vmax_pu,independent holdout assessment
+future_checkpoint_shards.csv,phase;shard_id;first_attempt_id;last_attempt_id;row_count;sha256;sealed,append-only checkpoint manifest
+future_call_budget.csv,phase;primary_calls_used;retry_calls_used;primary_cap;retry_cap;budget_pass,call-count budget enforcement
+future_repaired_freeze_manifest.json,source_commit;repair_config_sha256;calibration_pass;geometry_pass;holdout_pass;files,authoritative repaired coupled DOE freeze gate
