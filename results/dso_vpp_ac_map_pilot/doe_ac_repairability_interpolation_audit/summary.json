@@ -1,0 +1,164 @@
+{
+  "artifact": "DSO_VPP_INTEGRATED_REPAIRABILITY_INTERPOLATION_AUDIT",
+  "artifact_only": true,
+  "blocker_checks": [],
+  "caveats": [
+    "No AC inference is made from geometry alone.",
+    "The fitted interpolation term is diagnostic association, not mechanism proof.",
+    "Topology-derived coefficients are diagnostic scaling context only and do not determine authoritative retreat.",
+    "Guard association is observed; causal mechanism is not established.",
+    "Reflex/convex results are associational and do not establish a theorem.",
+    "Capability tiers use deterministic geometric gap reduction, not probability or statistical power.",
+    "cap below a descriptive threshold is not a blocker; the future blocker is d_e_star greater than cap_e after AC calibration.",
+    "No authoritative AC retreat or h_design is estimated in this audit."
+  ],
+  "edge_repairability": {
+    "cap_distribution_kw": {
+      "count": 1689,
+      "max": 7148.884743911874,
+      "mean": 2431.3571698898677,
+      "median": 2115.0304767685698,
+      "min": 872.0605989123494,
+      "q1": 1569.216549873951,
+      "q3": 3174.3862700328405
+    },
+    "cap_threshold_counts": {
+      "below_0.5": 0,
+      "below_1": 0,
+      "below_2": 0,
+      "below_5": 0
+    },
+    "edge_count": 1689,
+    "nonpositive_caps": 0,
+    "ownership_inconsistencies": 0
+  },
+  "guard": {
+    "ADJACENT_TO_GUARD_LIMITED_EDGE": {
+      "abs_s_e_max_pu": 0.0005790491055249551,
+      "abs_s_e_median_pu": 0.0001759482845298735,
+      "angular_span_median_deg": 4.999999999994998,
+      "association_statement": "ASSOCIATION_OBSERVED_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+      "boundary_point_count": 1274,
+      "edge_count": 128,
+      "edge_length_median_kw": 540.4668952419693,
+      "failure_count": 576,
+      "failure_rate": 0.4521193092621664,
+      "g_e_median": 0.11241689513610481,
+      "guard_relation": "ADJACENT_TO_GUARD_LIMITED_EDGE",
+      "n_e_median": 10.0,
+      "violation_magnitude_max_pu": 0.000142248109239,
+      "violation_magnitude_median_pu": 4.61135857205e-05
+    },
+    "CROSSES_GUARD_LIMITED_RAY": {
+      "abs_s_e_max_pu": 0.0027703824133707778,
+      "abs_s_e_median_pu": 0.0007724893906295132,
+      "angular_span_median_deg": 10.000000000022993,
+      "association_statement": "ASSOCIATION_OBSERVED_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+      "boundary_point_count": 1371,
+      "edge_count": 64,
+      "edge_length_median_kw": 695.2523495175426,
+      "failure_count": 0,
+      "failure_rate": 0.0,
+      "g_e_median": 0.05225922472058869,
+      "guard_relation": "CROSSES_GUARD_LIMITED_RAY",
+      "n_e_median": 20.0,
+      "violation_magnitude_max_pu": null,
+      "violation_magnitude_median_pu": null
+    },
+    "NONE": {
+      "abs_s_e_max_pu": 0.006264795162930927,
+      "abs_s_e_median_pu": 5.483849051259727e-05,
+      "angular_span_median_deg": 5.000000000077989,
+      "association_statement": "ASSOCIATION_OBSERVED_CAUSAL_MECHANISM_NOT_ESTABLISHED",
+      "boundary_point_count": 20395,
+      "edge_count": 1497,
+      "edge_length_median_kw": 288.3616520906959,
+      "failure_count": 6484,
+      "failure_rate": 0.3179210590831086,
+      "g_e_median": 0.10239374338191769,
+      "guard_relation": "NONE",
+      "n_e_median": 11,
+      "violation_magnitude_max_pu": 4.33223324872e-05,
+      "violation_magnitude_median_pu": 5.08027073676e-06
+    }
+  },
+  "locked_campaign_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "new_ac_solves_replays_probes_repairs": 0,
+  "overall_blocker_status": "NO_AUDIT_BLOCKER_DETECTED",
+  "policy": {
+    "future_metrics": [
+      "repair_area_loss",
+      "hosting_capacity_loss"
+    ],
+    "headroom": {
+      "assessment": "LATER_PREREGISTRATION_MAY_VALIDATE_ORIGINAL_AC_LIMITS_AND_OR_A_HEADROOM_CLAIM",
+      "h_design": "CONSERVATIVE_DESIGN_HEADROOM_USED_TO_CONSTRUCT_REPAIR_NOT_SET_HERE",
+      "replay_tolerance_floor": "NO_MANDATORY_FLOOR_INFERRED"
+    },
+    "safe_box": "SAFE_BOX_EXTRACTION_STRICTLY_AFTER_FINAL_REPAIRED_COUPLED_DOE_FREEZE"
+  },
+  "reflex_convex": {
+    "convex_convex": {
+      "boundary_point_count": 16253,
+      "edge_count": 898,
+      "endpoint_status_combination": "CONVEX-CONVEX",
+      "failure_count": 0,
+      "failure_rate": 0.0,
+      "interpretation": "ASSOCIATIONAL_FALSIFIABLE_DIAGNOSTIC_NOT_THEOREM",
+      "vmax_failure_count": 0,
+      "vmin_failure_count": 0
+    }
+  },
+  "runtime": {
+    "ac_core_rate_identifiability": "NOT_SEPARATELY_IDENTIFIABLE_FROM_CURRENT_ARTIFACTS",
+    "attributable_seconds": 218.93831570000015,
+    "checkpoint_io_seconds": 193.0670898,
+    "checkpoint_to_ac_ratio": 25.050550442470072,
+    "missing_wall_time_identifiability": "NOT_SEPARATELY_IDENTIFIABLE_FROM_COMMITTED_TIMERS",
+    "substantive_ac_seconds": 7.70709970000016,
+    "timer_scope_inventory_rows": 23,
+    "total_wall_seconds": 393.033326,
+    "unattributed_seconds": 174.09501029999984
+  },
+  "sampling": {
+    "g_e_distribution": {
+      "count": 1689,
+      "max": 1.0,
+      "mean": 0.10264652808875786,
+      "median": 0.10267444163856643,
+      "min": 0.03569492860904515,
+      "q1": 0.05308337123133419,
+      "q3": 0.10891290876272774
+    },
+    "low_sample_edges_n_lt_3": 36,
+    "n_e_distribution": {
+      "count": 1689,
+      "max": 31.0,
+      "mean": 13.64120781527531,
+      "median": 11.0,
+      "min": 0.0,
+      "q1": 10.0,
+      "q3": 20.0
+    },
+    "zero_sample_edges": 8
+  },
+  "schema_version": 1,
+  "secondary_diagnostic_label": "PATTERN_CONSISTENT_WITH_CHORD_INTERPOLATION_ERROR",
+  "source_commit": "5538146bc22386abe52601a2ab0129064335f855",
+  "vertex_both_mapping": {
+    "angular_hit_outer_vertices": 1554,
+    "both_count": 1554,
+    "both_non_outer_vertex_coincidences": 0,
+    "hypothesis_both_equals_angular_hit_outer_vertices": true,
+    "missed_outer_vertices": 135,
+    "missed_vertices_with_prior_production_ac_evidence": 135,
+    "outer_vertices_total": 1689
+  },
+  "within_edge_interpolation": {
+    "interpretation": "DIAGNOSTIC_ASSOCIATION_NOT_MECHANISM_PROOF",
+    "median_abs_s_e_pu": 6.471330964343077e-05,
+    "median_sse_improvement_fraction": 0.9999899772636777,
+    "positive_improvement_fraction": 0.991448118586089,
+    "sufficient_fit_count": 1776
+  }
+}

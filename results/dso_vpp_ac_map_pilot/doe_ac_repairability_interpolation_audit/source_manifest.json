@@ -1,0 +1,91 @@
+{
+  "files": [
+    {
+      "bytes": 18908503,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_attempts.csv",
+      "sha256": "cc9bc29f677e2054047e953d352574d608f117b8897381f3f836768789aa3e26"
+    },
+    {
+      "bytes": 880,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_category_summary.csv",
+      "sha256": "b8704cf0cf45b663a37fac8ff52bf00cfd74ebcf17593555e85db64d4aa150b5"
+    },
+    {
+      "bytes": 229,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_guard_summary.csv",
+      "sha256": "3b70f88683bf52518a837732b73fa53a69b215805dcbfb0925388d403647696f"
+    },
+    {
+      "bytes": 776,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_integrity_checks.csv",
+      "sha256": "fcd641789230e16230d3dff8a96de1c145e5ba5e4afd05500f56280d0756f771"
+    },
+    {
+      "bytes": 27358183,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_point_results.csv",
+      "sha256": "f759a042880f7f00d6d941fe3ee519f19c9cff7ebea60afa8edb294dd92de51c"
+    },
+    {
+      "bytes": 998,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation/validation_runtime_summary.json",
+      "sha256": "b4c202d1cfa14c9c67db0886963c8e6a2c78bd45c732ff38b2fbcae99331a43d"
+    },
+    {
+      "bytes": 2812,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_interpretation_audit/interpretation_audit_summary.json",
+      "sha256": "3f23252c4566fdd0aed42aa663c97d7786c70da29abe58952f8849defd64da09"
+    },
+    {
+      "bytes": 15936036,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_point_provenance.csv",
+      "sha256": "1fcde52f4de94ae5fcd59ffbef188335ddff08d9ad5f75ab5a5aa08338051274"
+    },
+    {
+      "bytes": 360427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_polygon_edges.csv",
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85"
+    },
+    {
+      "bytes": 4969,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_runtime_benchmark/runtime_reconciliation_summary.json",
+      "sha256": "c756d2217981a298f7e9f1f4845acfef52b82a176c27580f2749cbbc1dcc8501"
+    },
+    {
+      "bytes": 3222,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_runtime_benchmark/timer_scope_inventory.csv",
+      "sha256": "850e43be94ba4f9e9bab021619b617fd8f956701e18cf99e4b9559f39f02df57"
+    },
+    {
+      "bytes": 275048,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/fan_triangle_cells.csv",
+      "sha256": "372dd2bdd8771e1a39ed50d315aabba5c6fd209fe747b4d241006daa68a58233"
+    },
+    {
+      "bytes": 569481,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/merged_convex_cells.csv",
+      "sha256": "a1c7f9061b609afb909aaa7b271f261cc712c3f89db7dd317f9e6483220184af"
+    },
+    {
+      "bytes": 2757,
+      "path": "results/dso_vpp_ac_map_pilot/doe_preconstruction_artifact_refinement/sensitivity_topology_reconstruction.csv",
+      "sha256": "fb8b0618f1168a0134d7d0a49ad2ccc75aa4e24ab8b38d00c14b3e9fd1991f26"
+    },
+    {
+      "bytes": 585582,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/boundary_endpoints.csv",
+      "sha256": "b7116ae87b3888ce3d916e977d8718cae73786fe7646953d9f37d9d255ae49b8"
+    },
+    {
+      "bytes": 20976171,
+      "path": "results/dso_vpp_ac_map_pilot/production_probe/evaluation_attempts.csv",
+      "sha256": "c476cee0a3a10c6ad47dbd910d81445223b4f1b59475c44c953f28395359c25d"
+    },
+    {
+      "bytes": 50248,
+      "path": "scripts/run_dso_vpp_ac_interior_validation.jl",
+      "sha256": "d166eb39d62235f67d8f6a13f93cb81308750b5cb620d3356cbcc68df70f5fe4"
+    }
+  ],
+  "read_semantics": "DIRECT_GIT_OBJECT_BYTES_NOT_WORKING_TREE",
+  "source_commit": "5538146bc22386abe52601a2ab0129064335f855"
+}

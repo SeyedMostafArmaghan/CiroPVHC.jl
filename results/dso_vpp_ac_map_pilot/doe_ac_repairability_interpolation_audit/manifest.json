@@ -1,0 +1,87 @@
+{
+  "artifact": "DSO_VPP_INTEGRATED_REPAIRABILITY_INTERPOLATION_AUDIT",
+  "files": [
+    {
+      "bytes": 6017,
+      "path": "between_edge_scaling.csv",
+      "sha256": "d483b56dc022733b7c9d50b6df9f0919fb192107709329e4a8a87422befd0830"
+    },
+    {
+      "bytes": 1222,
+      "path": "detailed_checks.csv",
+      "sha256": "3df8023a389c67b822a002d7c980089eb7df505d31a5710454421c0a5b026e87"
+    },
+    {
+      "bytes": 674298,
+      "path": "edge_interpolation_fits.csv",
+      "sha256": "b7bd2ea4b97ffc161b8332384a46923abfb3d49e74f77d67ea8c9e2d1a14caa0"
+    },
+    {
+      "bytes": 1311072,
+      "path": "edge_repairability_sampling.csv",
+      "sha256": "642b27c3cece5874f95efd21f2ab4cb354219ce6e47202eb9e3a5d062ce7173b"
+    },
+    {
+      "bytes": 2283,
+      "path": "geometric_retreat_cap_summary.csv",
+      "sha256": "ea3749894bfd2dc406ab97fa062041cf72a0a72232102eef525ecbaea3e9a6a3"
+    },
+    {
+      "bytes": 922,
+      "path": "guard_anomaly_decomposition.csv",
+      "sha256": "185f27bfa9b278347cc2a63ed753aa54133d099db53ab1a55d63b3c44030724c"
+    },
+    {
+      "bytes": 560629,
+      "path": "holdout_geometric_capability.csv",
+      "sha256": "2119ee40c92a1e3eb066670915a220a1d1dcb0269cb0501e7f6c772656cb3d96"
+    },
+    {
+      "bytes": 3200,
+      "path": "numerical_replay_diagnostics.csv",
+      "sha256": "442f01fcddc9620790f957c52785a2cceba9cc9f754484e3d16ae05f2e3e7966"
+    },
+    {
+      "bytes": 521,
+      "path": "reflex_convex_association.csv",
+      "sha256": "5d709c0021db4f92a06e84e66bf820c4ad6525d456928b7758ce47dabff5ada4"
+    },
+    {
+      "bytes": 7262,
+      "path": "report.md",
+      "sha256": "e9375e72755b90354c6b915cf49c6da52c921c40f08477b674bfd27a5c7f0040"
+    },
+    {
+      "bytes": 899,
+      "path": "runtime_attribution.csv",
+      "sha256": "532cc2f6c39bef4492dc345c7e17d4119918bcce0b045c7734f71b3ea250cea8"
+    },
+    {
+      "bytes": 1190,
+      "path": "signed_boundary_margin_summary.csv",
+      "sha256": "5c2057bf34db58d4b7765a6559d8a843017762c1776ea3843fa1888223335f50"
+    },
+    {
+      "bytes": 3997,
+      "path": "source_manifest.json",
+      "sha256": "2573aa62d44836fbeeb3e79d045479515c4a962edc35e3a804692745c2ba252b"
+    },
+    {
+      "bytes": 6233,
+      "path": "summary.json",
+      "sha256": "1e110c8313d9625027dcea8a9e8bbdaf313775616db979b8f45fcdbbeaaea101"
+    },
+    {
+      "bytes": 6472,
+      "path": "timer_scope_analysis.csv",
+      "sha256": "33b7b983c57132f18f54dac13af841478bb6bb9a04f19bd2ed388335e8b54664"
+    },
+    {
+      "bytes": 240699,
+      "path": "vertex_both_mapping.csv",
+      "sha256": "c5cc89792a4f5a5d87a7db30ad5481757d8199056d6e869ab43c871c118bcafb"
+    }
+  ],
+  "schema_version": 1,
+  "source_commit": "5538146bc22386abe52601a2ab0129064335f855"
+}
