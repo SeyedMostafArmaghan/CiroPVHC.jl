@@ -1,0 +1,87 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_FULL_CELL_AC_VALIDATION_V1",
+  "checks": {
+    "all_ac_coordinates_passed_both_membership_checks": true,
+    "attempt_calibration_id_offset_issue_absent": true,
+    "deterministic_manifest_fields": true,
+    "historical_campaign_unchanged": true,
+    "logical_call_budget_respected": true,
+    "membership_count_24004": true,
+    "no_rejected_coordinate_has_ac_result": true,
+    "only_phase1_certified_rows_consumed_ac": true,
+    "outer_facet_count_1689": true,
+    "owner_cell_count_749": true,
+    "phase1_hashes_match": true,
+    "retry_budget_respected": true,
+    "source_manifests_match": true
+  },
+  "counts": {
+    "attempt_rows": 302303,
+    "classifications": {
+      "AC_HEADROOM_ACHIEVED": 20287,
+      "AC_HEADROOM_FAILED_WITHIN_FULL_CELL": 10,
+      "AC_UNRESOLVED": 0,
+      "GEOMETRY_GRID_LIMIT_TOO_SMALL": 7,
+      "GEOMETRY_ONLY_NO_POSITIVE_MOVEMENT": 357,
+      "ORIGINAL_LIMIT_FAILED_WITHIN_FULL_CELL": 0,
+      "PROVENANCE_FAILURE": 0,
+      "SEARCH_BUDGET_EXHAUSTED": 3343
+    },
+    "logical_ac_calls": 302303,
+    "memberships": 24004,
+    "retry_calls": 0
+  },
+  "files": [
+    {
+      "bytes": 71788349,
+      "path": "ac_attempt_manifest.csv",
+      "row_count": 302303,
+      "sha256": "b37842b225017bbf464907585b6983d5d8e6feaf57328693112f2412f5331923"
+    },
+    {
+      "bytes": 82203427,
+      "path": "ac_validation_results.csv",
+      "row_count": 302303,
+      "sha256": "ca3be9da3e475868d49e87c42c4c1ecb1a3aea137a7aac7b79245b183ef23ef3"
+    },
+    {
+      "bytes": 382,
+      "path": "full_cell_vs_ac_summary.csv",
+      "row_count": 5,
+      "sha256": "f1291e6c95c7963896122e037cc1008a26537387111acee51c3627aefc3d993e"
+    },
+    {
+      "bytes": 15081,
+      "path": "limiting_constraint_summary.csv",
+      "row_count": 338,
+      "sha256": "8247d7ddeb979835ffb687d924e2b1c24dc2c3b1f7500ab8b1e0a34c15a9753d"
+    },
+    {
+      "bytes": 4716567,
+      "path": "membership_classification.csv",
+      "row_count": 24004,
+      "sha256": "10fcc23a5c0d983ebf92496101d861bca9cfe9eaa5e8ac45b6e76ec77814750c"
+    },
+    {
+      "bytes": 58329,
+      "path": "source_manifest.json",
+      "row_count": null,
+      "sha256": "30d0cd506a3321e1d9fe253119b7b58925f5642e1c1d7fd4e5486c3163a8b3f6"
+    },
+    {
+      "bytes": 2286,
+      "path": "summary_report.md",
+      "row_count": null,
+      "sha256": "340825c1953db879f102698dc2f45ec78c72456e7a5739303d03715c415f783e"
+    },
+    {
+      "bytes": 639673,
+      "path": "unresolved_cases.csv",
+      "row_count": 3343,
+      "sha256": "6274a7083b05d5599deefdeb872a7093224101caf210a9584b1595f4715f2bad"
+    }
+  ],
+  "historical_status": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "schema_version": 1,
+  "scientific_conclusion": "Full-cell repair candidates exist and satisfy headroom."
+}
