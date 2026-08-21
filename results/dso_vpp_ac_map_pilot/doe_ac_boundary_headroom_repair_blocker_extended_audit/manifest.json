@@ -1,0 +1,164 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR_BLOCKER_EXTENDED_AUDIT",
+  "audit_base_commit": "32fc5697fdeb5a2a2fb0395d09e56db7c47250e2",
+  "calibration_commit": "82ccd0f20693c90c39904f6016d85cf62433f4f0",
+  "counts": {
+    "binding_original_limit_slack_pu": {
+      "max": 8.927620000154235e-06,
+      "median": 2.516378990069512e-06,
+      "min": 8.465210898922493e-08
+    },
+    "bisection_or_resolution_refinement_events_observed": 0,
+    "blocker_summary_id_mismatches": 2,
+    "blocking_memberships": 15,
+    "directional_evidence": {
+      "DIRECTIONAL_NO_PASS_OBSERVED_MONOTONIC_BINDING_MARGIN_WORSENING": 15
+    },
+    "edge_id_concentration": {
+      "E0019": 10,
+      "E0021": 1,
+      "E0044": 2,
+      "E0045": 1,
+      "E0046": 1
+    },
+    "escalation_baseline_timestamp_coordinate_recoveries": 2,
+    "first_sampled_original_limit_failure_at_or_before_2_kw": 13,
+    "global_limiting_id_comparable_rows": 1689,
+    "global_limiting_id_mismatches": 2,
+    "global_limiting_id_plus_20_mismatches": 2,
+    "normal_orientation_consistent": 15,
+    "observed_pass_fail_brackets": 0,
+    "original_limit_fail_sample_full_cell_location": {
+      "OUTSIDE_CELL": 183
+    },
+    "positive_sample_full_cell_location": {
+      "OUTSIDE_CELL": 190
+    },
+    "reverse_linear_hypotheses": 15,
+    "sampled_original_limit_fail_memberships": 15,
+    "sampled_original_limit_failure_channel": {
+      "VMAX": 11,
+      "VMIN": 4
+    },
+    "stop_mechanism": {
+      "GEOMETRIC_CAP_PRECHECK_LIMITED": 13,
+      "SEARCH_BUDGET_LIMITED": 2
+    },
+    "strict_cell_interior_original_limit_fail_samples": 0,
+    "target_status": {
+      "DESIGN_HEADROOM": 15,
+      "ORIGINAL_LIMIT": 0
+    },
+    "unique_blocker_edge_ids": 5
+  },
+  "files": [
+    {
+      "bytes": 1008,
+      "path": "blocker_edge_geometric_relationships.csv",
+      "row_count": 10,
+      "sha256": "5a1240b430648332e801f781b6be1da98525ac1381bc6d0c27c0957fd1560bf8"
+    },
+    {
+      "bytes": 815,
+      "path": "blocker_edge_id_concentration.csv",
+      "row_count": 5,
+      "sha256": "8d3fd6f1fb92e38e472dfe2be46f628a612ce7b90391c7830ef76377d3d29fa0"
+    },
+    {
+      "bytes": 11838,
+      "path": "blocker_trajectory_audit.csv",
+      "row_count": 15,
+      "sha256": "d0b292240a92b32739fed8021efbea5b100d1c3439a069d7a75ee392fb95ad2e"
+    },
+    {
+      "bytes": 32237,
+      "path": "failing_point_full_cell_membership.csv",
+      "row_count": 190,
+      "sha256": "1fb9ad5721ed6c5669f582692b7a1882078f0fa5d72eca83353fc01e4457b722"
+    },
+    {
+      "bytes": 2631,
+      "path": "generation_assertion_summary.csv",
+      "row_count": 13,
+      "sha256": "fd33890e4d01c2134c0e6ec00fdd24898a8dc346cb8eb312b51c359268446078"
+    },
+    {
+      "bytes": 1578,
+      "path": "hashes.sha256",
+      "sha256": "12208a031e94c4b76c8b4ba3b1093e3d8511b7c243b57a861e01b5eacafdfb5a"
+    },
+    {
+      "bytes": 2577,
+      "path": "implementation_semantics_checks.csv",
+      "row_count": 7,
+      "sha256": "ded525b84e6329283229aa7971ef636411914ee29681c2239e64dc3d7a935c3a"
+    },
+    {
+      "bytes": 926,
+      "path": "limiting_calibration_id_downstream_use.csv",
+      "row_count": 2,
+      "sha256": "4896271eeab033bc1cae9f17fffe65ef20c9b50b4d1daac1ac5103a4cca6a4f4"
+    },
+    {
+      "bytes": 250669,
+      "path": "limiting_calibration_id_global_audit.csv",
+      "row_count": 1689,
+      "sha256": "71cd99e62d6db17ed36533b97249370aae6b3c9ea78bc3f639fe95d65dc98fac"
+    },
+    {
+      "bytes": 422,
+      "path": "limiting_calibration_id_offset_summary.csv",
+      "row_count": 4,
+      "sha256": "682bd2aaacd80cf8446a30ca020ee7c3728412ba21db49b589b5d256af4e2511"
+    },
+    {
+      "bytes": 4651,
+      "path": "normal_orientation_audit.csv",
+      "row_count": 15,
+      "sha256": "0c58acd173d03772047f857c1c9a9f538bd3fd32083d366f02481942bad75cf5"
+    },
+    {
+      "bytes": 1814,
+      "path": "original_limit_sample_bounds.csv",
+      "row_count": 15,
+      "sha256": "9b9367414413ea8429987598a35de3d835230c72263d73b05676e073ceeba655"
+    },
+    {
+      "bytes": 7850,
+      "path": "report.md",
+      "sha256": "23a71d2f49255ea9af7e33230b60db39ac5f8c370c638ffeda25a60c268ecf10"
+    },
+    {
+      "bytes": 5801,
+      "path": "reverse_direction_linear_hypothesis.csv",
+      "row_count": 15,
+      "sha256": "5504e3032a9a637174bb4d2f13656586c06678b1e2c7e4ddc919f84b3bf3a0c9"
+    },
+    {
+      "bytes": 2828,
+      "path": "source_artifact_inventory.csv",
+      "row_count": 10,
+      "sha256": "df5bb2a6597e6385d04ada19057fd96fd73f5578e2adb9797d5ec55c82decc31"
+    },
+    {
+      "bytes": 2734,
+      "path": "summary.json",
+      "sha256": "f9e90f04202336fc68e6abe4bbdb902edd74e68b0e07effe4235d7e9e8f516ec"
+    },
+    {
+      "bytes": 35392,
+      "path": "trajectory_observations.csv",
+      "row_count": 205,
+      "sha256": "7c750723ecb70eb20c4d542db37e3fcdbf4ecfca2207b2b85a884dc63e1b6d3a"
+    }
+  ],
+  "generator": {
+    "path": "scripts/prepare_dso_vpp_ac_boundary_headroom_repair_blocker_extended_audit.py",
+    "sha256": "89e576471ce47bafdbdc1df3dd18dbe1a401af55958044e7e52323b21b6e8655"
+  },
+  "geometry_source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "method": "ARTIFACT_ONLY_ZERO_AC_PYTHON_STANDARD_LIBRARY",
+  "preregistration_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+  "schema_version": 1,
+  "source_branch": "codex/dso-vpp-ac-map-pilot"
+}

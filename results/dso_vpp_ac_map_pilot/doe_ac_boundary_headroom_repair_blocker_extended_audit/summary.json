@@ -1,0 +1,76 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR_BLOCKER_EXTENDED_AUDIT",
+  "claim_boundaries": [
+    "DISCRETE_OBSERVED_LOCAL_DIRECTIONAL_EVIDENCE_ONLY",
+    "NO_TRUE_DIRECTIONAL_LIMITATION_CLAIM",
+    "NO_GLOBAL_MONOTONICITY_CLAIM",
+    "NO_CONTINUOUS_CROSSING_LOCATION_CLAIM",
+    "NO_NEGATIVE_DIRECTION_AC_FEASIBILITY_CLAIM",
+    "NO_RESOLUTION_FAILURE_RULED_OUT_CLAIM",
+    "NO_INDEPENDENCE_OR_UNIFORM_EDGE_NULL_MODEL_CLAIM"
+  ],
+  "counts": {
+    "binding_original_limit_slack_pu": {
+      "max": 8.927620000154235e-06,
+      "median": 2.516378990069512e-06,
+      "min": 8.465210898922493e-08
+    },
+    "bisection_or_resolution_refinement_events_observed": 0,
+    "blocker_summary_id_mismatches": 2,
+    "blocking_memberships": 15,
+    "directional_evidence": {
+      "DIRECTIONAL_NO_PASS_OBSERVED_MONOTONIC_BINDING_MARGIN_WORSENING": 15
+    },
+    "edge_id_concentration": {
+      "E0019": 10,
+      "E0021": 1,
+      "E0044": 2,
+      "E0045": 1,
+      "E0046": 1
+    },
+    "escalation_baseline_timestamp_coordinate_recoveries": 2,
+    "first_sampled_original_limit_failure_at_or_before_2_kw": 13,
+    "global_limiting_id_comparable_rows": 1689,
+    "global_limiting_id_mismatches": 2,
+    "global_limiting_id_plus_20_mismatches": 2,
+    "normal_orientation_consistent": 15,
+    "observed_pass_fail_brackets": 0,
+    "original_limit_fail_sample_full_cell_location": {
+      "OUTSIDE_CELL": 183
+    },
+    "positive_sample_full_cell_location": {
+      "OUTSIDE_CELL": 190
+    },
+    "reverse_linear_hypotheses": 15,
+    "sampled_original_limit_fail_memberships": 15,
+    "sampled_original_limit_failure_channel": {
+      "VMAX": 11,
+      "VMIN": 4
+    },
+    "stop_mechanism": {
+      "GEOMETRIC_CAP_PRECHECK_LIMITED": 13,
+      "SEARCH_BUDGET_LIMITED": 2
+    },
+    "strict_cell_interior_original_limit_fail_samples": 0,
+    "target_status": {
+      "DESIGN_HEADROOM": 15,
+      "ORIGINAL_LIMIT": 0
+    },
+    "unique_blocker_edge_ids": 5
+  },
+  "determinism_note": "A byte-identical rerun establishes determinism only, not scientific validity.",
+  "method": "ARTIFACT_ONLY_ZERO_AC_PYTHON_STANDARD_LIBRARY",
+  "prior_failure_localization_reference": {
+    "boundary_inter_ray_counterexamples": 7060,
+    "cell_edge_counterexamples": 2360,
+    "strict_cell_interior_counterexamples": 0,
+    "total_counterexamples": 9420
+  },
+  "source_lock": {
+    "audit_base_must_be_ancestor_of_head": "32fc5697fdeb5a2a2fb0395d09e56db7c47250e2",
+    "fixed_calibration_commit": "82ccd0f20693c90c39904f6016d85cf62433f4f0",
+    "fixed_geometry_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+    "fixed_preregistration_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+    "required_branch": "codex/dso-vpp-ac-map-pilot"
+  }
+}

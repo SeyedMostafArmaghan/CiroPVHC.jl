@@ -1,0 +1,14 @@
+assertion_id,epistemic_role,status,observed,reference,interpretation
+SOURCE_BRANCH,SOURCE_CONSISTENCY_ASSERTION,PASS,codex/dso-vpp-ac-map-pilot,codex/dso-vpp-ac-map-pilot,generation is restricted to the expected branch
+AUDIT_BASE_ANCESTRY,SOURCE_CONSISTENCY_ASSERTION,PASS,true,32fc5697fdeb5a2a2fb0395d09e56db7c47250e2 is ancestor of HEAD,allows deterministic reproduction from descendant commits while scientific inputs remain fixed git objects
+FIXED_SCIENTIFIC_INPUT_COMMITS,PROVENANCE_ASSERTION,PASS,calibration=82ccd0f20693c90c39904f6016d85cf62433f4f0;preregistration=fc15fbf7bf93ca89c2ab4a45145f937abbc70f63;geometry=ba88f54f52f7bcd03df2466ce69dff2b9b1c538b,git show reads only,working-tree scientific inputs are not substituted
+IMPLEMENTATION_SEMANTICS,IMPLEMENTATION_SEMANTICS_ASSERTION,PASS,7,7,exact source snippets matched; not an independent execution test
+REGISTERED_DIRECTION_COORDINATES,PROVENANCE_ASSERTION,PASS,5.00222085975111e-12,<= 1e-08,selected attempts match p(d)=p(0)+d*n_in
+BASELINE_TIMESTAMP_COORDINATE_RECOVERY,PROVENANCE_ASSERTION,PASS,2,2,each recovery requires exactly one same-timestamp componentwise coordinate match
+TARGET_STATUS_SPLIT,REGRESSION_REFERENCE,PASS,"{""DESIGN_HEADROOM"": 15, ""ORIGINAL_LIMIT"": 0}","{""DESIGN_HEADROOM"": 15, ""ORIGINAL_LIMIT"": 0}","previously observed count retained as a regression guard, not preregistration or independent proof"
+STOP_MECHANISM_SPLIT,REGRESSION_REFERENCE,PASS,"{""GEOMETRIC_CAP_PRECHECK_LIMITED"": 13, ""SEARCH_BUDGET_LIMITED"": 2}","{""GEOMETRIC_CAP_PRECHECK_LIMITED"": 13, ""SEARCH_BUDGET_LIMITED"": 2}",previously observed count retained as a regression guard
+ORIGINAL_LIMIT_SAMPLE_CHANNEL_SPLIT,REGRESSION_REFERENCE,PASS,"{""VMAX"": 11, ""VMIN"": 4}","{""VMAX"": 11, ""VMIN"": 4}",discrete sampled failures only; no continuous crossing location
+EDGE_ID_CONCENTRATION,REGRESSION_REFERENCE,PASS,"{""E0019"": 10, ""E0021"": 1, ""E0044"": 2, ""E0045"": 1, ""E0046"": 1}","{""E0019"": 10, ""E0021"": 1, ""E0044"": 2, ""E0045"": 1, ""E0046"": 1}","descriptive concentration; no independence, n_eff, or uniform-null test"
+NORMAL_ORIENTATION,STRUCTURAL_RECONSTRUCTION_ASSERTION,PASS,15,15,committed owner-cell vertex-mean witnesses were independently checked strict interior
+GLOBAL_LIMITING_ID_COMPARABILITY,IMPLEMENTATION_SEMANTICS_ASSERTION,PASS,1689,1689,attempt-derived comparator reconstructed through executed anchor/escalation control flow
+DETERMINISM_SCOPE,DETERMINISM_CHECK,EXTERNAL_RERUN_REQUIRED,not established by a single generator run,clean second run and byte comparison,"byte identity proves determinism only, not scientific validity"
