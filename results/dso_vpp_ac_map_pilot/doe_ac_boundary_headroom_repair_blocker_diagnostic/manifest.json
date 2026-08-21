@@ -1,0 +1,82 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_REPAIR_BLOCKER_DIAGNOSTIC",
+  "calibration_commit": "82ccd0f20693c90c39904f6016d85cf62433f4f0",
+  "counts": {
+    "blocked_edges": 15,
+    "blocked_timestamps": 14,
+    "crossing_blocked": 15,
+    "crossing_edges": 64,
+    "crossing_successful": 49
+  },
+  "files": [
+    {
+      "bytes": 771,
+      "path": "audit_validation_checks.csv",
+      "row_count": 13,
+      "sha256": "06b88bbb4f27889ae7b3f7d9fbd88457a89e935144834f28478c08f01d999b73"
+    },
+    {
+      "bytes": 1156,
+      "path": "blocked_edge_cap_analysis.csv",
+      "row_count": 15,
+      "sha256": "fd4aa18b4bd6f36144f0814d71077a5da9d5c55d5b271d9ae9bff12db4b28086"
+    },
+    {
+      "bytes": 2768,
+      "path": "blocked_edge_root_cause.csv",
+      "row_count": 15,
+      "sha256": "77e29ba538c154e979beb502473cb0f44dd71388d28371408e030b27dc96b3fc"
+    },
+    {
+      "bytes": 441,
+      "path": "blocked_edge_timestamp_cluster.csv",
+      "row_count": 14,
+      "sha256": "68cbe34096b80f6f2f95f018c723085f02d5696b9ea55c2934aa2b1885a12499"
+    },
+    {
+      "bytes": 2351,
+      "path": "blocked_edge_trajectory_summary.csv",
+      "row_count": 15,
+      "sha256": "7f716aa5309aae919c7cba12960abeaddc1bdd42ea522d369dcdc98b3c32d028"
+    },
+    {
+      "bytes": 4652,
+      "path": "crossing_control_comparison.csv",
+      "row_count": 64,
+      "sha256": "9b6e635ee0eaa1ab52ef3185260d45dfce96a387e82e13a074f1a2ff5ed03b2a"
+    },
+    {
+      "bytes": 2487,
+      "path": "h_design_retreat_diagnostic.md",
+      "sha256": "1dc3e534891350fcc91d0096d7e3738f853d8301ef99934c589db07a914c9412"
+    },
+    {
+      "bytes": 854,
+      "path": "hashes.sha256",
+      "sha256": "2a32fb9ac32012b41bd2cc6a5a064564e2d7ae734f1bf870c0f22315de0fd19e"
+    },
+    {
+      "bytes": 5619,
+      "path": "report.md",
+      "sha256": "a97a4be49fa83b18170f231736c209b849eaf26ddd8e49d1f218116722ea8ce9"
+    },
+    {
+      "bytes": 2709,
+      "path": "source_artifact_inventory.csv",
+      "row_count": 9,
+      "sha256": "52198cc573c151073dfbc8ba68d2c339a8ac3981ff151acabaa498ded7fff820"
+    }
+  ],
+  "generator": {
+    "path": "scripts/prepare_dso_vpp_ac_boundary_headroom_repair_blocker_diagnostic.py",
+    "sha256": "6c892b34e7f6fd960d58d2aa448a333d5ee8ed217e709f6562c4a5816278ee6d"
+  },
+  "geometry_source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "method": "ARTIFACT_ONLY_ZERO_AC_PYTHON_STANDARD_LIBRARY",
+  "preliminary_classifications": {
+    "POSSIBLE_TRUE_OPERATOR_LIMITATION": 15
+  },
+  "preregistration_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+  "schema_version": 1,
+  "source_branch": "codex/dso-vpp-ac-map-pilot"
+}
