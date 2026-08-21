@@ -1,0 +1,61 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_FULL_CELL_GEOMETRIC_CERTIFICATION",
+  "audit_base_commit": "32fc5697fdeb5a2a2fb0395d09e56db7c47250e2",
+  "counts": {
+    "classifications": {
+      "CELL_GEOMETRY_INVALID": 0,
+      "FULL_CELL_CAP_BELOW_GRID": 7,
+      "FULL_CELL_TOLERANCE_AMBIGUITY": 0,
+      "GEOMETRICALLY_CERTIFIED": 23640,
+      "INPUT_PROVENANCE_MISMATCH": 0,
+      "NO_POSITIVE_FULL_CELL_MOVEMENT": 357,
+      "REGISTERED_FACET_OWNERSHIP_MISMATCH": 0,
+      "SOURCE_POINT_OUTSIDE_OWNER_CELL": 0
+    },
+    "facet_check_rows": 363766,
+    "probe_memberships": 24004
+  },
+  "files": [
+    {
+      "bytes": 102810386,
+      "path": "full_cell_limit_checks.csv",
+      "row_count": 363766,
+      "sha256": "208c382e46e5ef68e59e81deac837db2865fab51e3ef0691ec305a9d524fe8a9"
+    },
+    {
+      "bytes": 10031574,
+      "path": "full_cell_probe_limits.csv",
+      "row_count": 24004,
+      "sha256": "b141132bacc26b12116252d483a52c80719441d78e0fc107af100df763eeb891"
+    },
+    {
+      "bytes": 2194,
+      "path": "full_cell_repair_config.json",
+      "sha256": "677bbbe249901f3d7e408bfcf2209e67459eeb835cf651e5db350a8941224326"
+    },
+    {
+      "bytes": 452,
+      "path": "hashes.sha256",
+      "sha256": "d43058851ffc256cc57ea4f05bfabb264c1a10a99eb12fdcd11928b641c3e063"
+    },
+    {
+      "bytes": 3218,
+      "path": "source_manifest.json",
+      "sha256": "67ee1d8fe7db643c6945d1ef2de71804b396fe4dde2a4843a576bd4bc8f3143c"
+    },
+    {
+      "bytes": 2156,
+      "path": "summary_report.md",
+      "sha256": "ce7e58445bbc3f349295dc94af0e5a8b636e6e3784fb0f8b2e09efabb1e252f0"
+    }
+  ],
+  "generator": {
+    "path": "scripts/prepare_dso_vpp_ac_boundary_headroom_full_cell_geometric_certification.py",
+    "sha256": "689cc8ff9f3ee0f9a8e796513810df89ec29d0304eefcac890cf3c8293cc6e27"
+  },
+  "geometry_source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "method": "IMMUTABLE_COMMITTED_INPUTS_ZERO_AC_FULL_CELL_LINE_CERTIFICATION",
+  "preregistration_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+  "schema_version": 1,
+  "source_branch": "codex/dso-vpp-ac-map-pilot"
+}

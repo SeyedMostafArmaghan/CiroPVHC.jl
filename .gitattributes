@@ -1,0 +1,7 @@
+/results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_blocker_extended_audit/** text eol=lf
+/results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_full_cell_geometric_certification_v1/** text eol=lf
+/results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_full_cell_ac_validation_v1/** text eol=lf
+/scripts/prepare_dso_vpp_ac_boundary_headroom_repair_blocker_extended_audit.py text eol=lf
+/scripts/prepare_dso_vpp_ac_boundary_headroom_full_cell_geometric_certification.py text eol=lf
+/scripts/run_dso_vpp_ac_boundary_headroom_full_cell_ac_validation_v1.jl text eol=lf
+/test_python/test_prepare_dso_vpp_ac_boundary_headroom_full_cell_geometric_certification.py text eol=lf

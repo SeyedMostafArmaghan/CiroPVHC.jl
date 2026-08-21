@@ -1,0 +1,55 @@
+{
+  "artifact": "DSO_VPP_AC_BOUNDARY_HEADROOM_FULL_CELL_GEOMETRIC_CERTIFICATION",
+  "classification_precedence": [
+    "INPUT_PROVENANCE_MISMATCH",
+    "CELL_GEOMETRY_INVALID",
+    "REGISTERED_FACET_OWNERSHIP_MISMATCH",
+    "SOURCE_POINT_OUTSIDE_OWNER_CELL",
+    "FULL_CELL_TOLERANCE_AMBIGUITY",
+    "NO_POSITIVE_FULL_CELL_MOVEMENT",
+    "FULL_CELL_CAP_BELOW_GRID",
+    "GEOMETRICALLY_CERTIFIED"
+  ],
+  "direction_policy": {
+    "alternative_facet_normal_selection_allowed": false,
+    "length_restriction_only": true,
+    "optimization_allowed": false,
+    "rotation_allowed": false,
+    "source": "registered edge_repair_policy inward_normal_p13/inward_normal_p30"
+  },
+  "finite_limit_rule": "compute_-s_j/q_j_only_when_q_j<-slope_tolerance",
+  "grid_cap_rule": "floor(guarded_cap_kw/grid_resolution_kw)*grid_resolution_kw",
+  "guarded_cap_rule": "max(0,raw_cap_kw-cap_guard_kw)",
+  "halfspace_parameterization": "g_j(x(d))=s_j+d*q_j;inside_when_g_j>=0",
+  "independent_membership_methods": [
+    "NORMALIZED_CCW_FACET_HALFSPACES",
+    "EVEN_ODD_POLYGON_RAY_CROSSING_WITH_EUCLIDEAN_BOUNDARY_TEST"
+  ],
+  "line_parameterization": "x(d)=x0+d*u",
+  "method": "IMMUTABLE_COMMITTED_INPUTS_ZERO_AC_FULL_CELL_LINE_CERTIFICATION",
+  "raw_cap_rule": "minimum_finite_facet_limit",
+  "schema_version": 1,
+  "scope_guards": {
+    "ac_power_flow_allowed": false,
+    "candidate_geometry_freeze_allowed": false,
+    "committed_partition_modification_allowed": false,
+    "doe_construction_allowed": false,
+    "optimization_allowed": false
+  },
+  "source_lock": {
+    "audit_base_must_be_ancestor_of_head": "32fc5697fdeb5a2a2fb0395d09e56db7c47250e2",
+    "fixed_geometry_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+    "fixed_preregistration_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+    "read_semantics": "git show <fixed-commit>:<path>",
+    "required_branch": "codex/dso-vpp-ac-map-pilot"
+  },
+  "tolerances": {
+    "cap_guard_kw": 1e-07,
+    "co_limiting_cap_kw": 1e-08,
+    "coordinate_consistency_kw_componentwise": 1e-08,
+    "direction_projection": 1e-12,
+    "direction_unit_and_perpendicular": 1e-12,
+    "geometry_membership_kw": 1e-07,
+    "grid_resolution_kw": 0.25
+  }
+}

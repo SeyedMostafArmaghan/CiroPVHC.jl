@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "bytes": 4539451,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_preregistration/calibration_fraction_inventory.csv",
+      "role": "locked probe memberships and source coordinates",
+      "row_count": 24004,
+      "sha256": "fa50aaa5b4c5b8c878a18e585f97f21f1f939cbbf0fa6d7c505cb2e4b9ff452c",
+      "source_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+    },
+    {
+      "bytes": 569928,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_preregistration/edge_repair_policy.csv",
+      "role": "registered owner cells and immutable inward directions",
+      "row_count": 1689,
+      "sha256": "92fc0dc6ceece4b49a67b59d6278465bac25d135033eb63e0534d8a03190a1ef",
+      "source_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+    },
+    {
+      "bytes": 4251,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_preregistration/repair_config.json",
+      "role": "locked predecessor repair configuration",
+      "sha256": "d38b2499617ef99842fefb165bd169eca987527231c5b1d5ebf00a34ac8cd4e8",
+      "source_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+    },
+    {
+      "bytes": 2086,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_preregistration/manifest.json",
+      "role": "predecessor output integrity manifest",
+      "sha256": "2a9e979b5e161abb1f16c6fdcc4f7e4b0d1d42d51fcf9510b371a2d365c2d430",
+      "source_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+    },
+    {
+      "bytes": 3620,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_boundary_headroom_repair_preregistration/source_manifest.json",
+      "role": "predecessor immutable source manifest",
+      "sha256": "ce6f1202954ad5294193f8d6779adb99c9b842efa18ca0a981314904255f86d0",
+      "source_commit": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+    },
+    {
+      "bytes": 569481,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/merged_convex_cells.csv",
+      "role": "committed CCW convex owner-cell vertices",
+      "row_count": 3173,
+      "sha256": "a1c7f9061b609afb909aaa7b271f261cc712c3f89db7dd317f9e6483220184af",
+      "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b"
+    },
+    {
+      "bytes": 3679,
+      "path": "results/dso_vpp_ac_map_pilot/doe_construction_policy_preregistration/convex_piecewise_architecture_audit/artifact_manifest.csv",
+      "role": "committed cell artifact integrity manifest",
+      "row_count": 18,
+      "sha256": "cd8b4b9b25174019670e783340b7a07e2dc1626839df852153ab7eac952332bd",
+      "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b"
+    },
+    {
+      "bytes": 360427,
+      "path": "results/dso_vpp_ac_map_pilot/doe_ac_interior_validation_preregistration/validation_polygon_edges.csv",
+      "role": "registered polygon facet endpoints",
+      "row_count": 1689,
+      "sha256": "871a10f48cbf7dc8170d3a08dd3e59b3d582feaf52b7841bf46c0853e782ee85",
+      "source_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b"
+    }
+  ],
+  "read_semantics": "DIRECT_IMMUTABLE_GIT_OBJECT_BYTES_NOT_WORKING_TREE",
+  "verification": "PASS",
+  "verification_errors": []
+}
