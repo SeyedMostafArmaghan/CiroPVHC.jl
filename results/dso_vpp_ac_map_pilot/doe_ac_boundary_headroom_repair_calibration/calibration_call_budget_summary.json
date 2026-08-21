@@ -1,0 +1,9 @@
+{
+  "budget_pass": true,
+  "calibration_primary_cap": 279015,
+  "expected_primary_calls_planning_estimate": 59396,
+  "primary_hard_cap": 302303,
+  "primary_logical_calls": 51773,
+  "retries": 0,
+  "retry_hard_cap": 3024
+}

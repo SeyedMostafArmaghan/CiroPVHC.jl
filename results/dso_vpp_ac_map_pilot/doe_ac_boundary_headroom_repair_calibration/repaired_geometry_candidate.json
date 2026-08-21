@@ -1,0 +1,7 @@
+{
+  "cell_count": 419,
+  "classification": "NOT_FROZEN",
+  "decision": "LOCAL_PARALLEL_EDGE_REPAIR_INSUFFICIENT",
+  "source_head": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+  "vertex_rows": 1774
+}

@@ -1,0 +1,62 @@
+{
+  "ac_contract": {
+    "call_path": [
+      "DSOVPPProductionProbe.evaluate_physical!",
+      "DSOVPPACMapStage0.evaluate_point",
+      "radial AC PF",
+      "CiroPVHC.replay_s1b_interval"
+    ],
+    "coordinate_space": "ABSOLUTE_PHYSICAL_P_PCC_KW",
+    "nonconvergence": "UNRESOLVED",
+    "original_voltage_limits_pu": [
+      0.9,
+      1.05
+    ],
+    "positive_p": "INJECTION_EXPORT",
+    "q13_kvar": 0,
+    "q30_kvar": 0,
+    "reference_pv_capacity_kw": 0
+  },
+  "branch": "codex/dso-vpp-ac-map-pilot",
+  "calibration_memberships": 24004,
+  "calibration_primary_hard_cap": 279015,
+  "calibration_registry_sha256": "fc25c26a6b6fc33a7d25c1758a6ed49bfb82f7755a2550b7e1f1f142f76e55cb",
+  "calibration_registry_size": 23305,
+  "checkpoint": "APPEND_ONLY_IMMUTABLE_SHARDS_PLUS_COMPACT_CURSOR_STATE",
+  "chunk_rows": 2000,
+  "committed_failing_edges": 655,
+  "design_headroom_pu": 0.00015,
+  "design_limits_pu": {
+    "vmax": 1.04985,
+    "vmin": 0.90015
+  },
+  "divergence": "0 0",
+  "enrichment_coordinates": 130,
+  "enrichment_low_sample_edges": 41,
+  "enrichment_postcondition": "PASS_ALL_N_E_GE_3_AND_G_E_LE_0.25",
+  "exact_expected_primary_calls_planning_estimate": 59396,
+  "execution": "SERIAL_ONE_JULIA_PROCESS_ONE_THREAD",
+  "expected_extra_anchor_search_calls": 11260,
+  "head": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63",
+  "mixed_sign_facets": 65,
+  "outer_facets": 1689,
+  "owner_cells": 749,
+  "planning_context": {
+    "historical_checkpoint_io_seconds": 193.0670898,
+    "historical_substantive_ac_seconds": 7.70709970000016,
+    "historical_unattributed_seconds": 174.0950103,
+    "likely_bottleneck": "IO_CHECKPOINT_RESUME_NOT_CPU_OR_RAM"
+  },
+  "preflight_elapsed_seconds": 18.4645061,
+  "preregistration_manifest_payloads_verified": 12,
+  "prompt_artifact_resolutions": [
+    "ANCHOR_ORDER_USES_LOCKED_ARTIFACT_PREDICTION_THEN_FUTURE_AC_VERIFICATION",
+    "D_I_STAR_REQUIRES_BOTH_DESIGN_LIMITS_PER_LOCKED_DECISION_RULE_6"
+  ],
+  "retry_hard_cap": 3024,
+  "source_manifest_commit": "ba88f54f52f7bcd03df2466ce69dff2b9b1c538b",
+  "source_manifest_files_verified": 14,
+  "status": "PASS_BEFORE_FIRST_AC_CALL",
+  "study_primary_logical_hard_cap": 302303,
+  "wall_time_is_scientific_criterion": false
+}

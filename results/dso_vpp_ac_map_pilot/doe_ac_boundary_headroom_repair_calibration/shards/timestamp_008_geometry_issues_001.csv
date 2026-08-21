@@ -1,0 +1,2 @@
+timestamp,edge_id,owner_cell_id,status,detail
+2011-01-21 18:00:00,E0011,9,OWNER_FACET_MISSING_AFTER_REBUILD,repaired facet segment missing for E0011

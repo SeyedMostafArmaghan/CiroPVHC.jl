@@ -1,0 +1,16 @@
+{
+  "aggregate_area_interpretation": "UNDEFINED_BECAUSE_LOCAL_PARALLEL_EDGE_REPAIR_INSUFFICIENT_PREVENTED_A_COMPLETE_CANDIDATE",
+  "all_cells_valid": false,
+  "evaluated_repaired_cell_count": 419,
+  "partial_evaluated_area_after_kw2": 287995820.833985,
+  "partial_evaluated_area_before_kw2": 290872575.000531,
+  "partial_evaluated_area_loss_kw2": 2876754.1665464,
+  "partial_evaluated_area_loss_percent": 0.989008388481158,
+  "topology_or_ownership_issue": true,
+  "topology_or_ownership_issue_count": 7,
+  "total_area_after_kw2": null,
+  "total_area_before_kw2": 517133196.419206,
+  "total_area_loss_kw2": null,
+  "total_area_loss_percent": null,
+  "total_source_cell_count": 749
+}

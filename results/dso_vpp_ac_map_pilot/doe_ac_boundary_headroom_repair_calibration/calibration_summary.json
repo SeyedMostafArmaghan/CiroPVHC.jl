@@ -1,0 +1,68 @@
+{
+  "controls_pass": true,
+  "decision": "LOCAL_PARALLEL_EDGE_REPAIR_INSUFFICIENT",
+  "edges_blocked": 15,
+  "edges_completed": 1674,
+  "geometry": {
+    "aggregate_area_interpretation": "UNDEFINED_BECAUSE_LOCAL_PARALLEL_EDGE_REPAIR_INSUFFICIENT_PREVENTED_A_COMPLETE_CANDIDATE",
+    "all_cells_valid": false,
+    "evaluated_repaired_cell_count": 419,
+    "partial_evaluated_area_after_kw2": 287995820.833985,
+    "partial_evaluated_area_before_kw2": 290872575.000531,
+    "partial_evaluated_area_loss_kw2": 2876754.1665464,
+    "partial_evaluated_area_loss_percent": 0.989008388481158,
+    "topology_or_ownership_issue": true,
+    "topology_or_ownership_issue_count": 7,
+    "total_area_after_kw2": null,
+    "total_area_before_kw2": 517133196.419206,
+    "total_area_loss_kw2": null,
+    "total_area_loss_percent": null,
+    "total_source_cell_count": 749
+  },
+  "holdout_ac_executed": false,
+  "local_parallel_edge_repair_insufficient": 15,
+  "locked_historical_classification": "MAIN_COUPLED_DOE_GEOMETRIC_CANDIDATE_FALSIFIED_BY_AC_COUNTEREXAMPLE",
+  "primary_logical_calls": 51773,
+  "ready_for_independent_holdout": false,
+  "reentry_blockers": 0,
+  "retreats": {
+    "by_boundary_class": {
+      "CLASS_TRANSITION": 128,
+      "VMAX13": 397,
+      "VMAX30": 390,
+      "VMIN18": 403,
+      "VMIN33": 371
+    },
+    "by_guard_relation": {
+      "ADJACENT_TO_GUARD_LIMITED_EDGE": 128,
+      "CROSSES_GUARD_LIMITED_RAY": 64,
+      "NONE": 1497
+    },
+    "escalated_edges": 11,
+    "mixed_sign_edges": 65,
+    "positive_distribution_kw": {
+      "max": 1440.5,
+      "median": 3.75,
+      "min": 0.25,
+      "q1": 2.75,
+      "q3": 5
+    },
+    "zero_count": 38
+  },
+  "retries": 0,
+  "runtime": {
+    "ac_evaluation_seconds": 9.65718610000023,
+    "final_postprocessing_seconds": 3.8892879,
+    "julia_processes": 1,
+    "julia_threads": 1,
+    "non_ac_bookkeeping_seconds": 0,
+    "resume_orchestration_seconds": 0.414837,
+    "retained_execution_segment_count": 4,
+    "shard_io_seconds": 0,
+    "startup_setup_seconds": 111.178728,
+    "timer_reconstruction_status": "PARTIAL_AFTER_THREE_SCIENTIFIC_RESUMES_AND_ONE_POSTPROCESSING_RESUME;AC_EXACT_FROM_ATTEMPT_TIMERS;BOOKKEEPING_AND_SHARD_IO_NOT_RECOVERABLE_SEPARATELY",
+    "total_wall_seconds": 220.681159,
+    "unattributed_residual_seconds": 95.5411199999998
+  },
+  "unresolved": 0
+}

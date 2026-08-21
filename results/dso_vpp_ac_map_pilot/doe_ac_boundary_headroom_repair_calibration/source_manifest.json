@@ -1,0 +1,8 @@
+{
+  "calibration_registry_sha256": "fc25c26a6b6fc33a7d25c1758a6ed49bfb82f7755a2550b7e1f1f142f76e55cb",
+  "execution_script_sha256": "d28be2e8c416694be8113e57bb7605635179d67c351a4ec55941c38055eec4af",
+  "preregistration_manifest_sha256": "2a9e979b5e161abb1f16c6fdcc4f7e4b0d1d42d51fcf9510b371a2d365c2d430",
+  "repair_config_sha256": "d38b2499617ef99842fefb165bd169eca987527231c5b1d5ebf00a34ac8cd4e8",
+  "source_branch": "codex/dso-vpp-ac-map-pilot",
+  "source_head": "fc15fbf7bf93ca89c2ab4a45145f937abbc70f63"
+}
